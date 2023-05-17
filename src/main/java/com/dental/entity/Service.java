@@ -30,10 +30,10 @@ public class Service {
     @ManyToMany(mappedBy = "service")
     private Set<Doctor> doctor;
 
-    @OneToMany(mappedBy = "service")
+    @OneToMany(mappedBy = "service", cascade = CascadeType.ALL)
     private List<MedicalInformation> medicalInformation;
 
-    @OneToMany(mappedBy = "service")
+    @OneToMany(mappedBy = "service", cascade = CascadeType.ALL)
     private List<RateStar> rateStar;
 
     @ManyToMany
