@@ -13,16 +13,22 @@ public class Patient {
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer patientId;
+
     @Column(nullable = false, columnDefinition = "nvarchar(100)")
     private String address;
+
     @Column(nullable = false)
     private Date dateOfBirth;
+
     @Column(nullable = false, columnDefinition = "nvarchar(8)")
     private String gender;
+
     @Column(nullable = false, length = 12)
     private String phoneNumber;
+
     @Column(nullable = false, columnDefinition = "text")
     private String avatar;
+
     @Column(nullable = false, columnDefinition = "varchar(5)")
     private String bloodGroup;
 

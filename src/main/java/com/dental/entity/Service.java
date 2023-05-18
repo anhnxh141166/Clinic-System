@@ -14,16 +14,22 @@ public class Service {
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer serviceId;
+
     @Column(nullable = false, columnDefinition = "nvarchar(100)")
     private String title;
+
     @Column(nullable = false, columnDefinition = "text")
     private String description;
+
     @Column(nullable = false, columnDefinition = "text")
     private String thumbnail;
+
     @Column(nullable = false, length = 1, columnDefinition = "bit default 1")
     private boolean status;
+
     @Column(nullable = false)
     private Double price;
+
     @Column(nullable = false)
     private Date createdAt;
 
