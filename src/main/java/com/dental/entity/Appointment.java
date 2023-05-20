@@ -13,12 +13,16 @@ public class Appointment {
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer appointmentId;
+
     @Column(nullable = false)
     private Date date;
+
     @Column(nullable = false)
     private Date time;
+
     @Column(nullable = false,length = 1, columnDefinition = "bit default 1")
     private boolean status;
+
     @Column(nullable = true)
     private String note;
 

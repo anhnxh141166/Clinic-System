@@ -5,6 +5,7 @@ import com.dental.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -18,7 +19,12 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    List<User> getAllUser(){
+    public List<User> getAllUser(){
         return userRepository.findAll();
+    }
+
+    public void addUser(User user) {
+        System.out.println(user);
+        userRepository.save(user);
     }
 }

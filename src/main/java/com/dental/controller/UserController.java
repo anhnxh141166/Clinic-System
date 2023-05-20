@@ -5,8 +5,9 @@ import com.dental.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
+<<<<<<< src/main/java/com/dental/controller/UserController.java
     @GetMapping("/homeLanding")
     public String viewHomeLandingPage(Model model) {
         User user = new User();
@@ -37,5 +39,30 @@ public class UserController {
 // test link: http://localhost:8888/user/homeAdmin
     }
 
+=======
+//    @GetMapping("/list")
+//    public String viewListPlan(Authentication authentication, Model model){
+//        String username= authentication.getName();
+//        Users users=userService.getUserByUsername(username);
+//        model.addAttribute("users", users);
+//        model.addAttribute("listPlans", planService.getAllPlan());
+//        return "admin/listPlans";
+//    }
+
+    @GetMapping()
+    public String viewListPlan(Model theModel){
+        // get employees from db
+        List<User> user = userService.getAllUser();
+
+        // add to the spring model
+        theModel.addAttribute("user", user);
+
+        return "/user/list-user";
+    }
+    @PostMapping()
+    public void registerUser(@ModelAttribute("") User user) {
+        userService.addUser(user);
+    }
+>>>>>>> src/main/java/com/dental/controller/UserController.java
 
 }

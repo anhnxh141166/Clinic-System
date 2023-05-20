@@ -14,19 +14,24 @@ public class Doctor {
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer doctorId;
+
     @Column(nullable = false, columnDefinition = "nvarchar(8)")
     private String gender;
+
     @Column(nullable = false)
     private Date dateOfBirth;
+
     @Column(nullable = false, columnDefinition = "nvarchar(100)")
     private String address;
+
     @Column(nullable = true, length = 12)
     private String phoneNumber;
+
     @Column(nullable = false, columnDefinition = "text")
     private String avatar;
+
     @Column(nullable = false, columnDefinition = "text")
     private String description;
-
 
     @OneToMany(mappedBy = "doctor")
     private List<MedicalInformation> medicalInformation;
