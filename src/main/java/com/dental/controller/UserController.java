@@ -18,7 +18,6 @@ public class UserController {
     @Autowired
     UserService userService;
 
-<<<<<<< src/main/java/com/dental/controller/UserController.java
     @GetMapping("/homeLanding")
     public String viewHomeLandingPage(Model model) {
         User user = new User();
@@ -39,7 +38,6 @@ public class UserController {
 // test link: http://localhost:8888/user/homeAdmin
     }
 
-=======
 //    @GetMapping("/list")
 //    public String viewListPlan(Authentication authentication, Model model){
 //        String username= authentication.getName();
@@ -63,6 +61,5 @@ public class UserController {
     public void registerUser(@ModelAttribute("") User user) {
         userService.addUser(user);
     }
->>>>>>> src/main/java/com/dental/controller/UserController.java
 
 }
