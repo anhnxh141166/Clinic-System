@@ -1,0 +1,14 @@
+.disabled {
+    cursor: no-drop;
+    pointer-events: none;
+    background: #e8e5e5;
+}
+
+.disabled.page-link:hover {
+    background: #e8e5e5;
+}
+
+.page-item.active {
+    cursor: no-drop;
+    pointer-events: none;
+}

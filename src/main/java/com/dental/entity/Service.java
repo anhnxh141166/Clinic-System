@@ -24,7 +24,7 @@ public class Service {
     @Column(nullable = false, columnDefinition = "text")
     private String thumbnail;
 
-    @Column(nullable = false, length = 1, columnDefinition = "bit default 1")
+    @Column(nullable = false, length = 1, columnDefinition = "BIT(1) default 1")
     private boolean status;
 
     @Column(nullable = false)

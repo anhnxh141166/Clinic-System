@@ -26,49 +26,49 @@ public class PatientHistory {
     @Column(nullable = false, columnDefinition = "nvarchar(254)")
     private String pastMedicalHistory;
 
-    @Column(nullable = false, columnDefinition = "boolean default false")
+    @Column(nullable = false, columnDefinition = "BIT(1) default 0")
     private boolean liver;
 
-    @Column(nullable = false, columnDefinition = "boolean default false")
+    @Column(nullable = false, columnDefinition = "BIT(1) default 0")
     private boolean diabetes;
 
-    @Column(nullable = false, columnDefinition = "boolean default false")
+    @Column(nullable = false, columnDefinition = "BIT(1) default 0")
     private boolean rheumatism;
 
-    @Column(nullable = false, columnDefinition = "boolean default false")
+    @Column(nullable = false, columnDefinition = "BIT(1) default 0")
     private boolean nerve;
 
-    @Column(nullable = false, columnDefinition = "boolean default false")
+    @Column(nullable = false, columnDefinition = "BIT(1) default 0")
     private boolean allergy;
 
-    @Column(nullable = false, columnDefinition = "boolean default false")
+    @Column(nullable = false, columnDefinition = "BIT(1) default 0")
     private boolean digest;
 
-    @Column(nullable = false, columnDefinition = "boolean default false")
+    @Column(nullable = false, columnDefinition = "BIT(1) default 0")
     private boolean respiratory;
 
-    @Column(nullable = false, columnDefinition = "boolean default false")
+    @Column(nullable = false, columnDefinition = "BIT(1) default 0")
     private boolean cardiovascular;
 
-    @Column(nullable = false, columnDefinition = "boolean default false")
+    @Column(nullable = false, columnDefinition = "BIT(1) default 0")
     private boolean kidney;
 
-    @Column(nullable = false, columnDefinition = "boolean default false")
+    @Column(nullable = false, columnDefinition = "BIT(1) default 0")
     private boolean other1;
 
-    @Column(nullable = false, columnDefinition = "boolean default false")
+    @Column(nullable = false, columnDefinition = "BIT(1) default 0")
     private boolean temporomandibularJoint;
 
-    @Column(nullable = false, columnDefinition = "boolean default false")
+    @Column(nullable = false, columnDefinition = "BIT(1) default 0")
     private boolean toothExtraction;
 
-    @Column(nullable = false, columnDefinition = "boolean default false")
+    @Column(nullable = false, columnDefinition = "BIT(1) default 0")
     private boolean orthodonticTreatment;
 
-    @Column(nullable = false, columnDefinition = "boolean default false")
+    @Column(nullable = false, columnDefinition = "BIT(1) default 0")
     private boolean dentalBraces;
 
-    @Column(nullable = false, columnDefinition = "boolean default false")
+    @Column(nullable = false, columnDefinition = "BIT(1) default 0")
     private boolean other2;
 
     @Column(nullable = false)
