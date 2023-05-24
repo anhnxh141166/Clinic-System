@@ -1,340 +1,183 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://thymeleaf.org">
-    <head th:replace="layout/head :: head"></head>
+<head th:replace="~{layout/head :: head}"></head>
 
-    <body>
-        <!-- Loader -->
-        <div id="preloader">
-            <div id="status">
-                <div class="spinner">
-                    <div class="double-bounce1"></div>
-                    <div class="double-bounce2"></div>
-                </div>
-            </div>
+<body>
+<!-- Loader -->
+<div id="preloader">
+    <div id="status">
+        <div class="spinner">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
         </div>
-        <!-- Loader -->
-        <div class="page-wrapper doctris-theme toggled">
-            <nav th:replace="layout/pageSidebarAdmin :: pageSidebarAdmin" id="sidebar" class="sidebar-wrapper"></nav>
-            <!-- sidebar-wrapper  -->
+    </div>
+</div>
+<!-- Loader -->
+<div class="page-wrapper doctris-theme toggled">
+    <nav th:replace="~{layout/pageSidebarAdmin :: pageSidebarAdmin}" id="sidebar" class="sidebar-wrapper"></nav>
+    <!-- sidebar-wrapper  -->
 
-            <!-- Start Page Content -->
-            <main class="page-content bg-light">
-                <div th:replace="layout/pageHeaderAdmin :: pageHeaderAdmin" class="top-header"></div>
+    <!-- Start Page Content -->
+    <main class="page-content bg-light">
+        <div th:replace="~{layout/pageHeaderAdmin :: pageHeaderAdmin}" class="top-header"></div>
 
-                <div class="container-fluid">
-                    <div class="layout-specing">
-                        <div class="d-md-flex justify-content-between">
-                            <div>
-                                <h5 class="mb-0">Blogs</h5>
+        <div class="container-fluid">
+            <div class="layout-specing">
+                <div class="d-md-flex justify-content-between">
+                    <div>
+                        <h5 class="mb-0">Blogs</h5>
 
-                                <nav aria-label="breadcrumb" class="d-inline-block mt-1">
-                                    <ul class="breadcrumb breadcrumb-muted bg-transparent rounded mb-0 p-0">
-                                        <li class="breadcrumb-item"><a href="../index.html">Doctris</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">Blogs</li>
-                                    </ul>
-                                </nav>
-                            </div>
+                        <nav aria-label="breadcrumb" class="d-inline-block mt-1">
+                            <ul class="breadcrumb breadcrumb-muted bg-transparent rounded mb-0 p-0">
+                                <li class="breadcrumb-item"><a href="../index.html">Doctris</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Blogs</li>
+                            </ul>
+                        </nav>
+                    </div>
 
-                            <div class="mt-4 mt-sm-0">
-                                <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newblogadd">Add Blog</a>
+                    <div class="mt-4 mt-sm-0">
+                        <a href="/admin/blog/add" class="btn btn-primary">Add
+                            Blog</a>
+                    </div>
+                </div>
+
+                <form role="search" method="get" id="searchform" class="searchform" th:action="@{/admin/blog}">
+                    <div class="row mt-3">
+                        <div class="col-4 search-bar p-0 d-none d-lg-block ms-2">
+                            <div id="search" class="menu-search mb-0 searchform">
+                                <div class="searchform">
+                                    <input type="text" class="form-control border rounded-pill" th:name="titleSearch" th:value="${titleSearch}" id="s" placeholder="Search Keywords...">
+                                    <input type="submit" id="searchsubmit" value="Search">
+                                </div>
                             </div>
                         </div>
-                        
-                        <div class="row">
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-12 mt-4">
-                                <div class="card blog blog-primary border-0 shadow rounded overflow-hidden">
-                                    <img src="../../assets/images/blog/01.jpg" class="img-fluid" alt="">
-                                    <div class="card-body p-4">
-                                        <ul class="list-unstyled mb-2">
-                                            <li class="list-inline-item text-muted small me-3"><i class="uil uil-calendar-alt text-dark h6 me-1"></i>20th November, 2020</li>
-                                            <li class="list-inline-item text-muted small"><i class="uil uil-clock text-dark h6 me-1"></i>5 min read</li>
-                                        </ul>
-                                        <a href="blog-detail.html" class="text-dark title h5">Easily connect to doctor and make a treatment</a>
-                                        <div class="post-meta d-flex justify-content-between mt-3">
-                                            <ul class="list-unstyled mb-0">
-                                                <li class="list-inline-item me-2 mb-0"><a href="#" class="text-muted like"><i class="mdi mdi-heart-outline me-1"></i>33</a></li>
-                                                <li class="list-inline-item"><a href="#" class="text-muted comments"><i class="mdi mdi-comment-outline me-1"></i>08</a></li>
-                                            </ul>
-                                            <a href="blog-detail.html" class="link">Read More <i class="mdi mdi-chevron-right align-middle"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><!--end col-->
-        
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-12 mt-4">
-                                <div class="card blog blog-primary border-0 shadow rounded overflow-hidden">
-                                    <img src="../../assets/images/blog/02.jpg" class="img-fluid" alt="">
-                                    <div class="card-body p-4">
-                                        <ul class="list-unstyled mb-2">
-                                            <li class="list-inline-item text-muted small me-3"><i class="uil uil-calendar-alt text-dark h6 me-1"></i>20th November, 2020</li>
-                                            <li class="list-inline-item text-muted small"><i class="uil uil-clock text-dark h6 me-1"></i>5 min read</li>
-                                        </ul>
-                                        <a href="blog-detail.html" class="text-dark title h5">Lockdowns lead to fewer people seeking medical care</a>
-                                        <div class="post-meta d-flex justify-content-between mt-3">
-                                            <ul class="list-unstyled mb-0">
-                                                <li class="list-inline-item me-2 mb-0"><a href="#" class="text-muted like"><i class="mdi mdi-heart-outline me-1"></i>33</a></li>
-                                                <li class="list-inline-item"><a href="#" class="text-muted comments"><i class="mdi mdi-comment-outline me-1"></i>08</a></li>
-                                            </ul>
-                                            <a href="blog-detail.html" class="link">Read More <i class="mdi mdi-chevron-right align-middle"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><!--end col-->
-        
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-12 mt-4">
-                                <div class="card blog blog-primary border-0 shadow rounded overflow-hidden">
-                                    <img src="../../assets/images/blog/03.jpg" class="img-fluid" alt="">
-                                    <div class="card-body p-4">
-                                        <ul class="list-unstyled mb-2">
-                                            <li class="list-inline-item text-muted small me-3"><i class="uil uil-calendar-alt text-dark h6 me-1"></i>20th November, 2020</li>
-                                            <li class="list-inline-item text-muted small"><i class="uil uil-clock text-dark h6 me-1"></i>5 min read</li>
-                                        </ul>
-                                        <a href="blog-detail.html" class="text-dark title h5">medicine research course for doctors</a>
-                                        <div class="post-meta d-flex justify-content-between mt-3">
-                                            <ul class="list-unstyled mb-0">
-                                                <li class="list-inline-item me-2 mb-0"><a href="#" class="text-muted like"><i class="mdi mdi-heart-outline me-1"></i>33</a></li>
-                                                <li class="list-inline-item"><a href="#" class="text-muted comments"><i class="mdi mdi-comment-outline me-1"></i>08</a></li>
-                                            </ul>
-                                            <a href="blog-detail.html" class="link">Read More <i class="mdi mdi-chevron-right align-middle"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><!--end col-->
-        
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-12 mt-4">
-                                <div class="card blog blog-primary border-0 shadow rounded overflow-hidden">
-                                    <img src="../../assets/images/blog/04.jpg" class="img-fluid" alt="">
-                                    <div class="card-body p-4">
-                                        <ul class="list-unstyled mb-2">
-                                            <li class="list-inline-item text-muted small me-3"><i class="uil uil-calendar-alt text-dark h6 me-1"></i>20th November, 2020</li>
-                                            <li class="list-inline-item text-muted small"><i class="uil uil-clock text-dark h6 me-1"></i>5 min read</li>
-                                        </ul>
-                                        <a href="blog-detail.html" class="text-dark title h5">Comparing Nitrogen And Mechanical Freezers</a>
-                                        <div class="post-meta d-flex justify-content-between mt-3">
-                                            <ul class="list-unstyled mb-0">
-                                                <li class="list-inline-item me-2 mb-0"><a href="#" class="text-muted like"><i class="mdi mdi-heart-outline me-1"></i>33</a></li>
-                                                <li class="list-inline-item"><a href="#" class="text-muted comments"><i class="mdi mdi-comment-outline me-1"></i>08</a></li>
-                                            </ul>
-                                            <a href="blog-detail.html" class="link">Read More <i class="mdi mdi-chevron-right align-middle"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><!--end col-->
-        
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-12 mt-4">
-                                <div class="card blog blog-primary border-0 shadow rounded overflow-hidden">
-                                    <img src="../../assets/images/blog/05.jpg" class="img-fluid" alt="">
-                                    <div class="card-body p-4">
-                                        <ul class="list-unstyled mb-2">
-                                            <li class="list-inline-item text-muted small me-3"><i class="uil uil-calendar-alt text-dark h6 me-1"></i>20th November, 2020</li>
-                                            <li class="list-inline-item text-muted small"><i class="uil uil-clock text-dark h6 me-1"></i>5 min read</li>
-                                        </ul>
-                                        <a href="blog-detail.html" class="text-dark title h5">It Is Very Important To Wear Proper Clothing</a>
-                                        <div class="post-meta d-flex justify-content-between mt-3">
-                                            <ul class="list-unstyled mb-0">
-                                                <li class="list-inline-item me-2 mb-0"><a href="#" class="text-muted like"><i class="mdi mdi-heart-outline me-1"></i>33</a></li>
-                                                <li class="list-inline-item"><a href="#" class="text-muted comments"><i class="mdi mdi-comment-outline me-1"></i>08</a></li>
-                                            </ul>
-                                            <a href="blog-detail.html" class="link">Read More <i class="mdi mdi-chevron-right align-middle"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><!--end col-->
-        
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-12 mt-4">
-                                <div class="card blog blog-primary border-0 shadow rounded overflow-hidden">
-                                    <img src="../../assets/images/blog/06.jpg" class="img-fluid" alt="">
-                                    <div class="card-body p-4">
-                                        <ul class="list-unstyled mb-2">
-                                            <li class="list-inline-item text-muted small me-3"><i class="uil uil-calendar-alt text-dark h6 me-1"></i>20th November, 2020</li>
-                                            <li class="list-inline-item text-muted small"><i class="uil uil-clock text-dark h6 me-1"></i>5 min read</li>
-                                        </ul>
-                                        <a href="blog-detail.html" class="text-dark title h5">Hollowed-Out Faces More Cuts Amid Virus</a>
-                                        <div class="post-meta d-flex justify-content-between mt-3">
-                                            <ul class="list-unstyled mb-0">
-                                                <li class="list-inline-item me-2 mb-0"><a href="#" class="text-muted like"><i class="mdi mdi-heart-outline me-1"></i>33</a></li>
-                                                <li class="list-inline-item"><a href="#" class="text-muted comments"><i class="mdi mdi-comment-outline me-1"></i>08</a></li>
-                                            </ul>
-                                            <a href="blog-detail.html" class="link">Read More <i class="mdi mdi-chevron-right align-middle"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><!--end col-->
-        
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-12 mt-4">
-                                <div class="card blog blog-primary border-0 shadow rounded overflow-hidden">
-                                    <img src="../../assets/images/blog/07.jpg" class="img-fluid" alt="">
-                                    <div class="card-body p-4">
-                                        <ul class="list-unstyled mb-2">
-                                            <li class="list-inline-item text-muted small me-3"><i class="uil uil-calendar-alt text-dark h6 me-1"></i>20th November, 2020</li>
-                                            <li class="list-inline-item text-muted small"><i class="uil uil-clock text-dark h6 me-1"></i>5 min read</li>
-                                        </ul>
-                                        <a href="blog-detail.html" class="text-dark title h5">A Researcher Is Research On Coronavirus In Lab</a>
-                                        <div class="post-meta d-flex justify-content-between mt-3">
-                                            <ul class="list-unstyled mb-0">
-                                                <li class="list-inline-item me-2 mb-0"><a href="#" class="text-muted like"><i class="mdi mdi-heart-outline me-1"></i>33</a></li>
-                                                <li class="list-inline-item"><a href="#" class="text-muted comments"><i class="mdi mdi-comment-outline me-1"></i>08</a></li>
-                                            </ul>
-                                            <a href="blog-detail.html" class="link">Read More <i class="mdi mdi-chevron-right align-middle"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><!--end col-->
-        
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-12 mt-4">
-                                <div class="card blog blog-primary border-0 shadow rounded overflow-hidden">
-                                    <img src="../../assets/images/blog/08.jpg" class="img-fluid" alt="">
-                                    <div class="card-body p-4">
-                                        <ul class="list-unstyled mb-2">
-                                            <li class="list-inline-item text-muted small me-3"><i class="uil uil-calendar-alt text-dark h6 me-1"></i>20th November, 2020</li>
-                                            <li class="list-inline-item text-muted small"><i class="uil uil-clock text-dark h6 me-1"></i>5 min read</li>
-                                        </ul>
-                                        <a href="blog-detail.html" class="text-dark title h5">Using Spectroscopy To Assess Food Quality</a>
-                                        <div class="post-meta d-flex justify-content-between mt-3">
-                                            <ul class="list-unstyled mb-0">
-                                                <li class="list-inline-item me-2 mb-0"><a href="#" class="text-muted like"><i class="mdi mdi-heart-outline me-1"></i>33</a></li>
-                                                <li class="list-inline-item"><a href="#" class="text-muted comments"><i class="mdi mdi-comment-outline me-1"></i>08</a></li>
-                                            </ul>
-                                            <a href="blog-detail.html" class="link">Read More <i class="mdi mdi-chevron-right align-middle"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><!--end col-->
-        
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-12 mt-4">
-                                <div class="card blog blog-primary border-0 shadow rounded overflow-hidden">
-                                    <img src="../../assets/images/blog/09.jpg" class="img-fluid" alt="">
-                                    <div class="card-body p-4">
-                                        <ul class="list-unstyled mb-2">
-                                            <li class="list-inline-item text-muted small me-3"><i class="uil uil-calendar-alt text-dark h6 me-1"></i>20th November, 2020</li>
-                                            <li class="list-inline-item text-muted small"><i class="uil uil-clock text-dark h6 me-1"></i>5 min read</li>
-                                        </ul>
-                                        <a href="blog-detail.html" class="text-dark title h5">You Have To Wash Your Hands For 20 Seconds</a>
-                                        <div class="post-meta d-flex justify-content-between mt-3">
-                                            <ul class="list-unstyled mb-0">
-                                                <li class="list-inline-item me-2 mb-0"><a href="#" class="text-muted like"><i class="mdi mdi-heart-outline me-1"></i>33</a></li>
-                                                <li class="list-inline-item"><a href="#" class="text-muted comments"><i class="mdi mdi-comment-outline me-1"></i>08</a></li>
-                                            </ul>
-                                            <a href="blog-detail.html" class="link">Read More <i class="mdi mdi-chevron-right align-middle"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><!--end col-->
-                        </div><!--end row-->
-        
-                        <div class="row">
-                            <div class="col-12 mt-4">
-                                <ul class="pagination justify-content-end mb-0 list-unstyled">
-                                    <li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Previous">Prev</a></li>
-                                    <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Next">Next</a></li>
-                                </ul><!--end pagination-->
-                            </div><!--end col-->
-                        </div><!--end row-->
+
+                        <div class="col-3">
+                            <select class="col-3 form-select form-control" th:name="statusSearch" onchange="this.form.submit()">
+                                <option selected th:value>Choose status</option>
+                                <option th:selected="${statusSearch == '1'}" th:value="1" >Active</option>
+                                <option th:selected="${statusSearch == '0'}" th:value="0">Inactive</option>
+                            </select>
+                        </div>
                     </div>
-                </div><!--end container-->
+                </form>
 
-                <!-- Footer Start -->
-                <footer class="bg-white shadow py-3">
-                    <div class="container-fluid">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <div class="text-sm-start text-center">
-                                    <p class="mb-0 text-muted"><script>document.write(new Date().getFullYear())</script> © Doctris. Design with <i class="mdi mdi-heart text-danger"></i> by <a href="../../../index.html" target="_blank" class="text-reset">Shreethemes</a>.</p>
+                <div th:switch="${blogs}">
+                    <h2 th:case="null" class="text-center mt-3">No blogs yet!</h2>
+                    <div th:case="*">
+                        <div class="row">
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-12 mt-4" th:each="blog : ${usesPage}">
+                                <div class="card blog blog-primary border-0 shadow rounded overflow-hidden">
+                                    <img th:src="@{'~/assets/uploads/'+${blog.thumbnail}}" class="img-fluid" alt="">
+                                    <div class="card-body p-4">
+                                        <ul class="list-unstyled mb-2">
+                                            <i class="mdi mdi-account"></i>
+                                            <li class="list-inline-item user text-muted me-2" th:text="${blog.user.fullName}"></li>
+                                            <br>
+                                            <i class="uil uil-calendar-alt text-dark h6 me-1"></i>
+                                            <li class="list-inline-item text-muted small me-3"
+                                                th:text="${blog.createdAt}">
+                                            </li>
+                                        </ul>
+                                        <a th:href="@{/admin/blog/{blogId}(blogId=${blog.blogId})}"
+                                           class="text-dark title h5"
+                                           th:text="${blog.title}"></a>
+                                        <p class="py-2 text-muted" th:text="${blog.summary}"></p>
+                                        <div class="post-meta d-flex justify-content-between mt-3">
+                                            <ul class="list-unstyled mb-0">
+                                                <li class="list-inline-item">
+                                                    | Status: <li class="list-inline-item date text-muted" th:text="${blog.status} ? 'Active' : 'Inactive'"></li> |
+                                                    <i class="mdi mdi-comment-outline me-1" ></i>
+                                                    <a href="#" class="text-muted comments" th:text="${blog.commentBlog.size()}"></a>
+                                                </li>
+                                            </ul>
+                                            <a th:href="@{/admin/blog/{blogId}(blogId=${blog.blogId})}" class="link">Read
+                                                More<i class="mdi mdi-chevron-right align-middle"></i>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div><!--end col-->
-                        </div><!--end row-->
-                    </div><!--end container-->
-                </footer><!--end footer-->
-                <!-- End -->
-            </main>
-            <!--End page-content" -->
-        </div>
-        <!-- page-wrapper -->
-
-        <!-- Start Modal -->
-        <div class="modal fade" id="newblogadd" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header border-bottom p-3">
-                        <h5 class="modal-title" id="exampleModalLabel">Add Blog</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-
-                    <div class="modal-body p-3 pt-4">
-                        <div class="row">
-<!--                            <form method="POST" action="#" th:action="@{/admin/blog}" th:object="${blogs}">-->
-<!--                                <div class="col-md-4">-->
-<!--                                    <div class="d-grid">-->
-<!--                                        <p class="text-muted">Upload your blog image here, Please click "Upload Image" Button.</p>-->
-<!--                                        <div class="preview-box d-block justify-content-center rounded shadow overflow-hidden bg-light p-1"></div>-->
-<!--                                        <input type="file" id="thumbnail" th:field="*{thumbnail}" name="thumbnail" accept="image/*" onchange={handleChange()} hidden />-->
-<!--                                        <label class="btn-upload btn btn-primary mt-4" for="thumbnail">Upload Image</label>-->
-<!--                                        <span th:if="${#fields.hasErrors('thumbnail')}" th:errors="*{thumbnail}"></span>-->
-<!--                                    </div>-->
-<!--                                </div>&lt;!&ndash;end col&ndash;&gt;-->
-
-<!--                                <div class="col-md-8 mt-4 mt-sm-0">-->
-<!--                                    <div class="ms-md-4">-->
-<!--                                        <form>-->
-<!--                                            <div class="row">-->
-<!--                                                <div class="col-12">-->
-<!--                                                    <div class="mb-3">-->
-<!--                                                        <label class="form-label">Blog Title <span class="text-danger">*</span></label>-->
-<!--                                                        <input name="title" id="title" th:field="*{title}" type="text" class="form-control" placeholder="Title :">-->
-<!--                                                        <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>-->
-<!--                                                    </div>-->
-<!--                                                </div>&lt;!&ndash;end col&ndash;&gt;-->
-
-<!--                                                <div class="col-lg-12">-->
-<!--                                                    <div class="mb-3">-->
-<!--                                                        <label class="form-label">Description <span class="text-danger">*</span></label>-->
-<!--                                                        <textarea name="comments" id="comments" rows="4" class="form-control" placeholder="Blog description :"></textarea>-->
-<!--                                                    </div>-->
-<!--                                                </div>&lt;!&ndash;end col&ndash;&gt;-->
-
-<!--                                                <div class="col-lg-12 text-end">-->
-<!--                                                    <button type="submit" class="btn btn-primary">Add Blog</button>-->
-<!--                                                </div>&lt;!&ndash;end col&ndash;&gt;-->
-<!--                                            </div>-->
-<!--                                        </form>-->
-<!--                                    </div>-->
-<!--                                </div>&lt;!&ndash;end col&ndash;&gt;-->
-<!--                            </form>-->
-                        </div><!--end row-->
+                        </div> <!--end row-->
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-12 mt-4">
+                        <div class=" d-flex justify-content-end my-2">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+                                    <li class="paginate_button page-item"><a
+                                            class="page-link"
+                                            th:classappend="${usesPage.number == 0 ? 'disabled' : ''}"
+                                            th:href="@{'/admin/blog'(titleSearch=${titleSearch},statusSearch=${statusSearch},page=${1})}">First</a>
+                                    </li>
+                                    <li class="paginate_button page-item"
+                                        th:classappend="${usesPage.hasPrevious() ? '' : 'disabled'}"><a
+                                            class="page-link"
+                                            th:href="@{'/admin/blog'(titleSearch=${titleSearch},statusSearch=${statusSearch},page=${usesPage.number})}"
+                                            th:if="${usesPage.hasPrevious()}">Prev</a>
+                                    </li>
+                                    <li class="paginate_button page-item"><a
+                                            class="page-link"
+                                            th:href="@{'/admin/blog'(titleSearch=${titleSearch},statusSearch=${statusSearch},page=${usesPage.number})}"
+                                            th:if="${usesPage.hasPrevious()}" th:text="${usesPage.number}"></a>
+                                    </li>
+                                    <li class="paginate_button page-item active"><a
+                                            class="page-link"
+                                            th:href="@{'/admin/blog'(titleSearch=${titleSearch},statusSearch=${statusSearch},page=${usesPage.number + 1})}"
+                                            th:text="${usesPage.number + 1}"></a>
+                                    </li>
+                                    <li class="paginate_button page-item"><a
+                                            class="page-link"
+                                            th:href="@{'/admin/blog'(titleSearch=${titleSearch},statusSearch=${statusSearch},page=${usesPage.number + 2})}"
+                                            th:if="${usesPage.hasNext()}" th:text="${usesPage.number + 2}"></a>
+                                    </li>
+
+                                    <li class="paginate_button page-item"
+                                        th:classappend="${usesPage.hasNext()} ? '':'disabled'"><a
+
+                                            class="page-link"
+                                            th:href="@{'/admin/blog'(titleSearch=${titleSearch},statusSearch=${statusSearch},page=${usesPage.number + 2})}"
+                                            th:if="${usesPage.hasNext()}">Next</a>
+                                    </li>
+                                    <li class="paginate_button page-item"><a
+                                            class="page-link"
+                                            th:classappend="${usesPage.number + 1 == numberOfPage ? 'disabled' : ''}"
+                                            th:href="@{'/admin/blog'(titleSearch=${titleSearch},statusSearch=${statusSearch},page=${numberOfPage})}">Last</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div><!--end col-->
+                </div><!--end row-->
             </div>
-        </div>
-        <!-- End modal -->
+        </div><!--end container-->
 
-        <script th:replace="layout/script :: script"></script>
-        
-        <script>
-            const handleChange = () => {
-            const fileUploader = document.querySelector('#thumbnail');
-                const getFile = fileUploader.files
-                if (getFile.length !== 0) {
-                    const uploadedFile = getFile[0];
-                    readFile(uploadedFile);
-                }
-            }
+        <!-- Footer Start -->
+        <footer class="bg-white shadow py-3">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <div class="text-sm-start text-center">
+                            <p class="mb-0 text-muted">
+                                <script>document.write(new Date().getFullYear())</script>
+                                © Doctris. Design with <i class="mdi mdi-heart text-danger"></i> by <a
+                                    href="../../../index.html" target="_blank" class="text-reset">Shreethemes</a>.
+                            </p>
+                        </div>
+                    </div><!--end col-->
+                </div><!--end row-->
+            </div><!--end container-->
+        </footer><!--end footer-->
+        <!-- End -->
+    </main>
+    <!--End page-content" -->
+</div>
+<!-- page-wrapper -->
 
-            const readFile = (uploadedFile) => {
-                if (uploadedFile) {
-                    const reader = new FileReader();
-                    reader.onload = () => {
-                    const parent = document.querySelector('.preview-box');
-                    parent.innerHTML = `<img class="preview-content" src=${reader.result} />`;
-                    };
-                    
-                    reader.readAsDataURL(uploadedFile);
-                }
-            };
-        </script>
-    </body>
+<script th:replace="~{layout/script :: script}"></script>
+</body>
 
 </html>

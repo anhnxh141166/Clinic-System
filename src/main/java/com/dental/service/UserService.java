@@ -1,5 +1,6 @@
 package com.dental.service;
 
+import com.dental.entity.Blog;
 import com.dental.entity.User;
 import com.dental.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,5 +27,9 @@ public class UserService {
     public void addUser(User user) {
         System.out.println(user);
         userRepository.save(user);
+    }
+
+    public User get(int id) {
+        return userRepository.findById(id).get();
     }
 }
