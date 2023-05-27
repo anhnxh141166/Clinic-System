@@ -1,7 +1,8 @@
 
 <!DOCTYPE html>
-    <html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
+</head>
     <head>
         <meta charset="utf-8" />
         <title>Doctris - Doctor Appointment Booking System</title>
@@ -49,9 +50,9 @@
                 <a class="logo" href="../index.html">
                     <img src="../assets/images/logo-dark.png" height="24" class="logo-light-mode" alt="">
                     <img src="../assets/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
-                </a>                
+                </a>
                 <!-- Logo End -->
-                
+
                 <!-- Start Mobile Toggle -->
                 <div class="menu-extras">
                     <div class="menu-item">
@@ -102,9 +103,9 @@
                     </li>
                 </ul>
                 <!-- Start Dropdown -->
-        
+
                 <div id="navigation">
-                    <!-- Navigation Menu-->   
+                    <!-- Navigation Menu-->
                     <ul class="navigation-menu nav-left">
                         <li class="has-submenu parent-menu-item">
                             <a href="javascript:void(0)">Home</a><span class="menu-arrow"></span>
@@ -163,7 +164,7 @@
                                 <li><a href="pharmacy-account.html" class="sub-menu-item">Account</a></li>
                             </ul>
                         </li>
-        
+
                         <li class="has-submenu parent-parent-menu-item"><a href="javascript:void(0)">Pages</a><span class="menu-arrow"></span>
                             <ul class="submenu">
                                 <li><a href="../aboutus.html" class="sub-menu-item"> About Us</a></li>
@@ -183,10 +184,11 @@
                             </ul>
                         </li>
                         <li><a href="../../admin/index.html" class="sub-menu-item" target="_blank">Admin</a></li>
-                    </ul><!--end navigation menu-->
-                </div><!--end navigation-->
-            </div><!--end container-->
-        </header><!--end header-->
+                    </ul>
+                </div>
+            </div>
+        </header>
+
         <!-- Navbar End -->
 
         <!-- Start -->
@@ -480,31 +482,32 @@
                                     <div class="mt-4 pt-2">
                                         <h5 class="mb-0">Change Password :</h5>
         
-                                        <form class="mt-4">
+                                        <form id="change-password" th:action="@{/patient/change-password}" class="mt-4" method="post">
                                             <div class="row">
                                                 <div class="col-lg-12">
                                                     <div class="mb-3">
                                                         <label class="form-label">Old password :</label>
-                                                        <input type="password" class="form-control" placeholder="Old password" required="">
+                                                        <input id="old-password" type="password" class="form-control" placeholder="Old password" name="currentPassword" required="" >
                                                     </div>
                                                 </div><!--end col-->
             
                                                 <div class="col-lg-12">
                                                     <div class="mb-3">
                                                         <label class="form-label">New password :</label>
-                                                        <input type="password" class="form-control" placeholder="New password" required="">
+                                                        <input id="new-password" type="password" class="form-control" placeholder="New password" name="newPassword" required="">
                                                     </div>
                                                 </div><!--end col-->
             
                                                 <div class="col-lg-12">
                                                     <div class="mb-3">
                                                         <label class="form-label">Re-type New password :</label>
-                                                        <input type="password" class="form-control" placeholder="Re-type New password" required="">
+                                                        <input id="confirm-password" type="password" class="form-control" placeholder="Re-type New password" name="confirmPassword" required="">
                                                     </div>
                                                 </div><!--end col-->
             
+                                                <span th:if="${message}" th:text="${message}" class="text-danger"></span>
                                                 <div class="col-lg-12 mt-2 mb-0">
-                                                    <button class="btn btn-primary">Save password</button>
+                                                    <button type="submit" class="btn btn-primary">Save password</button>
                                                 </div><!--end col-->
                                             </div><!--end row-->
                                         </form>
@@ -900,8 +903,11 @@
                 </div>
             </div>
         </div>
+        <!--   validate     -->
+
+        <script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js"></script>
         <!-- View Invoice End -->
-        
+
         <!-- javascript -->
         <script src="../assets/js/jquery.min.js"></script>
         <script src="../assets/js/bootstrap.bundle.min.js"></script>
@@ -918,6 +924,78 @@
         <script src="../assets/js/feather.min.js"></script>
         <!-- Main Js -->
         <script src="../assets/js/app.js"></script>
+
+
+        <script>
+
+            const validation = new JustValidate('#change-password', {
+                validateBeforeSubmitting: true,
+            });
+            // const validator = new JustValidate('#change-password');
+            validation
+                .addField('#old-password', [
+                    {
+                        rule: 'minLength',
+                        value: 8,
+                    },
+                    {
+                        rule: 'maxLength',
+                        value: 30,
+                    },
+                    {
+                        rule: 'required',
+                    },
+                    {
+                        rule: 'password',
+                    }
+                ])
+
+                .addField('#new-password', [
+                    {
+                        rule: 'minLength',
+                        value: 8,
+                    },
+                    {
+                        rule: 'maxLength',
+                        value: 30,
+                    },
+                    {
+                        rule: 'required',
+                    },
+                    {
+                        rule: 'password',
+                    }
+                ])
+
+                .addField('#confirm-password', [
+                    {
+                        rule: 'minLength',
+                        value: 8,
+                    },
+                    {
+                        rule: 'maxLength',
+                        value: 30,
+                    },
+                    {
+                        rule: 'required',
+                    },
+                    {
+                        rule: 'password',
+                    }
+                ]);
+
+
+            const formChange = document.getElementById('change-password');
+            formChange.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent the default form submission
+
+                // Perform any validation or additional logic here
+
+                // Submit the form using JavaScript
+                formChange.submit();
+            });
+
+        </script>
         
     </body>
 

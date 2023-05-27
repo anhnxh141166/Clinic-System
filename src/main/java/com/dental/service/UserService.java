@@ -5,6 +5,7 @@ import com.dental.entity.Doctor;
 import com.dental.entity.User;
 import com.dental.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,9 @@ public class UserService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     User getUserByEmail(String email){
         return userRepository.findByEmail(email);
@@ -38,7 +42,6 @@ public class UserService {
     }
 
     public void addUser(User user) {
-        System.out.println(user);
         userRepository.save(user);
     }
 
@@ -46,7 +49,13 @@ public class UserService {
         return userRepository.findById(id).get();
     }
 
+
     public void delete(int id) {
         userRepository.deleteById(id);
+    }
+
+    public User update(User user, String newPassword){
+        user.setPassword(passwordEncoder.encode(newPassword));
+        return userRepository.save(user);
     }
 }
