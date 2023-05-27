@@ -1,6 +1,7 @@
 package com.dental.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -29,6 +30,7 @@ public class Doctor {
 
     @Column(nullable = true, length = 12)
     @Size(min = 1, message = "Phone must be mandatory")
+    @Pattern(regexp = "^(?:\\+)?[0-9]*$", message = "Wrong type of phone number")
     private String phoneNumber;
 
     @Column(nullable = false, columnDefinition = "text")

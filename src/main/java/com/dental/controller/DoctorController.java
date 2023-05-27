@@ -8,6 +8,7 @@ import com.dental.util.Const;
 import com.dental.util.UploadFile;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +31,9 @@ public class DoctorController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping()
     public String getAll(
@@ -133,7 +137,7 @@ public class DoctorController {
         String fileName = UploadFile.getFileName(multipartFile);
         doctor.setAvatar(fileName);
 
-        user.setPassword("123456789");
+        user.setPassword(passwordEncoder.encode("doctor123456789"));
         user.setRole("Doctor");
 
         try {
