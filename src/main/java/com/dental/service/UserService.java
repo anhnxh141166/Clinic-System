@@ -1,6 +1,7 @@
 package com.dental.service;
 
 import com.dental.entity.Blog;
+import com.dental.entity.Doctor;
 import com.dental.entity.User;
 import com.dental.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +29,29 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public void save(User user) {
+        userRepository.save(user);
+    }
+
+    public void updateUser(String fullName, boolean status, int id) {
+        userRepository.setUserInfoById(fullName, status, id);
+    }
+
+    public User getByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
     public void addUser(User user) {
-        System.out.println(user);
         userRepository.save(user);
     }
 
     public User get(int id) {
         return userRepository.findById(id).get();
+    }
+
+
+    public void delete(int id) {
+        userRepository.deleteById(id);
     }
 
     public User update(User user, String newPassword){

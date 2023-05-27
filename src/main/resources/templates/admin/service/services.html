@@ -26,107 +26,125 @@
             <div class="layout-specing">
                 <div class="d-md-flex justify-content-between">
                     <div>
-                        <h5 class="mb-0">Doctors</h5>
+                        <h5 class="mb-0">Services</h5>
 
                         <nav aria-label="breadcrumb" class="d-inline-block mt-1">
                             <ul class="breadcrumb breadcrumb-muted bg-transparent rounded mb-0 p-0">
                                 <li class="breadcrumb-item"><a href="../index.html">Doctris</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Doctors</li>
+                                <li class="breadcrumb-item active" aria-current="page">Services</li>
                             </ul>
                         </nav>
                     </div>
 
                     <div class="mt-4 mt-sm-0">
-                        <a href="/admin/doctor/doctor-add" class="btn btn-primary">Add
-                            Doctor</a>
+                        <a href="/admin/service/service-add" class="btn btn-primary">Add
+                            Service</a>
                     </div>
                 </div>
 
-                <form role="search" method="get" id="searchform" class="searchform" th:action="@{/admin/doctor}">
+                <form role="search" method="get" id="searchform" class="searchform" th:action="@{/admin/service}">
                     <div class="row mt-3">
                         <div class="col-4 search-bar p-0 d-none d-lg-block ms-2">
                             <div id="search" class="menu-search mb-0 searchform">
                                 <div class="searchform">
-                                    <input type="text" class="form-control border rounded-pill" th:name="fullName" th:value="${fullName}" id="s" placeholder="Search Keywords...">
+                                    <input type="text" class="form-control border rounded-pill" th:name="titleSearch"
+                                           th:value="${titleSearch}" id="s" placeholder="Search Keywords...">
                                     <input type="submit" id="searchsubmit" value="Search">
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-2">
-                            <select class="col-3 form-select form-control" th:name="statusSearch" onchange="this.form.submit()">
+                            <select class="col-3 form-select form-control" th:name="statusSearch"
+                                    onchange="this.form.submit()">
                                 <option selected th:value>Choose status</option>
-                                <option th:selected="${statusSearch == '1'}" th:value="1" >Active</option>
+                                <option th:selected="${statusSearch == '1'}" th:value="1">Active</option>
                                 <option th:selected="${statusSearch == '0'}" th:value="0">Inactive</option>
-                            </select>
-                        </div>
-
-                        <div class="col-2">
-                            <select class="col-3 form-select form-control" th:name="gender" onchange="this.form.submit()">
-                                <option selected th:value>Choose Gender</option>
-                                <option th:selected="${gender == 'Male'}" th:value="Male" >Male</option>
-                                <option th:selected="${gender == 'Female'}" th:value="Female">Female</option>
                             </select>
                         </div>
                     </div>
                 </form>
 
-                <div th:switch="${doctors}">
-                    <h2 th:case="null" class="text-center mt-3">No doctors yet!</h2>
-                    <div th:case="*">
-                        <div class="row">
-                            <div class="col-12 mt-4">
-                                <div class="table-responsive shadow rounded">
-                                    <table class="table table-center bg-white mb-0">
-                                        <thead>
-                                        <tr>
-                                            <th class="border-bottom p-3" style="min-width: 50px;">Id</th>
-                                            <th class="border-bottom p-3" style="min-width: 180px;">Name</th>
-                                            <th class="border-bottom p-3">Date of birth</th>
-                                            <th class="border-bottom p-3">Gender</th>
-                                            <th class="border-bottom p-3">Mobile No.</th>
-                                            <th class="border-bottom p-3">Status</th>
-                                            <th class="border-bottom p-3" style="min-width: 100px;"></th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr th:each="doctor : ${usesPage}">
-                                            <th class="p-3" th:text="${doctor.doctorId}"></th>
-                                            <td class="py-3">
-                                                <a th:href="@{/admin/doctor/{doctorId}(doctorId=${doctor.doctorId})}" class="text-dark">
-                                                    <div class="d-flex align-items-center">
-                                                        <img th:src="@{'~/assets/uploads/'+${doctor.avatar}}"
-                                                             class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                                        <span class="ms-2" th:text="${doctor.user.fullName}"></span>
+                <h2 th:if="${#lists.isEmpty(services)}" class="text-center mt-3">No services yet!</h2>
+                <div th:unless="${#lists.isEmpty(services)}">
+                    <div class="row">
+                        <div class="col-12 mt-4">
+                            <div class="table-responsive shadow rounded">
+                                <table class="table table-center bg-white mb-0">
+                                    <thead>
+                                    <tr>
+                                        <th class="border-bottom p-3" style="min-width: 50px;">Id</th>
+                                        <th class="border-bottom p-3" style="min-width: 180px;">Name</th>
+                                        <th class="border-bottom p-3">Price</th>
+                                        <th class="border-bottom p-3">Rated star</th>
+                                        <th class="border-bottom p-3">Num of feedback</th>
+                                        <th class="border-bottom p-3">Description</th>
+                                        <th class="border-bottom p-3">Status</th>
+                                        <th class="border-bottom p-3" style="min-width: 100px;"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="service : ${usesPage}">
+                                        <th class="p-3" th:text="${service.serviceId}"></th>
+                                        <td class="py-3">
+                                            <a th:href="@{/admin/service/{serviceId}(serviceId=${service.serviceId})}"
+                                               class="text-dark">
+                                                <div class="d-flex align-items-center">
+                                                    <img th:src="@{'~/assets/uploads/'+${service.thumbnail}}"
+                                                         class="avatar avatar-md-sm rounded-circle shadow" alt="">
+                                                    <span class="ms-2" th:text="${service.title}"></span>
+                                                </div>
+                                            </a>
+                                        </td>
+                                        <td class="p-3" th:text="${service.price} + ' ' + đ"></td>
+                                        <td class="p-3" th:each="review : ${reviews}"
+                                            th:if="${review[0].serviceId == service.serviceId}">
+                                            <p class="m-0" th:if="${review[1]}">
+                                                <div>
+                                                    <svg style="display:none;">
+                                                        <defs>
+                                                            <symbol id="fivestarss">
+                                                                <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z M0 0 h24 v24 h-24 v-24" fill="white" fill-rule="evenodd"/>
+                                                                <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z M0 0 h24 v24 h-24 v-24" fill="white" fill-rule="evenodd" transform="translate(24)"/>
+                                                                <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z M0 0 h24 v24 h-24 v-24" fill="white" fill-rule="evenodd" transform="translate(48)"/>
+                                                                <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z M0 0 h24 v24 h-24 v-24" fill="white" fill-rule="evenodd" transform="translate(72)"/>
+                                                                <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z M0 0 h24 v24 h-24 v-24" fill="white" fill-rule="evenodd"  transform="translate(96)"/>
+                                                            </symbol>
+                                                        </defs>
+                                                    </svg>
+                                                    <div class="rating">
+                                                        <progress class="rating-bg" th:value="${review[1]}" max="5"></progress>
+                                                        <svg><use xlink:href="#fivestarss"/></svg>
                                                     </div>
-                                                </a>
-                                            </td>
-                                            <td class="p-3" th:text="${doctor.dateOfBirth}"></td>
-                                            <td class="p-3" th:text="${doctor.gender}"></td>
-                                            <td class="p-3" th:text="${doctor.phoneNumber}"></td>
-                                            <td class="p-3" th:switch=${doctor.user.status}>
-                                                <span th:case="${true}" class="badge bg-soft-success">Active</span>
-                                                <span th:case="${false}" class="badge bg-soft-warning">Inactive</span>
-                                            </td>
-                                            <td class="text-end p-3">
-                                                <a th:href="@{/admin/doctor/{doctorId}(doctorId=${doctor.doctorId})}" class="btn btn-icon btn-pills btn-soft-primary"><i
-                                                        class="uil uil-eye"></i></a>
-                                                <a th:href="@{/admin/doctor/edit/{doctorId}(doctorId=${doctor.doctorId})}" class="btn btn-icon btn-pills btn-soft-success"><i
-                                                        class="uil uil-pen"></i></a>
-                                                <a th:href="@{/admin/doctor/delete/{doctorId}(doctorId=${doctor.doctorId})}" class="btn btn-icon btn-delete btn-pills btn-soft-danger"><i
-                                                        class="uil uil-trash"></i></a>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                                </div>
+                                            </p>
+                                        </td>
+                                        <td class="p-3" th:text="${service.rateStar.size()} + ' feedbacks'"></td>
+                                        <td class="p-3" th:text="${service.description}"></td>
+                                        <td class="p-3" th:switch=${service.status}>
+                                            <span th:case="${true}" class="badge bg-soft-success">Active</span>
+                                            <span th:case="${false}" class="badge bg-soft-warning">Inactive</span>
+                                        </td>
+                                        <td class="text-end p-3">
+                                            <a th:href="@{/admin/service/{serviceId}(serviceId=${service.serviceId})}"
+                                               class="btn btn-icon btn-pills btn-soft-primary"><i
+                                                    class="uil uil-eye"></i></a>
+                                            <a th:href="@{/admin/service/edit/{serviceId}(serviceId=${service.serviceId})}"
+                                               class="btn btn-icon btn-pills btn-soft-success"><i
+                                                    class="uil uil-pen"></i></a>
+                                            <a th:href="@{/admin/service/delete/{serviceId}(serviceId=${service.serviceId})}"
+                                               class="btn btn-icon btn-delete btn-pills btn-soft-danger"><i
+                                                    class="uil uil-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                        </div><!--end row-->
-                    </div>
+                        </div>
+                    </div><!--end row-->
                 </div>
 
-
-                <div class="row">
+                <div class="row" th:unless="${#lists.isEmpty(services)}">
                     <div class="col-12 mt-4">
                         <div class=" d-flex justify-content-end my-2">
                             <nav aria-label="Page navigation example">
@@ -134,27 +152,27 @@
                                     <li class="paginate_button page-item"><a
                                             class="page-link"
                                             th:classappend="${usesPage.number == 0 ? 'disabled' : ''}"
-                                            th:href="@{'/admin/doctor'(fullName=${fullName},statusSearch=${statusSearch},gender=${gender},page=${1})}">First</a>
+                                            th:href="@{'/admin/service'(titleSearch=${titleSearch},statusSearch=${statusSearch},page=${1})}">First</a>
                                     </li>
                                     <li class="paginate_button page-item"
                                         th:classappend="${usesPage.hasPrevious() ? '' : 'disabled'}"><a
                                             class="page-link"
-                                            th:href="@{'/admin/doctor'(fullName=${fullName},statusSearch=${statusSearch},gender=${gender},page=${usesPage.number})}"
+                                            th:href="@{'/admin/service'(titleSearch=${titleSearch},statusSearch=${statusSearch},page=${usesPage.number})}"
                                             th:if="${usesPage.hasPrevious()}">Prev</a>
                                     </li>
                                     <li class="paginate_button page-item"><a
                                             class="page-link"
-                                            th:href="@{'/admin/doctor'(fullName=${fullName},statusSearch=${statusSearch},gender=${gender},page=${usesPage.number})}"
+                                            th:href="@{'/admin/service'(titleSearch=${titleSearch},statusSearch=${statusSearch},page=${usesPage.number})}"
                                             th:if="${usesPage.hasPrevious()}" th:text="${usesPage.number}"></a>
                                     </li>
                                     <li class="paginate_button page-item active"><a
                                             class="page-link"
-                                            th:href="@{'/admin/doctor'(fullName=${fullName},statusSearch=${statusSearch},gender=${gender},page=${usesPage.number + 1})}"
+                                            th:href="@{'/admin/service'(titleSearch=${titleSearch},statusSearch=${statusSearch},page=${usesPage.number + 1})}"
                                             th:text="${usesPage.number + 1}"></a>
                                     </li>
                                     <li class="paginate_button page-item"><a
                                             class="page-link"
-                                            th:href="@{'/admin/doctor'(fullName=${fullName},statusSearch=${statusSearch},gender=${gender},page=${usesPage.number + 2})}"
+                                            th:href="@{'/admin/service'(titleSearch=${titleSearch},statusSearch=${statusSearch},page=${usesPage.number + 2})}"
                                             th:if="${usesPage.hasNext()}" th:text="${usesPage.number + 2}"></a>
                                     </li>
 
@@ -162,13 +180,13 @@
                                         th:classappend="${usesPage.hasNext()} ? '':'disabled'"><a
 
                                             class="page-link"
-                                            th:href="@{'/admin/doctor'(fullName=${fullName},statusSearch=${statusSearch},gender=${gender},page=${usesPage.number + 2})}"
+                                            th:href="@{'/admin/service'(titleSearch=${titleSearch},statusSearch=${statusSearch},page=${usesPage.number + 2})}"
                                             th:if="${usesPage.hasNext()}">Next</a>
                                     </li>
                                     <li class="paginate_button page-item"><a
                                             class="page-link"
                                             th:classappend="${usesPage.number + 1 == numberOfPage ? 'disabled' : ''}"
-                                            th:href="@{'/admin/doctor'(fullName=${fullName},statusSearch=${statusSearch},gender=${gender},page=${numberOfPage})}">Last</a>
+                                            th:href="@{'/admin/service'(titleSearch=${titleSearch},statusSearch=${statusSearch},page=${numberOfPage})}">Last</a>
                                     </li>
                                 </ul>
                             </nav>
@@ -213,7 +231,7 @@
             <div class="modal-body p-3 pt-4">
                 <div class="row align-items-center">
                     <div class="col-lg-2 col-md-4">
-                        <img th:src="@{~/assets/images/doctors/01.jpg}"
+                        <img th:src="@{~/assets/images/services/01.jpg}"
                              class="avatar avatar-md-md rounded-pill shadow mx-auto d-block" alt="">
                     </div><!--end col-->
 
@@ -329,7 +347,7 @@
                             </li>
 
                             <li class="d-flex">
-                                <h6 class="mb-0">Doctor:</h6>
+                                <h6 class="mb-0">Service:</h6>
                                 <p class="text-muted ms-2 mb-0">Dr. Calvin Carlo</p>
                             </li>
                         </ul>
@@ -347,10 +365,10 @@
 <script>
     $('.btn-delete').on('click', function (e) {
         e.preventDefault();
-        const doctorId = $(this).attr("data-id");
+        const serviceId = $(this).attr("data-id");
         SwalDelete(this.href, {
-            doctorId
-        }, "/admin/doctor");
+            serviceId
+        }, "/admin/service");
     });
 </script>
 
