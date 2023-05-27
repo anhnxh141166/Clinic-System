@@ -38,14 +38,18 @@
                 <div class="row">
                     <div class="col-lg-8 mt-4">
                         <div class="card border-0 p-4 rounded shadow">
-                            <form method="POST" th:action="@{/admin/doctor/save}" th:object="${doctor}"
+                            <form method="POST" id="form-submit" th:action="@{/admin/doctor/update}" th:object="${doctor}"
                                   enctype="multipart/form-data">
                                 <div class="row align-items-center justify-content-between">
                                     <div class="col-lg-2 col-md-4">
-                                        <div class="preview-box avatar avatar-md-md rounded-pill shadow mx-auto d-block"></div>
+                                        <div class="preview-box avatar avatar-md-md rounded-pill shadow mx-auto d-block">
+                                            <img th:if="${doctor.avatar}" th:src="@{'~/assets/uploads/'+${doctor.avatar}}" style="border-radius: 50%; height: 100%;"
+                                                 class="preview-content w-100" src=${reader.result} />
+                                        </div>
                                     </div><!--end col-->
 
                                     <div class="col-4">
+                                        <p id="avatar" class="d-none" th:name="avatar" th:text="${doctor.avatar}"></p>
                                         <input type="file" id="image" name="image"
                                                accept="image/*"
                                                onchange={handleChange()} hidden/>
@@ -54,44 +58,35 @@
                                         <span class="mt-2 text-danger d-block" th:if="${image}"
                                               th:text="${image}"></span>
                                     </div>
+                                    <input th:name="doctorId" id="doctorId" th:field="*{doctorId}"
+                                           type="text"
+                                           class="form-control" hidden>
                                 </div><!--end row-->
 
 
-                                    <div class="row" th:object="${user}">
-                                        <div class="col-md-12">
-                                            <div class="mb-3">
-                                                <label class="form-label">Full Name</label>
-                                                <input th:name="fullName" th:field="*{fullName}" th:value="${fullName}"
-                                                       id="fullName" type="text" class="form-control"
-                                                       placeholder="Full Name :">
-                                                <span class="mt-2 text-danger" th:if="${#fields.hasErrors('fullName')}"
-                                                      th:errors="*{fullName}"></span>
-                                            </div>
-                                        </div><!--end col-->
+                                <div class="row mt-3" th:object="${user}">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Full Name</label>
+                                            <input th:name="fullName" th:field="*{fullName}" th:value="${fullName}"
+                                                   id="fullName" type="text" class="form-control"
+                                                   placeholder="Full Name :">
+                                            <span class="mt-2 text-danger" th:if="${#fields.hasErrors('fullName')}"
+                                                  th:errors="*{fullName}"></span>
+                                        </div>
+                                    </div><!--end col-->
 
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label class="form-label">Your Email</label>
-                                                <input name="email" th:field="*{email}" th:value="${email}"
-                                                       id="email" type="email" class="form-control"
-                                                       placeholder="Your email :">
-                                                <span class="mt-2 text-danger" th:if="${#fields.hasErrors('email')}"
-                                                      th:errors="*{email}"></span>
-                                                <span class="mt-2 text-danger" th:if="${email}" th:text="${email}"></span>
-                                            </div>
-                                        </div><!--end col-->
-
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label class="form-label d-block">Status</label>
-                                                <input type="radio" th:name="status" th:value="1" checked/> Active
-                                                <input style="margin-left: 20px;" type="radio" th:name="status"
-                                                       th:value="0"/> Inactive
-                                                <span class="mt-2 text-danger" th:if="${#fields.hasErrors('status')}"
-                                                      th:errors="*{status}"></span>
-                                            </div>
-                                        </div><!--end col-->
-                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label d-block">Status</label>
+                                            <input type="radio" th:name="status" th:value="1" checked/> Active
+                                            <input style="margin-left: 20px;" type="radio" th:name="status"
+                                                   th:value="0"/> Inactive
+                                            <span class="mt-2 text-danger" th:if="${#fields.hasErrors('status')}"
+                                                  th:errors="*{status}"></span>
+                                        </div>
+                                    </div><!--end col-->
+                                </div>
 
                                 <div class="row mt-4">
                                     <div class="col-md-6">
@@ -151,7 +146,7 @@
                                     </div>
                                 </div><!--end row-->
 
-                                <button type="submit" class="btn btn-primary">Add Doctor</button>
+                                <button type="submit" class="btn btn-primary btn-update">Update Doctor</button>
                             </form>
                         </div>
                     </div><!--end col-->
@@ -214,6 +209,20 @@
 <script src="../../assets/js/select2.init.js"></script>
 
 <script>
+    $('.btn-update').on('click', function (e) {
+        // e.preventDefault()
+        const avatar = $('#avatar');
+        const image = $('#image');
+
+        if (image.val() == "") {
+            image.prop('disabled', true);
+            const form = $('#form-submit');
+            const avatarValue = avatar.html();
+            const avatarField = $(`<input type=\"text\" name="avatar" value=\"${avatarValue}\" hidden />`);
+            form.append(avatarField)
+        }
+    });
+
     const handleChange = () => {
         const fileUploader = document.querySelector('#image');
         const getFile = fileUploader.files

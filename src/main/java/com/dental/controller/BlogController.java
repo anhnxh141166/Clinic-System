@@ -1,8 +1,8 @@
 package com.dental.controller;
 
-import com.dental.entity.Blog;
-import com.dental.entity.User;
+import com.dental.entity.*;
 import com.dental.service.BlogService;
+import com.dental.service.CommentService;
 import com.dental.service.UserService;
 import com.dental.util.Const;
 import com.dental.util.UploadFile;
@@ -27,6 +27,9 @@ public class BlogController {
 
     @Autowired
     BlogService blogService;
+
+    @Autowired
+    CommentService commentService;
 
     @Autowired
     UserService userService;
@@ -76,8 +79,19 @@ public class BlogController {
     }
 
     @GetMapping("{blogId}")
-    public String getOne(@PathVariable("blogId") int blogId, Model model) {
+    public String getOne(
+            @PathVariable("blogId") int blogId,
+            Model model,
+            @RequestParam(name = "page", required = false, defaultValue = Const.PAGE_DEFAULT_STR) Integer pageNum,
+            @RequestParam(name = "pageSize", required = false, defaultValue = Const.PAGE_SIZE_DEFAULT_STR) Integer pageSize
+    ) {
+        if (pageNum < 1) {
+            pageNum = 1;
+        }
+
+        Pageable pageable = PageRequest.of(pageNum - 1, pageSize);
         Blog blog = blogService.get(blogId);
+        Page<CommentBlog> commentsByBlogId = commentService.getAllByBlogId(blogId, pageable);
         User user = userService.get(blog.getUser().getUserId());
 
         List<Blog> reverseBlogs = blogService.getAll();
@@ -85,6 +99,8 @@ public class BlogController {
         model.addAttribute("blog", blog);
         model.addAttribute("user", user);
         model.addAttribute("reverseBlogs", reverseBlogs);
+        model.addAttribute("comments", commentsByBlogId);
+        model.addAttribute("numberOfPage", commentsByBlogId.getTotalPages());
 
         return "admin/blog/blog-detail";
     }

@@ -4,11 +4,15 @@ import jakarta.persistence.*;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Data
@@ -19,9 +23,11 @@ public class RateStar {
     private Integer rateStarId;
 
     @Column(nullable = false)
-    private Float star;
+    @NotNull(message = "Star must be mandatory")
+    private float star;
 
     @Column(nullable = false, columnDefinition = "nvarchar(254)")
+    @Size(min = 1, message = "Feedback must be mandatory")
     private String feedback;
 
     @Column(name = "created_at", nullable = false)
@@ -35,4 +41,34 @@ public class RateStar {
     @ManyToOne
     @JoinColumn(name = "service_id", nullable = false)
     private Service service;
+
+    public String getCreatedAt() {
+        String pattern = "MMMM dd yyyy";
+        Date date = null;
+        String d = null;
+        try {
+            date = new SimpleDateFormat("yyyy-MM-dd").parse(createdAt.toString());
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        d = simpleDateFormat.format(date);
+        return d;
+    }
+
+    public LocalDateTime getCreatedAt(String s) {
+        return createdAt;
+    }
+
+    @Override
+    public String toString() {
+        return "RateStar{" +
+                "rateStarId=" + rateStarId +
+                ", star=" + star +
+                ", feedback='" + feedback + '\'' +
+                ", createdAt=" + createdAt +
+                ", user=" + user.getUserId() +
+                ", service=" + service.getServiceId() +
+                '}';
+    }
 }

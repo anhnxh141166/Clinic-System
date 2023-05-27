@@ -47,16 +47,18 @@
                         <div class="col-4 search-bar p-0 d-none d-lg-block ms-2">
                             <div id="search" class="menu-search mb-0 searchform">
                                 <div class="searchform">
-                                    <input type="text" class="form-control border rounded-pill" th:name="titleSearch" th:value="${titleSearch}" id="s" placeholder="Search Keywords...">
+                                    <input type="text" class="form-control border rounded-pill" th:name="titleSearch"
+                                           th:value="${titleSearch}" id="s" placeholder="Search Keywords...">
                                     <input type="submit" id="searchsubmit" value="Search">
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-3">
-                            <select class="col-3 form-select form-control" th:name="statusSearch" onchange="this.form.submit()">
+                            <select class="col-3 form-select form-control" th:name="statusSearch"
+                                    onchange="this.form.submit()">
                                 <option selected th:value>Choose status</option>
-                                <option th:selected="${statusSearch == '1'}" th:value="1" >Active</option>
+                                <option th:selected="${statusSearch == '1'}" th:value="1">Active</option>
                                 <option th:selected="${statusSearch == '0'}" th:value="0">Inactive</option>
                             </select>
                         </div>
@@ -68,12 +70,23 @@
                     <div th:case="*">
                         <div class="row">
                             <div class="col-xl-3 col-lg-4 col-md-6 col-12 mt-4" th:each="blog : ${usesPage}">
-                                <div class="card blog blog-primary border-0 shadow rounded overflow-hidden">
-                                    <img th:src="@{'~/assets/uploads/'+${blog.thumbnail}}" class="img-fluid" alt="">
+                                <div class="card blog blog-primary border-0 shadow overflow-hidden">
+                                    <div class="dropdown dropdown-primary" style="position: absolute; right: 5px; top: 5px;">
+                                        <button type="button" class="btn dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="mdi mdi-dots-vertical" style="font-size: 24px;"></i>
+                                        </button>
+                                        <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-0 py-3" style="min-width: 200px;">
+                                            <a class="dropdown-item text-dark" th:href="@{/admin/blog/edit/{blogId}(blogId=${blog.blogId})}"><span class="mb-0 d-inline-block me-1"><i class="mdi mdi-notebook-edit-outline align-middle h6"></i></span> Edit</a>
+                                            <a class="dropdown-item text-dark btn-delete" th:href="@{/admin/blog/delete/{blogId}(blogId=${blog.blogId})}"><span class="mb-0 d-inline-block me-1"><i class="mdi mdi-trash-can-outline align-middle h6"></i></span> Delete</a>
+                                        </div>
+                                    </div>
+
+                                    <a th:href="@{/admin/blog/{blogId}(blogId=${blog.blogId})}"><img th:src="@{'~/assets/uploads/'+${blog.thumbnail}}" class="img-fluid" alt=""></a>
                                     <div class="card-body p-4">
                                         <ul class="list-unstyled mb-2">
                                             <i class="mdi mdi-account"></i>
-                                            <li class="list-inline-item user text-muted me-2" th:text="${blog.user.fullName}"></li>
+                                            <li class="list-inline-item user text-muted me-2"
+                                                th:text="${blog.user.fullName}"></li>
                                             <br>
                                             <i class="uil uil-calendar-alt text-dark h6 me-1"></i>
                                             <li class="list-inline-item text-muted small me-3"
@@ -87,9 +100,16 @@
                                         <div class="post-meta d-flex justify-content-between mt-3">
                                             <ul class="list-unstyled mb-0">
                                                 <li class="list-inline-item">
-                                                    | Status: <li class="list-inline-item date text-muted" th:text="${blog.status} ? 'Active' : 'Inactive'"></li> |
-                                                    <i class="mdi mdi-comment-outline me-1" ></i>
-                                                    <a href="#" class="text-muted comments" th:text="${blog.commentBlog.size()}"></a>
+                                                    <span class="text-muted" style="margin-right: 5px;">Status: </span>
+                                                <li class="list-inline-item date text-muted" th:switch=${blog.status}>
+                                                    <span th:case="${true}" class="badge bg-soft-success">Active</span>
+                                                    <span th:case="${false}"
+                                                          class="badge bg-soft-warning">Inactive</span>
+                                                </li>
+                                                |
+                                                <i class="mdi mdi-comment-outline me-1"></i>
+                                                <a href="#" class="text-muted comments"
+                                                   th:text="${blog.commentBlog.size()}"></a>
                                                 </li>
                                             </ul>
                                             <a th:href="@{/admin/blog/{blogId}(blogId=${blog.blogId})}" class="link">Read
@@ -103,7 +123,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row" th:unless="${#lists.isEmpty(blogs)}">
                     <div class="col-12 mt-4">
                         <div class=" d-flex justify-content-end my-2">
                             <nav aria-label="Page navigation example">
@@ -178,6 +198,16 @@
 <!-- page-wrapper -->
 
 <script th:replace="~{layout/script :: script}"></script>
+
+<script>
+    $('.btn-delete').on('click', function (e) {
+        e.preventDefault();
+        const blogId = $(this).attr("data-id");
+        SwalDelete(this.href, {
+            blogId
+        }, "/admin/blog");
+    });
+</script>
 </body>
 
 </html>

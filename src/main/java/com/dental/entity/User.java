@@ -1,6 +1,9 @@
 package com.dental.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -17,18 +20,22 @@ public class User {
     private Integer userId;
 
     @Column(length = 254, nullable = false, unique = true)
+    @Size(min = 1, message = "Email must be mandatory")
+    @Email(message = "This field must be an email")
     private String email;
 
     @Column(length = 254, nullable = false)
     private String password;
 
     @Column(columnDefinition = "nvarchar(50)" , nullable = false)
+    @Size(min = 1, message = "Full name must be mandatory")
     private String fullName;
 
     @Column(length = 1, nullable = false, columnDefinition = "bit default 1")
     private boolean status;
 
     @Column(length = 20, nullable = false, columnDefinition = "nvarchar(20) default 'Patient'")
+    @Pattern(regexp = "Admin|Patient|Doctor|Staff", message = "Role undefined")
     private String role;
 
     @Column(name = "created_at", nullable = false)
@@ -112,5 +119,20 @@ public class User {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", status=" + status +
+                ", role='" + role + '\'' +
+                ", createdAt=" + createdAt +
+                ", captcha='" + captcha + '\'' +
+                ", captchaExpire=" + captchaExpire +
+                '}';
     }
 }
