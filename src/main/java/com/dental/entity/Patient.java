@@ -1,6 +1,7 @@
 package com.dental.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 import java.sql.Date;
@@ -14,22 +15,23 @@ public class Patient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer patientId;
 
-    @Column(nullable = false, columnDefinition = "nvarchar(100)")
+    @Column(nullable = true, columnDefinition = "nvarchar(100)")
     private String address;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Date dateOfBirth;
 
-    @Column(nullable = false, columnDefinition = "nvarchar(8)")
+    @Column(nullable = true, columnDefinition = "nvarchar(8)")
     private String gender;
 
     @Column(nullable = false, length = 12)
+    @Pattern(regexp = "^(?:\\+)?[0-9]*$", message = "Wrong type of phone number")
     private String phoneNumber;
 
-    @Column(nullable = false, columnDefinition = "text")
+    @Column(nullable = true, columnDefinition = "text")
     private String avatar;
 
-    @Column(nullable = false, columnDefinition = "varchar(5)")
+    @Column(nullable = true, columnDefinition = "varchar(5)")
     private String bloodGroup;
 
     @OneToMany(mappedBy = "patient")
