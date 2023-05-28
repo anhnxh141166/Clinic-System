@@ -24,7 +24,7 @@ public class Patient {
     @Column(nullable = true, columnDefinition = "nvarchar(8)")
     private String gender;
 
-    @Column(nullable = false, length = 12)
+    @Column(nullable = true, length = 12)
     @Pattern(regexp = "^(?:\\+)?[0-9]*$", message = "Wrong type of phone number")
     private String phoneNumber;
 
