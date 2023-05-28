@@ -8,11 +8,14 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
@@ -47,14 +50,6 @@ public class UserController {
     }
 
 
-//    @GetMapping("/list")
-//    public String viewListPlan(Authentication authentication, Model model){
-//        String username= authentication.getName();
-//        Users users=userService.getUserByUsername(username);
-//        model.addAttribute("users", users);
-//        model.addAttribute("listPlans", planService.getAllPlan());
-//        return "admin/listPlans";
-//    }
 
     @GetMapping("/error")
     public String viewTest(Model model) {
@@ -81,5 +76,33 @@ public class UserController {
         userService.addUser(user);
     }
 
+    @GetMapping("/register")
+    public String showRegister(Model model) {
+        User user = new User();
+        model.addAttribute("user", user);
+        return "landing/auth/signup";
+    }
+
+    @PostMapping("/register/save")
+    public String registration(@ModelAttribute("user") User user,
+                               BindingResult result,
+                               Model model) {
+        System.out.println(user);
+        if(user==null){
+            return "landing/auth/signup";
+        }else {
+            userService.registerUser(user);
+        }
+        return "redirect:/login";
+    }
+
+    @RequestMapping(value = "/checkEmailExists", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> checkEmailExists(@RequestParam String email) {
+        Map<String, Object> response = new HashMap<>();
+        boolean exists = userService.checkEmail(email);
+        response.put("exists", exists);
+        return response;
+    }
 
 }
