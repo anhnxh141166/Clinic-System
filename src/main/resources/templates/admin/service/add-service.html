@@ -75,8 +75,8 @@
                                             <input th:name="price" th:field="*{price}"
                                                    th:value="${price}"
                                                    id="price" type="number" class="form-control">
-                                            <span class="mt-2 text-danger" th:if="${price}"
-                                                  th:text="${price}"></span>
+                                            <span class="mt-2 text-danger" th:if="${#fields.hasErrors('price')}"
+                                                  th:errors="*{price}"></span>
                                         </div>
                                     </div><!--end col-->
 

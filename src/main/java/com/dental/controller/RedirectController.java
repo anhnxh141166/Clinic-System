@@ -21,7 +21,7 @@ public class RedirectController {
             if (userEnity.getRole().equals("Admin")){
                 return "redirect:/admin/blog";
             } else {
-                return "redirect:/user/homeLanding";
+                return "redirect:/";
             }
         }
         return "landing/auth/login"; // Redirect to login page if role not found

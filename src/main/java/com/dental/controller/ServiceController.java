@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-@RequestMapping("admin/service")
+@RequestMapping()
 public class ServiceController {
 
     @Autowired
@@ -35,7 +35,7 @@ public class ServiceController {
     @Autowired
     UserService userService;
 
-    @GetMapping()
+    @GetMapping("admin/service")
     public String getAll(
             Model model,
             @RequestParam(name = "page", required = false, defaultValue = Const.PAGE_DEFAULT_STR) Integer pageNum,
@@ -82,7 +82,7 @@ public class ServiceController {
         return "admin/service/services";
     }
 
-    @GetMapping("{serviceId}")
+    @GetMapping("admin/service/{serviceId}")
     public String getOne(
             @PathVariable("serviceId") int serviceId,
             Model model,
@@ -113,7 +113,7 @@ public class ServiceController {
         return "admin/service/service-detail";
     }
 
-    @GetMapping("service-add")
+    @GetMapping("admin/service/service-add")
     public String addServiceForm(Model model) {
         List<Service> services = serviceService.getAll();
         model.addAttribute("service", new Service());
@@ -122,7 +122,7 @@ public class ServiceController {
         return "admin/service/add-service";
     }
 
-    @PostMapping("/save")
+    @PostMapping("admin/service/save")
     public String createService(
             @Valid Service service, BindingResult result,
             @RequestParam("image") MultipartFile multipartFile, Model model
@@ -155,7 +155,7 @@ public class ServiceController {
         }
     }
 
-    @GetMapping("/edit/{serviceId}")
+    @GetMapping("admin/service/edit/{serviceId}")
     public String editService(@PathVariable("serviceId") int serviceId, Model model) {
         List<Service> services = serviceService.getAll();
         Service service = serviceService.get(serviceId);
@@ -164,7 +164,7 @@ public class ServiceController {
         return "admin/service/update-service";
     }
 
-    @PostMapping("/update")
+    @PostMapping("admin/service/update")
     public String updateService(
             @Valid Service service, BindingResult result,
             Model model, @RequestParam(value = "image", required = false) MultipartFile multipartFile
@@ -200,7 +200,7 @@ public class ServiceController {
         }
     }
 
-    @PostMapping("/delete/{serviceId}")
+    @PostMapping("admin/service/delete/{serviceId}")
     public String deleteUser(@PathVariable("serviceId") int serviceId, Model model) throws IllegalAccessException {
         try {
             serviceService.delete(serviceId);
