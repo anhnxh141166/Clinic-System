@@ -32,7 +32,7 @@
                     <div class="card-body">
                         <h4 class="text-center">Sign Up</h4>
 
-                        <form id="signupForm" th:action="@{/user/register/save}"  method="post" th:object="${user}" class="login-form mt-4">
+                        <form id="signupForm" th:action="@{/register/save}"  method="post" th:object="${user}" class="login-form mt-4">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="mb-3">
@@ -171,7 +171,7 @@
         $('#email').blur(function () {
             var email = $(this).val();
             $.ajax({
-                url: '/user/checkEmailExists',
+                url: '/checkEmailExists',
                 type: 'GET',
                 data: {email: email.toLowerCase()},
                 success: function (response) {

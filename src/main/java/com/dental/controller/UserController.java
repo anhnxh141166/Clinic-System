@@ -18,13 +18,13 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping()
 public class UserController {
 
     @Autowired
     UserService userService;
 
-    @GetMapping("/homeLanding")
+    @GetMapping("/")
     public String viewHomeLandingPage(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
         User userEnity = null;
         if (userDetails != null){
@@ -33,44 +33,23 @@ public class UserController {
 
         model.addAttribute("user", userEnity);
         return "landing/index";
-//        return "landing/index-two";
-// test link: http://localhost:8888/user/homeLanding
-
     }
 
 
-    @GetMapping("/homeAdmin")
+    @GetMapping("/admin")
     public String viewHomeAdminPage(Model model) {
         User user = new User();
         user.setFullName("Nguyen Van B");
-//        model.addAttribute("listUser",user);
         return "admin/index";
-
-// test link: http://localhost:8888/user/homeAdmin
     }
-
-
 
     @GetMapping("/error")
     public String viewTest(Model model) {
         User user = new User();
         user.setFullName("Nguyen Van B");
-//        model.addAttribute("listUser",user);
         return "landing/error";
-
     }
-// test link: http://localhost:8888/user/homeAdmin
 
-    @GetMapping()
-    public String viewListPlan(Model theModel){
-        // get employees from db
-        List<User> user = userService.getAllUser();
-
-        // add to the spring model
-        theModel.addAttribute("user", user);
-
-        return "/user/list-user";
-    }
     @PostMapping()
     public void registerUser(@ModelAttribute("") User user) {
         userService.addUser(user);

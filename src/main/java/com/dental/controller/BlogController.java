@@ -22,7 +22,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Controller
-@RequestMapping("admin/blog")
+@RequestMapping()
 public class BlogController {
 
     @Autowired
@@ -34,7 +34,8 @@ public class BlogController {
     @Autowired
     UserService userService;
 
-    @GetMapping()
+    // ADMIN PAGE
+    @GetMapping("admin/blog")
     public String getAll(
         Model model,
         @RequestParam(name = "page", required = false, defaultValue = Const.PAGE_DEFAULT_STR) Integer pageNum,
@@ -78,7 +79,7 @@ public class BlogController {
         return "admin/blog/blogs";
     }
 
-    @GetMapping("{blogId}")
+    @GetMapping("admin/blog{blogId}")
     public String getOne(
             @PathVariable("blogId") int blogId,
             Model model,
@@ -105,14 +106,14 @@ public class BlogController {
         return "admin/blog/blog-detail";
     }
 
-    @GetMapping("add")
+    @GetMapping("admin/blog/add")
     public String addBlogForm(Model model) {
         model.addAttribute("blog", new Blog());
 
         return "admin/blog/add-blog";
     }
 
-    @PostMapping("/save")
+    @PostMapping("admin/blog/save")
     public String createBlog(@Valid Blog blog, BindingResult result, @RequestParam("image") MultipartFile multipartFile, Model model) {
         if (multipartFile.isEmpty()) {
             model.addAttribute("image", "Thumbnail must be mandatory");
@@ -140,7 +141,7 @@ public class BlogController {
         }
     }
 
-    @GetMapping("/edit/{blogId}")
+    @GetMapping("admin/blog/edit/{blogId}")
     public String editBlog(@PathVariable("blogId") int blogId, Model model) {
         Blog blog = blogService.get(blogId);
 
@@ -148,7 +149,7 @@ public class BlogController {
         return "admin/blog/update-blog";
     }
 
-    @PostMapping("/update")
+    @PostMapping("admin/blog/update")
     public String updateBlog(@Valid Blog blog, BindingResult result, Model model, @RequestParam(value = "image", required = false) MultipartFile multipartFile) {
         int blogId = blog.getBlogId();
 
@@ -182,7 +183,7 @@ public class BlogController {
         }
     }
 
-    @PostMapping("/delete/{blogId}")
+    @PostMapping("admin/blog/delete/{blogId}")
     public String deleteUser(@PathVariable("blogId") int blogId, Model model) throws IllegalAccessException {
         try {
             blogService.get(blogId);
@@ -191,5 +192,13 @@ public class BlogController {
             throw new IllegalAccessException("Failed to delete!");
         }
         return "redirect:/admin/blog";
+    }
+
+    // USER PAGE
+    @GetMapping("/blog")
+    public String getAll(
+    ) {
+
+        return "landing/blog/blogs";
     }
 }

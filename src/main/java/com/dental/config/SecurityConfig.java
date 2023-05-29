@@ -61,8 +61,8 @@ public class SecurityConfig {
         return http.csrf().disable()
                 .authorizeHttpRequests()
 //                    .requestMatchers("/", "assets/**", "/user/**").permitAll() // Allowing access to home page and static assets without authentication
-                    .requestMatchers("/","/user/register/**", "assets/**", "/user/homeLanding").permitAll() // Allowing access to home page and static assets without authentication
-                    .requestMatchers("/user/checkEmailExists").permitAll() // Allowing access to home page and static assets without authentication
+                    .requestMatchers("/","/register/**", "assets/**").permitAll() // Allowing access to home page and static assets without authentication
+                    .requestMatchers("/checkEmailExists").permitAll() // Allowing access to home page and static assets without authentication
 //                    .requestMatchers("/register/**").permitAll() // Allowing access to home page and static assets without authentication
 //                    .requestMatchers("/user/homeLanding").permitAll() // Allowing access to /user/homeLanding without authentication
                     .requestMatchers("/admin/**", "/admin/blog/blogs").hasAuthority("Admin") // Require ADMIN authority for admin pages
@@ -83,7 +83,7 @@ public class SecurityConfig {
                 .and()
                     .logout()
                     .logoutUrl("/doLogout")
-                    .logoutSuccessUrl("/user/homeLanding")
+                    .logoutSuccessUrl("/")
 //                    .deleteCookies("JSESSIONID")
 //                    .invalidateHttpSession(true)
                     .permitAll()

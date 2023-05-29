@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.io.IOException;
 
 @Controller
-//@RequestMapping("/login")
+@RequestMapping()
 public class LoginController {
 
     @GetMapping("/login")
     public String login(@AuthenticationPrincipal UserDetailsImpl userDetails, HttpServletRequest request, HttpServletResponse response, Model model) throws ServletException, IOException {
         // lỗi many request khi dùng @RequestParam, @RequestVariable
         if (userDetails != null){
-            return "redirect:/user/homeLanding";
+            return "redirect:/";
         }else {
             model.addAttribute("success", request.getParameter("success"));
         }

@@ -26,7 +26,7 @@ public class PatientController {
 
     @GetMapping("/profile")
     public String viewProfile(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model){
-        model.addAttribute("user",userDetails);
+        model.addAttribute("user",userDetails.getUserEntity());
         return "landing/patient/patient-profile";
     }
 
