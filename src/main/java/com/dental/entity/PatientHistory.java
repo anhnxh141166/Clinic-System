@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.sql.Date;
@@ -18,9 +19,11 @@ public class PatientHistory {
     private Integer patientHistoryId;
 
     @Column(nullable = false)
+    @Size(min = 1, message = "Temperature must be mandatory")
     private Float temperature;
 
     @Column(nullable = false)
+    @Size(min = 1, message = "Blood pressure must be mandatory")
     private Float bloodPressure;
 
     @Column(nullable = false, columnDefinition = "nvarchar(254)")

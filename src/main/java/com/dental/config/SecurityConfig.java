@@ -65,7 +65,7 @@ public class SecurityConfig {
                     .requestMatchers("/user/checkEmailExists").permitAll() // Allowing access to home page and static assets without authentication
 //                    .requestMatchers("/register/**").permitAll() // Allowing access to home page and static assets without authentication
 //                    .requestMatchers("/user/homeLanding").permitAll() // Allowing access to /user/homeLanding without authentication
-                    .requestMatchers("/admin/**", "/admin/blog/blogs").hasAuthority("ADMIN") // Require ADMIN authority for admin pages
+                    .requestMatchers("/admin/**", "/admin/blog/blogs").hasAuthority("Admin") // Require ADMIN authority for admin pages
 //                    .anyRequest().authenticated() // Require authentication for other URLs
 //                .requestMatchers("/doLogout").authenticated()
                 .requestMatchers("/*").authenticated()

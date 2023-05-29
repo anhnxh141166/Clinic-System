@@ -50,8 +50,11 @@ public class ServiceController {
         Pageable pageable = PageRequest.of(pageNum - 1, pageSize);
         List<Service> services = serviceService.getAll();
         Page<Service> Service;
-        Page<Object[]> findAllServicesWithAverageStar = serviceService.findAllServicesWithAverageStar(pageable);
-        List<Object[]> servicesWithAVG = findAllServicesWithAverageStar.getContent();
+//        Page<Object[]> findAllServicesWithAverageStar = serviceService.findAllServicesWithAverageStar(pageable);
+//        List<Object[]> findAllServicesWithAverageStar = serviceService.findAllServicesWithAverageStar();
+//        List<Object[]> servicesWithAVG = findAllServicesWithAverageStar.getContent();
+
+        List<Object[]> servicesWithAVG = rateStarService.findAllWithAvg();
 
         boolean status = true;
         if (statusSearch != null && statusSearch.equals("0")) {
@@ -67,7 +70,9 @@ public class ServiceController {
         } else {
             Service = serviceService.findAll(pageable);
         }
-
+//        System.out.println(servicesWithAVG);
+//        System.out.println(servicesWithAVG.get(0));
+//        System.out.println(findAllServicesWithAverageStar);
         model.addAttribute("statusSearch", statusSearch);
         model.addAttribute("usesPage", Service);
         model.addAttribute("numberOfPage", Service.getTotalPages());

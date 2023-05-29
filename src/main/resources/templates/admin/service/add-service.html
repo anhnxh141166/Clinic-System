@@ -127,6 +127,7 @@
                                 <li class="d-md-flex align-items-center text-center text-md-start mt-4"
                                     th:each="service, iterStat : ${services}" th:if="${iterStat.index} &lt; 5">
                                     <img th:src="@{'~/assets/uploads/'+${service.thumbnail}}"
+                                         style="object-fit: cover;"
                                          class="avatar avatar-medium rounded-md shadow" alt="">
 
                                     <div class="ms-md-3 mt-4 mt-sm-0">
