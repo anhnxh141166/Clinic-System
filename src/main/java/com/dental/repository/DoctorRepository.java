@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
+// nó là làm hàm để liên kết với data
 @Repository
 public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
     Page<Doctor> findAll(Pageable pageable);

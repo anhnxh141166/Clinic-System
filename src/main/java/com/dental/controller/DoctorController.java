@@ -30,8 +30,14 @@ public class DoctorController {
 
     @Autowired
     UserService userService;
-
+// RequestMapping : gửi yêu cầu lên 1 đường dẫn nào đấy
+//   Autowired:để sử dụng được các hàm  sevice như kiểu khai báo class
+//    GetMapping: đẩy dữ liệu lên html
     @GetMapping()
+//hàm getAll ,RequestParam:lấy những giá trị ở  html về để sử lí để đẩy dữ liệu lên trang
+//    lấy dữ liệu về rồi ,mình xử lí dữ liệu VD:search gender, xog vẫn vẫn đẩy lên đường dẫnđấy và hiển th thông tin bác sĩ
+//    là hàm search và phân trang
+// Model model là 1 cái hàm để đẩy dữ liệu lên trang
     public String getAll(
             Model model,
             @RequestParam(name = "page", required = false, defaultValue = Const.PAGE_DEFAULT_STR) Integer pageNum,
@@ -40,6 +46,7 @@ public class DoctorController {
             @RequestParam(name = "statusSearch", required = false) String statusSearch,
             @RequestParam(name = "gender", required = false) String gender
     ) {
+
         if (pageNum < 1) {
             pageNum = 1;
         }
@@ -52,7 +59,7 @@ public class DoctorController {
         if (statusSearch != null && statusSearch.equals("0")) {
             status = false;
         }
-
+//3 thang k ton tai
         if (fullName != null && !fullName.isEmpty() && statusSearch != null && !statusSearch.isEmpty() && gender != null && !gender.isEmpty()){
             Doctor = doctorService.findAllByUserStatusAndUserFullNameAndGender(status, fullName, gender, pageable);
         } else if (gender != null && !gender.isEmpty() && fullName != null && !fullName.isEmpty()){
@@ -70,7 +77,7 @@ public class DoctorController {
         } else {
             Doctor = doctorService.findAll(pageable);
         }
-
+         // đẩy liệu lên ::vd nguyễn hữu thùy
         model.addAttribute("fullName", fullName);
         model.addAttribute("statusSearch", statusSearch);
         model.addAttribute("usesPage", Doctor);
@@ -81,6 +88,8 @@ public class DoctorController {
     }
 
     @GetMapping("{doctorId}")
+    //    GetMapping: đẩy dữ liệu lên html
+//     đẩy dữ lệu lên trang dr-profile theo doctor_id
     public String getOne(@PathVariable("doctorId") int doctorId, Model model) {
         Doctor doctor = doctorService.get(doctorId);
         List<Doctor> doctors = doctorService.getAll();
@@ -91,6 +100,8 @@ public class DoctorController {
     }
 
     @GetMapping("doctor-add")
+    //    GetMapping: đẩy dữ liệu lên html
+//đẩy dữ liệu sang trang add-doctor
     public String addDoctorForm(Model model) {
         List<Doctor> doctors = doctorService.getAll();
         model.addAttribute("user", new User());
@@ -101,6 +112,9 @@ public class DoctorController {
     }
 
     @PostMapping("/save")
+//  PostMapping: tạo thêm ms doctor  add doctor
+    // add thêm các doctor
+//    Valid: kiểm tra các giá trị của đối tượng  và add
     public String createDoctor(
             @Valid Doctor doctor, BindingResult doctorBindingResult,
             @Valid User user, BindingResult userBindingResult,
@@ -158,6 +172,7 @@ public class DoctorController {
     }
 
     @GetMapping("/edit/{doctorId}")
+    //    GetMapping: đẩy dữ liệu lên update-doctor
     public String editDoctor(@PathVariable("doctorId") int doctorId, Model model) {
         List<Doctor> doctors = doctorService.getAll();
         Doctor doctor = doctorService.get(doctorId);
@@ -168,6 +183,8 @@ public class DoctorController {
         return "admin/doctor/update-doctor";
     }
 
+    //  PostMapping: tạo thêm ms doctor  add doctor
+    //    Valid: kiểm tra các giá trị của đối tượng  và add
     @PostMapping("/update")
     public String updateDoctor(
         @Valid Doctor doctor, BindingResult doctorBindingResult,
