@@ -70,7 +70,7 @@
         <div class="row">
             <div class="col-lg-4 col-md-6 col-12 mb-4 pb-2" th:each="blog : ${usesPage}">
                 <div class="card blog blog-primary border-0 shadow rounded overflow-hidden">
-                    <a th:href="@{/admin/blog/{blogId}(blogId=${blog.blogId})}"><img
+                    <a th:href="@{/blog/{blogId}(blogId=${blog.blogId})}"><img
                             th:src="@{'~/assets/uploads/'+${blog.thumbnail}}" class="img-fluid" alt=""></a>
                     <div class="card-body p-4">
                         <ul class="list-unstyled mb-2">
@@ -89,7 +89,7 @@
                                 <li class="list-inline-item"><a href="#" class="text-muted comments"
                                                                 th:text="${blog.commentBlog.size()}"></a></li>
                             </ul>
-                            <a th:href="@{/admin/blog/{blogId}(blogId=${blog.blogId})}" class="link">Read More <i
+                            <a th:href="@{/blog/{blogId}(blogId=${blog.blogId})}" class="link">Read More <i
                                     class="mdi mdi-chevron-right align-middle"></i></a>
                         </div>
                     </div>
@@ -97,7 +97,7 @@
             </div><!--end col-->
         </div><!--end row-->
 
-        <div class="row text-center" th:unless="${#lists.isEmpty(usesPage)}">
+        <div class="row text-center" th:unless="${#lists.isEmpty(usesPage.getContent())}">
             <div class="col-12">
                 <ul class="pagination justify-content-center mb-0 list-unstyled">
                     <li class="paginate_button page-item"><a
