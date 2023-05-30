@@ -211,9 +211,9 @@ public class BlogController {
         Page<Blog> Blog;
 
         if (titleSearch != null && !titleSearch.isEmpty()) {
-            Blog = blogService.findAllByTitleContaining(titleSearch, pageable);
+            Blog = blogService.findAllByTitleContainingAndStatusTrueOrderByCreatedAtDesc(titleSearch, pageable);
         } else {
-            Blog = blogService.findAll(pageable);
+            Blog = blogService.findAllByStatusTrueOrderByCreatedAtDesc(pageable);
         }
 
         model.addAttribute("titleSearch", titleSearch);
@@ -224,30 +224,31 @@ public class BlogController {
         return "landing/blog/blogs";
     }
 
-//    @GetMapping("/blog/{blogId}")
-//    public String getOne(
-//        @PathVariable("blogId") int blogId,
-//        Model model,
-//        @RequestParam(name = "page", required = false, defaultValue = Const.PAGE_DEFAULT_STR) Integer pageNum,
-//        @RequestParam(name = "pageSize", required = false, defaultValue = Const.PAGE_SIZE_DEFAULT_STR) Integer pageSize
-//    ) {
-//        if (pageNum < 1) {
-//            pageNum = 1;
-//        }
-//
-//        Pageable pageable = PageRequest.of(pageNum - 1, pageSize);
-//        Blog blog = blogService.get(blogId);
-//        Page<CommentBlog> commentsByBlogId = commentService.getAllByBlogId(blogId, pageable);
-//        User user = userService.get(blog.getUser().getUserId());
-//
-//        List<Blog> reverseBlogs = blogService.getAll();
-//        Collections.reverse(reverseBlogs);
-//        model.addAttribute("blog", blog);
-//        model.addAttribute("user", user);
-//        model.addAttribute("reverseBlogs", reverseBlogs);
-//        model.addAttribute("comments", commentsByBlogId);
-//        model.addAttribute("numberOfPage", commentsByBlogId.getTotalPages());
-//
-//        return "admin/blog/blog-detail";
-//    }
+    @GetMapping("/blog/{blogId}")
+    public String getOneBlog(
+        @PathVariable("blogId") int blogId,
+        Model model,
+        @RequestParam(name = "page", required = false, defaultValue = Const.PAGE_DEFAULT_STR) Integer pageNum,
+        @RequestParam(name = "pageSize", required = false, defaultValue = Const.PAGE_SIZE_DEFAULT_STR) Integer pageSize
+    ) {
+        if (pageNum < 1) {
+            pageNum = 1;
+        }
+
+        Pageable pageable = PageRequest.of(pageNum - 1, pageSize);
+        Blog blog = blogService.get(blogId);
+        Page<CommentBlog> commentsByBlogId = commentService.findAllByBlogBlogIdOrderByCreatedAtDesc(blogId, pageable);
+        User user = userService.get(blog.getUser().getUserId());
+
+        List<Blog> blogs = blogService.findAllByStatusTrueOrderByCreatedAtDesc();
+        model.addAttribute("comment", new CommentBlog());
+
+        model.addAttribute("blog", blog);
+        model.addAttribute("user", user);
+        model.addAttribute("blogs", blogs);
+        model.addAttribute("comments", commentsByBlogId);
+        model.addAttribute("numberOfPage", commentsByBlogId.getTotalPages());
+
+        return "/landing/blog/blog-detail";
+    }
 }

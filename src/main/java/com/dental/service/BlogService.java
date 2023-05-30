@@ -18,6 +18,7 @@ public class BlogService {
     public List<Blog> getAll() {
         return blogRepository.findAll();
     }
+
     public Blog get(int id) {
         return blogRepository.findById(id).get();
     }
@@ -48,5 +49,18 @@ public class BlogService {
 
     public Page<Blog> findAllByUser(Integer userId, Pageable pageable) {
         return blogRepository.findAllByUser(userId, pageable);
+    }
+
+    // User Page
+    public List<Blog> findAllByStatusTrueOrderByCreatedAtDesc() {
+        return blogRepository.findAllByStatusTrueOrderByCreatedAtDesc();
+    }
+
+    public Page<Blog> findAllByStatusTrueOrderByCreatedAtDesc(Pageable pageable) {
+        return blogRepository.findAllByStatusTrueOrderByCreatedAtDesc(pageable);
+    }
+
+    public Page<Blog> findAllByTitleContainingAndStatusTrueOrderByCreatedAtDesc(String title, Pageable pageable) {
+        return blogRepository.findAllByTitleContainingAndStatusTrueOrderByCreatedAtDesc(title, pageable);
     }
 }

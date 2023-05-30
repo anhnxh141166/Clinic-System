@@ -97,7 +97,7 @@
                                     <h5>No reviews yet</h5>
                                 </div>
 
-                                <div th:unless="${#lists.isEmpty(reviews)}">
+                                <div th:unless="${#lists.isEmpty(reviews.getContent())}">
                                     <ul class="media-list list-unstyled mb-0">
                                         <li class="mt-4" th:each="review : ${reviews}">
                                             <div class="d-flex justify-content-between">
@@ -163,7 +163,7 @@
                                     </ul>
                                 </div>
 
-                                <div class="row" th:unless="${#lists.isEmpty(reviews)}">
+                                <div class="row" th:unless="${#lists.isEmpty(reviews.getContent())}">
                                     <div class="col-12 mt-4">
                                         <div class=" d-flex justify-content-end my-2">
                                             <nav aria-label="Page navigation example">
