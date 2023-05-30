@@ -64,13 +64,10 @@ public class UserService {
         user.setStatus(true);
         user.setRole("Patient");
         userRepository.save(user);
-//        System.out.println(user);
         Patient patient = new Patient();
-//        patient.setUser(user);
 
         User user1 = userRepository.findByEmail(user.getEmail());
         patient.setUser(user1);
-        System.out.println(patient);
         patientRepository.save(patient);
     }
 
