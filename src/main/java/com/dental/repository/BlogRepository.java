@@ -10,7 +10,6 @@ import java.util.List;
 
 @Repository
 public interface BlogRepository extends JpaRepository<Blog, Integer> {
-    List<Blog> findByOrderByCreatedAtDesc();
     Page<Blog> findAll(Pageable pageable);
 
     Page<Blog> findAllByStatusAndTitleContaining(boolean status, String title, Pageable pageable);
@@ -20,4 +19,19 @@ public interface BlogRepository extends JpaRepository<Blog, Integer> {
     Page<Blog> findAllByUser(Integer userId, Pageable pageable);
 
     Page<Blog> findAllByStatus(boolean status, Pageable pageable);
+
+
+    // User Page
+    List<Blog> findAllByStatusTrueOrderByCreatedAtDesc();
+
+    Page<Blog> findAllByStatusAndTitleContainingOrderByCreatedAtDesc(boolean status, String title, Pageable pageable);
+
+//    Page<Blog> findAllByTitleContainingOrderByCreatedAtDesc(String title, Pageable pageable);
+    Page<Blog> findAllByTitleContainingAndStatusTrueOrderByCreatedAtDesc(String title, Pageable pageable);
+
+    Page<Blog> findAllByStatusTrueOrderByCreatedAtDesc(Pageable pageable);
+
+    Page<Blog> findAllByUserOrderByCreatedAtDesc(Integer userId, Pageable pageable);
+
+    Page<Blog> findAllByStatusOrderByCreatedAtDesc(boolean status, Pageable pageable);
 }

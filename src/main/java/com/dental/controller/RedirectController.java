@@ -18,10 +18,10 @@ public class RedirectController {
         System.out.println(new BCryptPasswordEncoder().matches("a8888888", "$2a$12$6MkbL7umkJ3s4zcR8flDA.nca35mKYWf02d3/vMOW0w89x7EwwTAW"));
         User userEnity = userDetails.getUserEntity();
         if (userEnity!= null){
-            if (userEnity.getRole().equals("ADMIN")){
+            if (userEnity.getRole().equals("Admin")){
                 return "redirect:/admin/blog";
             } else {
-                return "redirect:/user/homeLanding";
+                return "redirect:/";
             }
         }
         return "landing/auth/login"; // Redirect to login page if role not found

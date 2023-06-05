@@ -43,7 +43,7 @@
     <div class="container">
         <!-- Logo container-->
         <div>
-            <a class="logo" href="index.html">
+            <a class="logo" th:href="@{/}">
                         <span class="logo-light-mode">
                             <img th:src="@{/assets/images/logo-dark.png}" height="24" class="logo-light-mode" alt="">
                                     <img th:src="@{/assets/images/logo-light.png}" height="24" class="logo-dark-mode"
@@ -72,36 +72,27 @@
 
         <!-- Start Dropdown -->
         <ul class="dropdowns list-inline mb-0">
-            <li class="list-inline-item mb-0">
-                <a href="javascript:void(0)" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
-                   aria-controls="offcanvasRight">
-                    <div class="btn btn-icon btn-pills btn-primary"><i data-feather="settings" class="fea icon-sm"></i>
-                    </div>
-                </a>
-            </li>
-
-            <li class="list-inline-item mb-0 ms-1">
-                <a href="javascript:void(0)" class="btn btn-icon btn-pills btn-primary" data-bs-toggle="offcanvas"
-                   data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
-                    <i class="uil uil-search"></i>
-                </a>
-            </li>
-
             <li class="list-inline-item mb-0 ms-1">
                 <div class="dropdown dropdown-primary">
-                    <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img
-                            th:src="@{~/assets/images/doctors/01.jpg}" class="avatar avatar-ex-small rounded-circle"
-                            alt=""></button>
-                    <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-3 py-3"
+                    <ul th:if="${user == null}" class="navigation-menu nav-left nav-light">
+                        <li class="parent-menu-item">
+                            <a th:href="@{/login}">Login</a></span>
+                        </li>
+                    </ul>
+                    <button th:if="${user != null}" type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<!--                        <img th:if="${user.role == 'Admin' || user.role == 'Staff'}" th:src="@{~/assets/images/doctors/01.jpg}" class="avatar avatar-ex-small rounded-circle" alt="">-->
+                        <img th:if="${user}" th:src="@{~/assets/images/doctors/01.jpg}" class="avatar avatar-ex-small rounded-circle" alt="">
+<!--                        <img th:if="${user.role == 'Doctor'}" th:src="@{'~/assets/uploads/'+${user.doctor}}" class="avatar avatar-ex-small rounded-circle" alt="">-->
+<!--                        <img th:if="${user.role == 'Patient'}" th:src="@{'~/assets/uploads/'+${user.patient}}" class="avatar avatar-ex-small rounded-circle" alt="">-->
+                    </button>
+                    <div th:if="${user != null}" class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-3 py-3"
                          style="min-width: 200px;">
                         <a class="dropdown-item d-flex align-items-center text-dark" href="doctor-profile.html">
-                            <img th:src="@{~/assets/images/doctors/01.jpg}"
-                                 class="avatar avatar-md-sm rounded-circle border shadow" alt="">
+                            <img th:src="@{~/assets/images/doctors/01.jpg}" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                             <div class="flex-1 ms-2">
-                                <span th:if="${user == null}" class="d-block mb-1">Chưa đăng nhập </span>
                                 <span th:if="${user != null}" class="d-block mb-1" th:text="${user.email}"></span>
-                                <small class="text-muted">Orthopedic</small>
+                                <small class="text-muted" th:text="${user.fullName}"></small>
                             </div>
                         </a>
                         <a class="dropdown-item text-dark" href="doctor-dashboard.html"><span
@@ -119,8 +110,6 @@
 <!--                                class="uil uil-sign-out-alt align-middle h6"></i></span> Login</a>-->
 <!--                            <a class="dropdown-item text-dark" th:unless="${user.userEntity}" href=""><span class="mb-0 d-inline-block me-1"><i-->
 <!--                                    class="uil uil-sign-out-alt align-middle h6"></i></span> Login </a>-->
-                        <a class="dropdown-item text-dark" th:if="${user==null}" th:href="@{/login}"><span class="mb-0 d-inline-block me-1"><i
-                                class="uil uil-sign-out-alt align-middle h6"></i></span> Login</a>
 
                         <a class="dropdown-item text-dark" th:if="${user!=null}" href="javascript: logoutForm.submit()"><span class="mb-0 d-inline-block me-1"><i
                                 class="uil uil-sign-out-alt align-middle h6"></i></span> Logout</a>
@@ -137,13 +126,8 @@
         <div id="navigation">
             <!-- Navigation Menu-->
             <ul class="navigation-menu nav-left nav-light">
-                <li class="has-submenu parent-menu-item">
+                <li class="parent-menu-item">
                     <a href="javascript:void(0)">Home</a><span class="menu-arrow"></span>
-                    <ul class="submenu">
-                        <li><a href="index.html" class="sub-menu-item">Index One</a></li>
-                        <li><a href="index-two.html" class="sub-menu-item">Index Two</a></li>
-                        <li><a href="index-three.html" class="sub-menu-item">Index Three</a></li>
-                    </ul>
                 </li>
 
                 <li class="has-submenu parent-parent-menu-item">
@@ -156,22 +140,18 @@
                                 <li><a href="doctor-dashboard.html" class="sub-menu-item">Dashboard</a></li>
                                 <li><a href="doctor-appointment.html" class="sub-menu-item">Appointment</a></li>
                                 <li><a href="patient-list.html" class="sub-menu-item">Patients</a></li>
-                                <li><a href="doctor-schedule.html" class="sub-menu-item">Schedule Timing</a></li>
                                 <li><a href="invoices.html" class="sub-menu-item">Invoices</a></li>
                                 <li><a href="patient-review.html" class="sub-menu-item">Reviews</a></li>
                                 <li><a href="doctor-messages.html" class="sub-menu-item">Messages</a></li>
                                 <li><a href="doctor-profile.html" class="sub-menu-item">Profile</a></li>
                                 <li><a href="doctor-profile-setting.html" class="sub-menu-item">Profile Settings</a>
                                 </li>
-                                <li><a href="doctor-chat.html" class="sub-menu-item">Chat</a></li>
                                 <li><a href="login.html" class="sub-menu-item">Login</a></li>
                                 <li><a href="signup.html" class="sub-menu-item">Sign Up</a></li>
                                 <li><a href="forgot-password.html" class="sub-menu-item">Forgot Password</a></li>
                             </ul>
                         </li>
-                        <li><a href="doctor-team-one.html" class="sub-menu-item">Doctors One</a></li>
-                        <li><a href="doctor-team-two.html" class="sub-menu-item">Doctors Two</a></li>
-                        <li><a href="doctor-team-three.html" class="sub-menu-item">Doctors Three</a></li>
+                        <li><a th:href="@{/doctor}" class="sub-menu-item">Doctors</a></li>
                     </ul>
                 </li>
 
@@ -188,9 +168,6 @@
                 <li class="has-submenu parent-menu-item">
                     <a href="javascript:void(0)">Pharmacy</a><span class="menu-arrow"></span>
                     <ul class="submenu">
-                        <li><a href="pharmacy.html" class="sub-menu-item">Pharmacy</a></li>
-                        <li><a href="pharmacy-shop.html" class="sub-menu-item">Shop</a></li>
-                        <li><a href="pharmacy-product-detail.html" class="sub-menu-item">Medicine Detail</a></li>
                         <li><a href="pharmacy-shop-cart.html" class="sub-menu-item">Shop Cart</a></li>
                         <li><a href="pharmacy-checkout.html" class="sub-menu-item">Checkout</a></li>
                         <li><a href="pharmacy-account.html" class="sub-menu-item">Account</a></li>
@@ -203,21 +180,13 @@
                         <li><a href="aboutus.html" class="sub-menu-item"> About Us</a></li>
                         <li><a href="departments.html" class="sub-menu-item">Departments</a></li>
                         <li><a href="faqs.html" class="sub-menu-item">FAQs</a></li>
-                        <li class="has-submenu parent-menu-item">
-                            <a href="javascript:void(0)" class="menu-item"> Blogs </a><span
-                                class="submenu-arrow"></span>
-                            <ul class="submenu">
-                                <li><a href="blogs.html" class="sub-menu-item">Blogs</a></li>
-                                <li><a href="blog-detail.html" class="sub-menu-item">Blog Details</a></li>
-                            </ul>
-                        </li>
+                        <li><a th:href="@{/blog}" class="sub-menu-item">Blogs</a></li>
                         <li><a href="terms.html" class="sub-menu-item">Terms & Policy</a></li>
                         <li><a href="privacy.html" class="sub-menu-item">Privacy Policy</a></li>
-                        <li><a href="error.html" class="sub-menu-item">404 !</a></li>
                         <li><a href="contact.html" class="sub-menu-item">Contact</a></li>
                     </ul>
                 </li>
-                <li><a href="../admin/index.html" class="sub-menu-item" target="_blank">Admin</a></li>
+                <li><a th:href="@{/admin}" th:if="${user != null && user.role == 'Admin'}" class="sub-menu-item">Admin</a></li>
             </ul><!--end navigation menu-->
         </div><!--end navigation-->
     </div><!--end container-->

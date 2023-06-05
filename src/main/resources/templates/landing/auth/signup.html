@@ -32,26 +32,20 @@
                     <div class="card-body">
                         <h4 class="text-center">Sign Up</h4>
 
-                        <form id="signupForm" th:action="@{/user/register}" method="post" th:object="${user}"
-                              class="login-form mt-4">
+                        <form id="signupForm" th:action="@{/user/register/save}"  method="post" th:object="${user}" class="login-form mt-4">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label class="form-label">Full name <span class="text-danger">*</span></label>
-                                        <input id="fullName" th:field="*{fullName}" type="text" class="form-control"
-                                               placeholder="First Name" name="fullName"
-                                        >
-                                        <span class="mt-2 text-danger" th:if="${#fields.hasErrors('fullName')}"
-                                              th:errors="*{fullName}"></span>
-
+                                        <input id="fullName" th:field="*{fullName}" type="text" class="form-control" placeholder="First Name" name="fullName"
+                                               >
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label class="form-label">Your Email <span class="text-danger">*</span></label>
-                                        <input id="email" th:field="*{email}" type="email" class="form-control"
-                                               placeholder="Email" name="email"
-                                        >
+                                        <input id="email" th:field="*{email}" type="email" class="form-control" placeholder="Email" name="email"
+                                               >
                                         <span id="emailMessage"></span>
                                         <span class="mt-2 text-danger" th:if="${#fields.hasErrors('email')}"
                                               th:errors="*{email}"></span>
@@ -62,47 +56,43 @@
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label class="form-label">Password <span class="text-danger">*</span></label>
-                                        <input id="password" th:field="*{password}" type="password" class="form-control"
-                                               placeholder="Password">
-                                        <span class="mt-2 text-danger" th:if="${#fields.hasErrors('password')}"
-                                              th:errors="*{password}"></span>
+                                        <input id="password" th:field="*{password}" type="password" class="form-control" placeholder="Password" >
                                     </div>
                                 </div>
-
-                                <!--                                <span th:if="${message}" th:text="${message}" class="text-danger"></span>-->
-                                <!--                                <div class="col-md-12">-->
-                                <!--                                    <div class="mb-3">-->
-                                <!--                                        <div class="form-check">-->
-                                <!--                                            <input class="form-check-input align-middle" type="checkbox" value=""-->
-                                <!--                                                   id="accept-tnc-check">-->
-                                <!--                                            <label class="form-check-label" for="accept-tnc-check">I Accept <a href="#" class="text-primary">Terms-->
-                                <!--                                                And Condition</a></label>-->
-                                <!--                                        </div>-->
-                                <!--                                    </div>-->
-                                <!--                                </div>-->
+<!--                                <span th:if="${message}" th:text="${message}" class="text-danger"></span>-->
+<!--                                <div class="col-md-12">-->
+<!--                                    <div class="mb-3">-->
+<!--                                        <div class="form-check">-->
+<!--                                            <input class="form-check-input align-middle" type="checkbox" value=""-->
+<!--                                                   id="accept-tnc-check">-->
+<!--                                            <label class="form-check-label" for="accept-tnc-check">I Accept <a href="#" class="text-primary">Terms-->
+<!--                                                And Condition</a></label>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
                                 <div class="col-md-12">
                                     <div class="d-grid">
                                         <button type="submit" class="btn btn-primary">Register</button>
                                     </div>
                                 </div>
 
-                                <!--                                <div class="col-lg-12 mt-3 text-center">-->
-                                <!--                                    <h6 class="text-muted">Or</h6>-->
-                                <!--                                </div>&lt;!&ndash;end col&ndash;&gt;-->
+<!--                                <div class="col-lg-12 mt-3 text-center">-->
+<!--                                    <h6 class="text-muted">Or</h6>-->
+<!--                                </div>&lt;!&ndash;end col&ndash;&gt;-->
 
-                                <!--                                <div class="col-6 mt-3">-->
-                                <!--                                    <div class="d-grid">-->
-                                <!--                                        <a href="javascript:void(0)" class="btn btn-soft-primary"><i-->
-                                <!--                                                class="uil uil-facebook"></i> Facebook</a>-->
-                                <!--                                    </div>-->
-                                <!--                                </div>&lt;!&ndash;end col&ndash;&gt;-->
+<!--                                <div class="col-6 mt-3">-->
+<!--                                    <div class="d-grid">-->
+<!--                                        <a href="javascript:void(0)" class="btn btn-soft-primary"><i-->
+<!--                                                class="uil uil-facebook"></i> Facebook</a>-->
+<!--                                    </div>-->
+<!--                                </div>&lt;!&ndash;end col&ndash;&gt;-->
 
-                                <!--                                <div class="col-6 mt-3">-->
-                                <!--                                    <div class="d-grid">-->
-                                <!--                                        <a href="javascript:void(0)" class="btn btn-soft-primary"><i-->
-                                <!--                                                class="uil uil-google"></i> Google</a>-->
-                                <!--                                    </div>-->
-                                <!--                                </div>&lt;!&ndash;end col&ndash;&gt;-->
+<!--                                <div class="col-6 mt-3">-->
+<!--                                    <div class="d-grid">-->
+<!--                                        <a href="javascript:void(0)" class="btn btn-soft-primary"><i-->
+<!--                                                class="uil uil-google"></i> Google</a>-->
+<!--                                    </div>-->
+<!--                                </div>&lt;!&ndash;end col&ndash;&gt;-->
 
                                 <div class="mx-auto">
                                     <p class="mb-0 mt-3"><small class="text-dark me-2">Already have an account ?</small>
@@ -216,67 +206,6 @@
         });
     });
 </script>
-
-
-<!--    });-->
-
-
-<!--    // const validation = new JustValidate('#signup', {-->
-<!--    //     validateBeforeSubmitting: true,-->
-<!--    // });-->
-<!--    // // const validator = new JustValidate('#change-password');-->
-<!--    // validation-->
-<!--    //     .addField('#fullName', [-->
-<!--    //         {-->
-<!--    //             rule: 'required',-->
-<!--    //         },-->
-<!--    //         {-->
-<!--    //             rule: 'minLength',-->
-<!--    //             value: 3,-->
-<!--    //         },-->
-<!--    //         {-->
-<!--    //             rule: 'maxLength',-->
-<!--    //             value: 30,-->
-<!--    //         },-->
-<!--    //     ])-->
-<!--    //     .addField('#email', [-->
-<!--    //         {-->
-<!--    //             rule: 'required',-->
-<!--    //         },-->
-<!--    //         {-->
-<!--    //             rule: 'email',-->
-<!--    //         }-->
-<!--    //     ])-->
-<!--    //-->
-<!--    //     .addField('#password', [-->
-<!--    //         {-->
-<!--    //             rule: 'minLength',-->
-<!--    //             value: 8,-->
-<!--    //         },-->
-<!--    //         {-->
-<!--    //             rule: 'maxLength',-->
-<!--    //             value: 30,-->
-<!--    //         },-->
-<!--    //         {-->
-<!--    //             rule: 'required',-->
-<!--    //         },-->
-<!--    //         {-->
-<!--    //             rule: 'password',-->
-<!--    //         }-->
-<!--    //     ]);-->
-<!--    //-->
-<!--    //-->
-<!--    // // const formChange = document.getElementById('signup');-->
-<!--    // // formChange.addEventListener('submit', function(event) {-->
-<!--    // //     event.preventDefault(); // Prevent the default form submission-->
-<!--    // //-->
-<!--    // //     // Perform any validation or additional logic here-->
-<!--    // //-->
-<!--    // //     // Submit the form using JavaScript-->
-<!--    // //     formChange.submit();-->
-<!--    // // });-->
-
-<!--</script>-->
 
 </body>
 

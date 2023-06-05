@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://thymeleaf.org">
-<head th:replace="layout/head :: head"></head>
+<head th:replace="~{layout/head :: head}"></head>
 
 <body>
 <!-- Loader -->
@@ -14,14 +14,13 @@
     </div>
 </div>
 <!-- Loader -->
-
 <div class="page-wrapper doctris-theme toggled">
-    <nav th:replace="layout/pageSidebarAdmin :: pageSidebarAdmin" id="sidebar" class="sidebar-wrapper"></nav>
+    <nav th:replace="~{layout/pageSidebarAdmin :: pageSidebarAdmin}" id="sidebar" class="sidebar-wrapper"></nav>
     <!-- sidebar-wrapper  -->
 
     <!-- Start Page Content -->
     <main class="page-content bg-light">
-        <div th:replace="layout/pageHeaderAdmin :: pageHeaderAdmin" class="top-header"></div>
+        <div th:replace="~{layout/pageHeaderAdmin :: pageHeaderAdmin}" class="top-header"></div>
 
         <div class="container-fluid">
             <div class="layout-specing">
@@ -641,13 +640,7 @@
 <!-- Modal end -->
 
 <!-- javascript -->
-<script src="../../assets/js/bootstrap.bundle.min.js"></script>
-<!-- simplebar -->
-<script src="../../assets/js/simplebar.min.js"></script>
-<!-- Icons -->
-<script src="../../assets/js/feather.min.js"></script>
-<!-- Main Js -->
-<script src="../../assets/js/app.js"></script>
+<script th:replace="~{layout/script :: script}"></script>
 
 </body>
 

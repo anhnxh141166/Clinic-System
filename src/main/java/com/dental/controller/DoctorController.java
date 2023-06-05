@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Controller
-@RequestMapping("admin/doctor")
+@RequestMapping()
 public class DoctorController {
 
     @Autowired
@@ -35,7 +35,7 @@ public class DoctorController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @GetMapping()
+    @GetMapping("admin/doctor")
     public String getAll(
             Model model,
             @RequestParam(name = "page", required = false, defaultValue = Const.PAGE_DEFAULT_STR) Integer pageNum,
@@ -84,7 +84,7 @@ public class DoctorController {
         return "admin/doctor/doctors";
     }
 
-    @GetMapping("{doctorId}")
+    @GetMapping("admin/doctor/{doctorId}")
     public String getOne(@PathVariable("doctorId") int doctorId, Model model) {
         Doctor doctor = doctorService.get(doctorId);
         List<Doctor> doctors = doctorService.getAll();
@@ -94,7 +94,7 @@ public class DoctorController {
         return "admin/doctor/dr-profile";
     }
 
-    @GetMapping("doctor-add")
+    @GetMapping("admin/doctor/doctor-add")
     public String addDoctorForm(Model model) {
         List<Doctor> doctors = doctorService.getAll();
         model.addAttribute("user", new User());
@@ -104,7 +104,7 @@ public class DoctorController {
         return "admin/doctor/add-doctor";
     }
 
-    @PostMapping("/save")
+    @PostMapping("admin/doctor/save")
     public String createDoctor(
             @Valid Doctor doctor, BindingResult doctorBindingResult,
             @Valid User user, BindingResult userBindingResult,
@@ -161,7 +161,7 @@ public class DoctorController {
         }
     }
 
-    @GetMapping("/edit/{doctorId}")
+    @GetMapping("admin/doctor/edit/{doctorId}")
     public String editDoctor(@PathVariable("doctorId") int doctorId, Model model) {
         List<Doctor> doctors = doctorService.getAll();
         Doctor doctor = doctorService.get(doctorId);
@@ -172,7 +172,7 @@ public class DoctorController {
         return "admin/doctor/update-doctor";
     }
 
-    @PostMapping("/update")
+    @PostMapping("admin/doctor/update")
     public String updateDoctor(
         @Valid Doctor doctor, BindingResult doctorBindingResult,
         @Valid User user, BindingResult userBindingResult,
@@ -210,7 +210,7 @@ public class DoctorController {
         }
     }
 
-    @PostMapping("/delete/{doctorId}")
+    @PostMapping("admin/doctor/delete/{doctorId}")
     public String deleteUser(@PathVariable("doctorId") int doctorId, Model model) throws IllegalAccessException {
         try {
             Doctor u = doctorService.get(doctorId);

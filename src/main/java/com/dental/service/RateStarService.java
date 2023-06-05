@@ -38,4 +38,8 @@ public class RateStarService {
     public Page<RateStar> findAll(Pageable pageable) {
         return rateStarRepository.findAll(pageable);
     }
+
+    public List<Object[]> findAllWithAvg() {
+        return rateStarRepository.findAllWithAvg();
+    }
 }

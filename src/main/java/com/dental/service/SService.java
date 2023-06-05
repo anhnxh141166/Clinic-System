@@ -45,7 +45,7 @@ public class SService  {
         return serviceRepository.findAllByStatus(status, pageable);
     }
 
-    public Page<Object[]> findAllServicesWithAverageStar(Pageable pageable) {
-        return serviceRepository.findAllServicesWithAverageStar(pageable);
+    public List<Object[]> findAllServicesWithAverageStar() {
+        return serviceRepository.findAllServicesWithAverageStar();
     }
 }

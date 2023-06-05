@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CommentRepository extends JpaRepository<CommentBlog, Integer> {
     Page<CommentBlog> findAll(Pageable pageable);
-
+    Page<CommentBlog> findAllByBlogBlogIdOrderByCreatedAtDesc(int blogId, Pageable pageable);
     Page<CommentBlog> findAllByBlogBlogId(int blogId, Pageable pageable);
 }
