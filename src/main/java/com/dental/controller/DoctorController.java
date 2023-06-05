@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -58,11 +57,11 @@ public class DoctorController {
         }
 
         if (fullName != null && !fullName.isEmpty() && statusSearch != null && !statusSearch.isEmpty() && gender != null && !gender.isEmpty()){
-            Doctor = doctorService.findAllByUserStatusAndUserFullNameAndGender(status, fullName, gender, pageable);
+            Doctor = doctorService.findAllByUserStatusAndUserFullNameAndUserGender(status, fullName, gender, pageable);
         } else if (gender != null && !gender.isEmpty() && fullName != null && !fullName.isEmpty()){
-            Doctor = doctorService.findAllByUserFullNameAndGender(fullName, gender, pageable);
+            Doctor = doctorService.findAllByUserFullNameAndUserGender(fullName, gender, pageable);
         } else if (gender != null && !gender.isEmpty() && statusSearch != null && !statusSearch.isEmpty()){
-            Doctor = doctorService.findAllByUserStatusAndGender(status, gender, pageable);
+            Doctor = doctorService.findAllByUserStatusAndUserGender(status, gender, pageable);
         } else if (fullName != null && !fullName.isEmpty() && statusSearch != null && !statusSearch.isEmpty()){
             Doctor = doctorService.findAllByUserStatusAndUserFullName(status, fullName, pageable);
         } else if (statusSearch != null && !statusSearch.isEmpty()) {
@@ -70,7 +69,7 @@ public class DoctorController {
         } else if (fullName != null && !fullName.isEmpty()) {
             Doctor = doctorService.findAllByUserFullName(fullName, pageable);
         } else if (gender != null && !gender.isEmpty()) {
-            Doctor = doctorService.findAllByGender(gender, pageable);
+            Doctor = doctorService.findAllByUserGender(gender, pageable);
         } else {
             Doctor = doctorService.findAll(pageable);
         }
@@ -120,11 +119,11 @@ public class DoctorController {
             model.addAttribute("image", "Avatar must be mandatory");
         }
 
-        if (doctor.getDateOfBirth() == null) {
+        if (user.getDateOfBirth() == null) {
             model.addAttribute("dateOfBirth", "Date of birth must be mandatory");
         }
 
-        if (doctor.getGender() == null) {
+        if (user.getGender() == null) {
             model.addAttribute("gender", "Gender must be mandatory");
         }
 
@@ -135,7 +134,7 @@ public class DoctorController {
         }
 
         String fileName = UploadFile.getFileName(multipartFile);
-        doctor.setAvatar(fileName);
+        user.setAvatar(fileName);
 
         user.setPassword(passwordEncoder.encode("doctor123456789"));
         user.setRole("Doctor");
@@ -174,14 +173,19 @@ public class DoctorController {
 
     @PostMapping("admin/doctor/update")
     public String updateDoctor(
-        @Valid Doctor doctor, BindingResult doctorBindingResult,
-        @Valid User user, BindingResult userBindingResult,
-        Model model, @RequestParam(value = "image", required = false) MultipartFile multipartFile
+            @Valid Doctor doctor, BindingResult doctorBindingResult,
+            @Valid User user, BindingResult userBindingResult,
+            Model model, @RequestParam(value = "image", required = false) MultipartFile multipartFile
     ) {
-        int doctorId = doctor.getDoctorId();
+        int doctorId = user.getUserId();
 
-        Doctor d = doctorService.get(doctorId);
-        doctor.setUser(d.getUser());
+        User u = userService.get(doctorId);
+        user.setDoctor(u.getDoctor());
+
+        user.setEmail(u.getEmail());
+        user.setPassword(u.getPassword());
+        user.setRole(u.getRole());
+        user.setCreatedAt(u.getCreatedAt());
 
         if (doctorBindingResult.hasErrors() || userBindingResult.hasErrors()) {
             return "admin/doctor/update-doctor";
@@ -191,7 +195,7 @@ public class DoctorController {
             String fileName = UploadFile.getFileName(multipartFile);
 
             if (!fileName.isEmpty()) {
-                doctor.setAvatar(fileName);
+                user.setAvatar(fileName);
                 try {
                     UploadFile.saveFile(fileName, multipartFile);
                 } catch (IOException e) {
@@ -201,8 +205,8 @@ public class DoctorController {
         }
 
         try {
-            userService.updateUser(user.getFullName(), user.isStatus(), d.getUser().getUserId());
-            doctorService.save(doctor);
+            doctorService.updateDoctor(doctor.getDescription(), doctorId);
+            userService.save(user);
             return "redirect:/admin/doctor/" + doctorId;
         } catch (Error e) {
             System.out.println(e);
@@ -210,15 +214,43 @@ public class DoctorController {
         }
     }
 
-    @PostMapping("admin/doctor/delete/{doctorId}")
-    public String deleteUser(@PathVariable("doctorId") int doctorId, Model model) throws IllegalAccessException {
-        try {
-            Doctor u = doctorService.get(doctorId);
-            doctorService.delete(doctorId);
-            userService.delete(u.getUser().getUserId());
-        } catch (Error e) {
-            throw new IllegalAccessException("Failed to delete!");
+//    @PostMapping("admin/doctor/delete/{doctorId}")
+//    public String deleteDoctor(@PathVariable("doctorId") int doctorId, Model model) throws IllegalAccessException {
+//        try {
+//            Doctor u = doctorService.get(doctorId);
+//            doctorService.delete(doctorId);
+//            userService.delete(u.getUser().getUserId());
+//        } catch (Error e) {
+//            throw new IllegalAccessException("Failed to delete!");
+//        }
+//        return "redirect:/admin/doctor";
+//    }
+
+    // USER PAGE
+    @GetMapping("/doctor")
+    public String getAllDoctor(
+            Model model,
+            @RequestParam(name = "page", required = false, defaultValue = Const.PAGE_DEFAULT_STR) Integer pageNum,
+            @RequestParam(name = "pageSize", required = false, defaultValue = "8") Integer pageSize,
+            @RequestParam(name = "titleSearch", required = false) String titleSearch
+    ) {
+        if (pageNum < 1) {
+            pageNum = 1;
         }
-        return "redirect:/admin/doctor";
+
+        Pageable pageable = PageRequest.of(pageNum - 1, pageSize);
+        Page<Doctor> Doctor;
+
+        if (titleSearch != null && !titleSearch.isEmpty()) {
+            Doctor = doctorService.findAllByUserFullNameAndUserStatusTrue(titleSearch, pageable);
+        } else {
+            Doctor = doctorService.findAllByUserStatusTrue(pageable);
+        }
+
+        model.addAttribute("titleSearch", titleSearch);
+        model.addAttribute("doctors", Doctor);
+        model.addAttribute("numberOfPage", Doctor.getTotalPages());
+
+        return "landing/doctor/doctors";
     }
 }
