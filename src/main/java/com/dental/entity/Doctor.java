@@ -17,25 +17,6 @@ public class Doctor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer doctorId;
 
-    @Column(nullable = false, columnDefinition = "nvarchar(8)")
-    @Size(min = 1, message = "Gender must be mandatory")
-    private String gender;
-
-    @Column(nullable = false)
-    private Date dateOfBirth;
-
-    @Column(nullable = false, columnDefinition = "nvarchar(100)")
-    @Size(min = 1, message = "Address must be mandatory")
-    private String address;
-
-    @Column(nullable = true, length = 12)
-    @Size(min = 1, message = "Phone must be mandatory")
-    @Pattern(regexp = "^(?:\\+)?[0-9]*$", message = "Wrong type of phone number")
-    private String phoneNumber;
-
-    @Column(nullable = false, columnDefinition = "text")
-    private String avatar;
-
     @Column(nullable = false, columnDefinition = "text")
     @Size(min = 1, message = "Bio must be mandatory")
     private String description;
@@ -63,45 +44,6 @@ public class Doctor {
         this.doctorId = doctorId;
     }
 
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
 
     public String getDescription() {
         return description;
@@ -115,11 +57,6 @@ public class Doctor {
     public String toString() {
         return "Doctor{" +
                 "doctorId=" + doctorId +
-                ", gender='" + gender + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
-                ", address='" + address + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", avatar='" + avatar + '\'' +
                 ", description='" + description + '\'' +
                 ", medicalInformation=" + medicalInformation.size() +
                 ", service=" + service.size() +

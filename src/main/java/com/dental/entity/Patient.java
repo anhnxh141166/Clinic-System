@@ -15,22 +15,6 @@ public class Patient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer patientId;
 
-    @Column(nullable = true, columnDefinition = "nvarchar(100)")
-    private String address;
-
-    @Column(nullable = true)
-    private Date dateOfBirth;
-
-    @Column(nullable = true, columnDefinition = "nvarchar(8)")
-    private String gender;
-
-    @Column(nullable = true, length = 12)
-    @Pattern(regexp = "^(?:\\+)?[0-9]*$", message = "Wrong type of phone number")
-    private String phoneNumber;
-
-    @Column(nullable = true, columnDefinition = "text")
-    private String avatar;
-
     @Column(nullable = true, columnDefinition = "varchar(5)")
     private String bloodGroup;
 

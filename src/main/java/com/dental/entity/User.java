@@ -27,8 +27,27 @@ public class User {
     @Column(length = 254, nullable = false)
     private String password;
 
+    @Column(nullable = true, columnDefinition = "nvarchar(8)")
+    @Size(min = 1, message = "Gender must be mandatory")
+    private String gender;
+
+    @Column(nullable = true)
+    private java.sql.Date dateOfBirth;
+
+    @Column(nullable = true, columnDefinition = "nvarchar(100)")
+    @Size(min = 1, message = "Address must be mandatory")
+    private String address;
+
+    @Column(nullable = true, length = 12)
+    @Size(min = 1, message = "Phone must be mandatory")
+    @Pattern(regexp = "^(?:\\+)?[0-9]*$", message = "Wrong type of phone number")
+    private String phoneNumber;
+
+    @Column(nullable = true, columnDefinition = "text")
+    private String avatar;
+
     @Column(columnDefinition = "nvarchar(50)" , nullable = false)
-    @Size(min = 1, message = "Full name must be mandatory")
+    @Pattern(regexp = "^[\\p{L}\\s]+$", message = "Full name must not contain special character and not empty")
     private String fullName;
 
     @Column(length = 1, nullable = false, columnDefinition = "bit default 1")
@@ -119,6 +138,46 @@ public class User {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public java.sql.Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(java.sql.Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     @Override
