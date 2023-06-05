@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -228,6 +229,7 @@ public class BlogController {
     public String getOneBlog(
         @PathVariable("blogId") int blogId,
         Model model,
+        @AuthenticationPrincipal UserDetailsImpl userDetails,
         @RequestParam(name = "page", required = false, defaultValue = Const.PAGE_DEFAULT_STR) Integer pageNum,
         @RequestParam(name = "pageSize", required = false, defaultValue = Const.PAGE_SIZE_DEFAULT_STR) Integer pageSize
     ) {
@@ -238,11 +240,12 @@ public class BlogController {
         Pageable pageable = PageRequest.of(pageNum - 1, pageSize);
         Blog blog = blogService.get(blogId);
         Page<CommentBlog> commentsByBlogId = commentService.findAllByBlogBlogIdOrderByCreatedAtDesc(blogId, pageable);
-        User user = userService.get(blog.getUser().getUserId());
 
         List<Blog> blogs = blogService.findAllByStatusTrueOrderByCreatedAtDesc();
-        model.addAttribute("comment", new CommentBlog());
 
+        User user = userDetails.getUserEntity();
+
+        model.addAttribute("comment", new CommentBlog());
         model.addAttribute("blog", blog);
         model.addAttribute("user", user);
         model.addAttribute("blogs", blogs);
