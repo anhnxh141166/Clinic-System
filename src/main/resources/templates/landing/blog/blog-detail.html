@@ -53,13 +53,7 @@
             <div class="col-lg-8 col-lg-7">
                 <img th:src="@{'~/assets/uploads/'+${blog.thumbnail}}" style="display: block; margin: auto; height: 380px; object-fit: contain;" class="img-fluid rounded shadow" alt="">
 
-                <!-- <ul class="list-unstyled mt-4">
-                    <li class="list-inline-item user text-muted me-2"><i class="mdi mdi-account"></i> Calvin Carlo</li>
-                    <li class="list-inline-item date text-muted"><i class="mdi mdi-calendar-check"></i> 1st January, 2021</li>
-                </ul> -->
-
                 <p class="text-muted mt-4" th:utext="${blog.content}"></p>
-
 
                 <h5 class="card-title mt-4 mb-0">Comments :</h5>
 
@@ -68,12 +62,17 @@
                         <div class="d-flex justify-content-between">
                             <div class="d-flex align-items-center">
                                 <a class="pe-3" href="#">
-                                    <img th:src="@{'~/assets/uploads/'+${comment.user.patient.avatar}}"
-                                         class="img-fluid avatar avatar-md-sm rounded-circle shadow" alt="img">
+                                    <img th:if="${comment.user.role == 'Admin' || comment.user.role == 'Staff' }" th:src="@{'~/assets/images/avatar.png'}" class="img-fluid avatar avatar-md-sm rounded-circle shadow" alt="img">
+                                    <img th:if="${comment.user.role == 'Doctor' && comment.user.doctor.avatar != null }" th:src="@{'~/assets/uploads/'+${comment.user.patient.avatar}}" class="img-fluid avatar avatar-md-sm rounded-circle shadow" alt="img">
+                                    <img th:if="${comment.user.role == 'Doctor' && comment.user.doctor.avatar == null }" th:src="@{'~/assets/images/avatar.png'}" class="img-fluid avatar avatar-md-sm rounded-circle shadow" alt="img">
+                                    <img th:if="${comment.user.role == 'Patient' && comment.user.patient.avatar != null }" th:src="@{'~/assets/uploads/'+${comment.user.patient.avatar}}" class="img-fluid avatar avatar-md-sm rounded-circle shadow" alt="img">
+                                    <img th:if="${comment.user.role == 'Patient' && comment.user.patient.avatar == null }" th:src="@{'~/assets/images/avatar.png'}" class="img-fluid avatar avatar-md-sm rounded-circle shadow" alt="img">
                                 </a>
                                 <div class="commentor-detail">
-                                    <h6 class="mb-0"><a href="javascript:void(0)" class="text-dark media-heading" th:text="${blog.user.fullName}"></a></h6>
-                                    <small class="text-muted" th:text="${blog.createdAt}"></small>
+                                    <h6 class="mb-0"><a href="javascript:void(0)" class="text-dark media-heading" th:text="${comment.user.fullName}"></a></h6>
+                                    <small class="text-muted" th:text="${comment.createdAt}"></small>
+                                    <small th:if="${comment.user.role == 'Admin' || comment.user.role == 'Staff' }" class="text-muted d-block" th:text="Moderator"></small>
+                                    <small th:if="${comment.user.role == 'Doctor' }" class="text-muted d-block" th:text="Doctor"></small>
                                 </div>
                             </div>
                         </div>
@@ -138,8 +137,6 @@
 <!--                                <span class="mt-2 text-danger" th:if="${#fields.hasErrors('description')}"-->
 <!--                                      th:errors="*{description}"></span>-->
                                 <span class="mt-2 text-danger" th:if="${description}" th:text="${description}"></span>
-                                <input th:name="user" id="user" th:value="${user.userId}" type="text" hidden
-                                       class="form-control">
                                 <input th:name="blog" id="blog" th:value="${blog.blogId}" type="text" hidden
                                        class="form-control">
                             </div>
