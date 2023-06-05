@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("patient")
@@ -25,8 +26,8 @@ public class PatientController {
     private PasswordEncoder passwordEncoder;
 
     @GetMapping("/profile")
-    public String viewProfile(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model){
-        model.addAttribute("user",userDetails);
+    public String viewProfile(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
+        model.addAttribute("user", userDetails);
         return "landing/patient/patient-profile";
     }
 
@@ -36,38 +37,41 @@ public class PatientController {
             @RequestParam("currentPassword") String currentPassword,
             @RequestParam("newPassword") String newPassword,
             @RequestParam("confirmPassword") String confirmPassword,
-            Model model)
-        {
-            String url = "landing/patient/patient-profile";
-            User userEntity = userDetails.getUserEntity();
-            String message = "";
+            Model model,
+            RedirectAttributes redirectAttributes) {
+        String url = "landing/patient/patient-profile";
+        User userEntity = userDetails.getUserEntity();
+        String message = "";
 
-            //login success
-            if (userEntity != null){
-                // password correct
-                if (passwordEncoder.matches(currentPassword,userEntity.getPassword())){
-                    //current Password not same new password
-                    if (!currentPassword.equals(newPassword)){
+        //login success
+        if (userEntity != null) {
+            // password correct
+            if (passwordEncoder.matches(currentPassword, userEntity.getPassword())) {
+                //current Password not same new password
+                if (!currentPassword.equals(newPassword)) {
                     //confirm password
-                        if (newPassword.equals(confirmPassword)){
-                            userEntity = userService.update(userEntity, newPassword);
-                            userDetails.setUserEntity(userEntity);
-                        }else{
-                            message = "Confirm password not same !!!";
+                    if (newPassword.equals(confirmPassword)) {
+                        userEntity = userService.update(userEntity, newPassword);
+                        userDetails.setUserEntity(userEntity);
+                        redirectAttributes.addFlashAttribute("passwordMessage", "Change password success");
+//                        return "redirect:/patient/profile";
+                        return "redirect:/patient/profile";
+                    } else {
+                        message = "Confirm password not same !!!";
                     }
-                    }else {
-                        message = "Please enter new password different old password!!!";
-                    }
-                }else{
-                    message = "Wrong password !";
+                } else {
+                    message = "Please enter new password different old password!!!";
                 }
-            }else{
-                message = "Please login !!!";
+            } else {
+                message = "Wrong password !";
             }
-
-            model.addAttribute("message", message);
-            model.addAttribute("user",userEntity);
-            return url;
+        } else {
+            message = "Please login !!!";
         }
+
+        model.addAttribute("message", message);
+        model.addAttribute("user", userEntity);
+        return url;
+    }
 
 }

@@ -3,6 +3,7 @@ package com.dental.controller;
 import com.dental.entity.User;
 import com.dental.entity.UserDetailsImpl;
 import com.dental.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -27,7 +28,7 @@ public class UserController {
     @GetMapping("/homeLanding")
     public String viewHomeLandingPage(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
         User userEnity = null;
-        if (userDetails != null){
+        if (userDetails != null) {
             userEnity = userDetails.getUserEntity();
         }
 
@@ -50,7 +51,6 @@ public class UserController {
     }
 
 
-
     @GetMapping("/error")
     public String viewTest(Model model) {
         User user = new User();
@@ -62,7 +62,7 @@ public class UserController {
 // test link: http://localhost:8888/user/homeAdmin
 
     @GetMapping()
-    public String viewListPlan(Model theModel){
+    public String viewListPlan(Model theModel) {
         // get employees from db
         List<User> user = userService.getAllUser();
 
@@ -71,6 +71,7 @@ public class UserController {
 
         return "/user/list-user";
     }
+
     @PostMapping()
     public void registerUser(@ModelAttribute("") User user) {
         userService.addUser(user);
@@ -83,17 +84,35 @@ public class UserController {
         return "landing/auth/signup";
     }
 
-    @PostMapping("/register/save")
-    public String registration(@ModelAttribute("user") User user,
-                               BindingResult result,
-                               Model model) {
-        System.out.println(user);
-        if(user==null){
+    //    @PostMapping("/register/save")
+//    public String registration(@ModelAttribute("user") User user,
+//                               BindingResult result,
+//                               Model model) {
+//        System.out.println(user);
+//        if(user==null){
+//            return "landing/auth/signup";
+//        }else {
+//            userService.registerUser(user);
+//        }
+//        return "redirect:/login";
+//    }
+    @PostMapping("/register")
+    public String processRegistrationForm(@ModelAttribute("user") @Valid User user, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("user", user);
             return "landing/auth/signup";
+        }
+
+        User existingUser = userService.findByEmail(user.getEmail());
+        if (existingUser != null) {
+            model.addAttribute("emailError", "Email đã được sử dụng.");
+            return "landing/auth/signup";
+//            return "redirect:/register";
         }else {
             userService.registerUser(user);
+            return "redirect:/login";
         }
-        return "redirect:/login";
+
     }
 
     @RequestMapping(value = "/checkEmailExists", method = RequestMethod.GET)

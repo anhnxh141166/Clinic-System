@@ -2,6 +2,7 @@ package com.dental.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -20,15 +21,21 @@ public class User {
     private Integer userId;
 
     @Column(length = 254, nullable = false, unique = true)
-    @Size(min = 1, message = "Email must be mandatory")
+   @Size(min = 4, message = "Email must be mandatory")
     @Email(message = "This field must be an email")
+//    @NotBlank(message = "Email không được để trống")
+//    @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$", message = "Email không đúng định dạng")
     private String email;
 
     @Column(length = 254, nullable = false)
+//    @Size(min = 6, max=20, message = "Password must be mandatory")
+//    @NotBlank(message = "Mật khẩu không được để trống")
     private String password;
 
     @Column(columnDefinition = "nvarchar(50)" , nullable = false)
-    @Size(min = 1, message = "Full name must be mandatory")
+    @Size(min = 3, max = 30, message = "Full name must be mandatory")
+//    @NotBlank(message = "Tên không được để trống")
+//    @Pattern(regexp = "^[a-zA-Z\\s]{4,30}$\n", message = "Tên chỉ được nhập kí tự không được nhập số và kí tự đặc biệt")
     private String fullName;
 
     @Column(length = 1, nullable = false, columnDefinition = "bit default 1")

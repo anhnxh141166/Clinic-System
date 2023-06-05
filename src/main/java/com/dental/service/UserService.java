@@ -77,4 +77,8 @@ public class UserService {
     public boolean checkEmail(String email) {
         return userRepository.findByEmail(email) != null;
     }
+
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 }
