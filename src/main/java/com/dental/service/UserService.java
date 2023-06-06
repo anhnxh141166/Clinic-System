@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.List;
 
 @Service
@@ -36,6 +37,7 @@ public class UserService {
     public void updateUser(String fullName, boolean status, int id) {
         userRepository.setUserInfoById(fullName, status, id);
     }
+
 
     public User getByEmail(String email) {
         return userRepository.findByEmail(email);
