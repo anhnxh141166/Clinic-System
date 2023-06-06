@@ -1,10 +1,16 @@
 package com.dental.controller;
 
+import com.dental.entity.Blog;
 import com.dental.entity.Doctor;
 import com.dental.entity.Patient;
+import com.dental.entity.RateStar;
+import com.dental.entity.Service;
 import com.dental.entity.User;
 import com.dental.entity.UserDetailsImpl;
+import com.dental.service.BlogService;
 import com.dental.service.DoctorService;
+import com.dental.service.RateStarService;
+import com.dental.service.SService;
 import com.dental.service.UserService;
 import com.dental.util.UploadFile;
 import jakarta.servlet.http.HttpSession;
@@ -39,14 +45,35 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+
+    @Autowired
+    BlogService blogService;
+
+    @Autowired
+    SService serviceService;
+
+    @Autowired
+    RateStarService rateStarService;
+
     @GetMapping("/")
     public String viewHomeLandingPage(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
         User userEnity = null;
         if (userDetails != null){
             userEnity = userDetails.getUserEntity();
         }
+        List<Service> services = serviceService.getAll();
+        List<Doctor> doctors = doctorService.getAll();
+        List<Blog> blogs = blogService.getAll();
+
+        List<RateStar> rateStars = rateStarService.getAll();
+        List<RateStar> rateStarsTop5 = rateStarService.findTop5ByStarGreaterThanOrderByStarDesc(3);
 
         model.addAttribute("user", userEnity);
+        model.addAttribute("services", services);
+        model.addAttribute("doctors", doctors);
+        model.addAttribute("blogs", blogs);
+        model.addAttribute("rateStars", rateStars);
+        model.addAttribute("rateStarsTop5", rateStarsTop5);
         return "landing/index";
     }
 
