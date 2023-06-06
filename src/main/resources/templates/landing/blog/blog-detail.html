@@ -62,11 +62,8 @@
                         <div class="d-flex justify-content-between">
                             <div class="d-flex align-items-center">
                                 <a class="pe-3" href="#">
-                                    <img th:if="${comment.user.role == 'Admin' || comment.user.role == 'Staff' }" th:src="@{'~/assets/images/avatar.png'}" class="img-fluid avatar avatar-md-sm rounded-circle shadow" alt="img">
-                                    <img th:if="${comment.user.role == 'Doctor' && comment.user.doctor.avatar != null }" th:src="@{'~/assets/uploads/'+${comment.user.patient.avatar}}" class="img-fluid avatar avatar-md-sm rounded-circle shadow" alt="img">
-                                    <img th:if="${comment.user.role == 'Doctor' && comment.user.doctor.avatar == null }" th:src="@{'~/assets/images/avatar.png'}" class="img-fluid avatar avatar-md-sm rounded-circle shadow" alt="img">
-                                    <img th:if="${comment.user.role == 'Patient' && comment.user.patient.avatar != null }" th:src="@{'~/assets/uploads/'+${comment.user.patient.avatar}}" class="img-fluid avatar avatar-md-sm rounded-circle shadow" alt="img">
-                                    <img th:if="${comment.user.role == 'Patient' && comment.user.patient.avatar == null }" th:src="@{'~/assets/images/avatar.png'}" class="img-fluid avatar avatar-md-sm rounded-circle shadow" alt="img">
+                                    <img th:if="${comment.user.avatar}" th:src="@{'~/assets/uploads/'+${comment.user.avatar}}" class="img-fluid avatar avatar-md-sm rounded-circle shadow" alt="img">
+                                    <img th:unless="${comment.user.avatar}" th:src="@{'~/assets/images/avatar.png'}" class="img-fluid avatar avatar-md-sm rounded-circle shadow" alt="img">
                                 </a>
                                 <div class="commentor-detail">
                                     <h6 class="mb-0"><a href="javascript:void(0)" class="text-dark media-heading" th:text="${comment.user.fullName}"></a></h6>

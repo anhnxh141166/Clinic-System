@@ -18,7 +18,7 @@ public class CommentBlog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer commentId;
 
-    @Column(nullable = false, columnDefinition = "nvarchar(254)")
+    @Column(nullable = false, columnDefinition = "text")
     @Size(min = 1, message = "Comment must be mandatory")
     private String description;
 
