@@ -38,18 +38,18 @@
                 <div class="row">
                     <div class="col-lg-8 mt-4">
                         <div class="card border-0 p-4 rounded shadow">
-                            <form method="POST" id="form-submit" th:action="@{/admin/doctor/update}" th:object="${doctor}"
+                            <form method="POST" id="form-submit" th:action="@{/admin/doctor/update}" th:object="${user}"
                                   enctype="multipart/form-data">
                                 <div class="row align-items-center justify-content-between">
                                     <div class="col-lg-2 col-md-4">
                                         <div class="preview-box avatar avatar-md-md rounded-pill shadow mx-auto d-block">
-                                            <img th:if="${doctor.avatar}" th:src="@{'~/assets/uploads/'+${doctor.avatar}}" style="border-radius: 50%; height: 100%;"
+                                            <img th:if="${user.avatar}" th:src="@{'~/assets/uploads/'+${user.avatar}}" style="border-radius: 50%; height: 100%;"
                                                  class="preview-content w-100" src=${reader.result} />
                                         </div>
                                     </div><!--end col-->
 
                                     <div class="col-4">
-                                        <p id="avatar" class="d-none" th:name="avatar" th:text="${doctor.avatar}"></p>
+                                        <p id="avatar" class="d-none" th:name="avatar" th:text="${user.avatar}"></p>
                                         <input type="file" id="image" name="image"
                                                accept="image/*"
                                                onchange={handleChange()} hidden/>
@@ -58,13 +58,13 @@
                                         <span class="mt-2 text-danger d-block" th:if="${image}"
                                               th:text="${image}"></span>
                                     </div>
-                                    <input th:name="doctorId" id="doctorId" th:field="*{doctorId}"
+                                    <input th:name="userId" id="userId" th:field="*{userId}"
                                            type="text"
                                            class="form-control" hidden>
                                 </div><!--end row-->
 
 
-                                <div class="row mt-3" th:object="${user}">
+                                <div class="row mt-3">
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label">Full Name</label>
@@ -76,12 +76,20 @@
                                         </div>
                                     </div><!--end col-->
 
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
+                                    <div class="col-md-6" th:switch="${user.status}">
+                                        <div class="mb-3" th:case="true">
                                             <label class="form-label d-block">Status</label>
                                             <input type="radio" th:name="status" th:value="1" checked/> Active
                                             <input style="margin-left: 20px;" type="radio" th:name="status"
                                                    th:value="0"/> Inactive
+                                            <span class="mt-2 text-danger" th:if="${#fields.hasErrors('status')}"
+                                                  th:errors="*{status}"></span>
+                                        </div>
+                                        <div class="mb-3" th:case="false">
+                                            <label class="form-label d-block">Status</label>
+                                            <input type="radio" th:name="status" th:value="1"/> Active
+                                            <input style="margin-left: 20px;" type="radio" th:name="status"
+                                                   th:value="0" checked/> Inactive
                                             <span class="mt-2 text-danger" th:if="${#fields.hasErrors('status')}"
                                                   th:errors="*{status}"></span>
                                         </div>
@@ -123,18 +131,25 @@
                                         </div>
                                     </div><!--end col-->
 
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
+                                    <div class="col-md-6" th:switch="${user.gender}">
+                                        <div class="mb-3" th:case="Male">
                                             <label class="form-label d-block">Gender</label>
                                             <input type="radio" th:name="gender" th:value="Male" checked/> Male
                                             <input style="margin-left: 20px;" type="radio" th:name="gender"
                                                    th:value="Female"/> Female
                                             <span class="mt-2 text-danger" th:if="${gender}" th:text="${gender}"></span>
                                         </div>
+                                        <div class="mb-3" th:case="Female">
+                                            <label class="form-label d-block">Gender</label>
+                                            <input type="radio" th:name="gender" th:value="Male" /> Male
+                                            <input style="margin-left: 20px;" type="radio" th:name="gender"
+                                                   th:value="Female" checked/> Female
+                                            <span class="mt-2 text-danger" th:if="${gender}" th:text="${gender}"></span>
+                                        </div>
                                     </div><!--end col-->
 
                                     <div class="col-md-12">
-                                        <div class="mb-3">
+                                        <div class="mb-3" th:object="${doctor}">
                                             <label class="form-label">Your Bio Here</label>
                                             <textarea th:name="description" th:field="*{description}"
                                                       th:value="${description}"
@@ -160,13 +175,13 @@
                             <ul class="list-unstyled mb-0 p-4" data-simplebar style="height: 664px;">
                                 <li class="d-md-flex align-items-center text-center text-md-start mt-4"
                                     th:each="doctor, iterStat : ${doctors}" th:if="${iterStat.index} &lt; 5">
-                                    <img th:src="@{'~/assets/uploads/'+${doctor.avatar}}"
-                                         class="avatar avatar-medium rounded-md shadow" alt="">
+                                    <a th:href="@{/admin/doctor/{doctorId}(doctorId=${doctor.doctorId})}"><img th:src="@{'~/assets/uploads/'+${doctor.user.avatar}}"
+                                                                                                               class="avatar avatar-medium rounded-md shadow" alt=""></a>
 
                                     <div class="ms-md-3 mt-4 mt-sm-0">
-                                        <a href="#" class="text-dark h6" th:text="${doctor.user.fullName}"></a>
+                                        <a th:href="@{/admin/doctor/{doctorId}(doctorId=${doctor.doctorId})}" class="text-dark h6" th:text="${doctor.user.fullName}"></a>
                                         <p class="text-muted my-1" th:text="${doctor.user.email}"></p>
-                                        <p class="text-muted mb-0" th:text="${doctor.phoneNumber}"></p>
+                                        <p class="text-muted mb-0" th:text="${doctor.user.phoneNumber}"></p>
                                     </div>
                                 </li>
 

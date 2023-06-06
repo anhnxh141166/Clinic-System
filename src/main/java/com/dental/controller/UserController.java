@@ -1,6 +1,7 @@
 package com.dental.controller;
 
 import com.dental.entity.Doctor;
+import com.dental.entity.Patient;
 import com.dental.entity.User;
 import com.dental.entity.UserDetailsImpl;
 import com.dental.service.DoctorService;
@@ -100,17 +101,11 @@ public class UserController {
 
     @GetMapping("/profile")
     public String profile(
-            Model model,
-            @AuthenticationPrincipal UserDetailsImpl userDetails
+            @AuthenticationPrincipal UserDetailsImpl userDetails,
+            Model model
     ) {
-        System.out.println("role ne");
-        System.out.println(userDetails.getUserEntity().getRole());
-        System.out.println(userDetails.getUserEntity());
-        System.out.println("out here");
-        System.out.println(doctorService.get(userDetails.getUserEntity().getUserId()));
-        if (userDetails.getUserEntity().getRole() == "Doctor") {
-            System.out.println("in here");
-            System.out.println(doctorService.get(userDetails.getUserEntity().getUserId()));
+        String role = userDetails.getUserEntity().getRole();
+        if (role.equals("Doctor")) {
             model.addAttribute("doctor", doctorService.get(userDetails.getUserEntity().getUserId()));
         }
 
@@ -174,8 +169,12 @@ public class UserController {
         user.setRole(u.getRole());
         user.setCreatedAt(u.getCreatedAt());
 
-        if (doctorBindingResult.hasErrors() || userBindingResult.hasErrors()) {
-            return "landing/user/profile";
+        if (user.getDateOfBirth() == null) {
+            model.addAttribute("dateOfBirth", "Date of birth must be mandatory");
+        }
+
+        if (user.getGender() == null) {
+            model.addAttribute("gender", "Gender must be mandatory");
         }
 
         if (multipartFile != null) {
@@ -189,14 +188,21 @@ public class UserController {
                     throw new RuntimeException(e);
                 }
             }
+        } else {
+            user.setAvatar(u.getAvatar());
+        }
+
+        if (doctorBindingResult.hasErrors() || userBindingResult.hasErrors()) {
+            return "landing/user/profile";
         }
 
         try {
-            if (user.getRole() == "Doctor") {
+            if (user.getRole().equals("Doctor")) {
                 doctorService.updateDoctor(doctor.getDescription(), doctorId);
             }
+
             userService.save(user);
-            return "redirect:/landing/user/profile";
+            return "redirect:/profile";
         } catch (Error e) {
             System.out.println(e);
             return "landing/user/profile";
