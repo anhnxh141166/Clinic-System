@@ -76,4 +76,25 @@ public class UserService {
     public boolean checkEmail(String email) {
         return userRepository.findByEmail(email) != null;
     }
+
+    public void updateToken(String token, String email){
+        User user = userRepository.findByEmail(email);
+        if (user != null){
+            user.setToken(token);
+            userRepository.save(user);
+        }else {
+            //exception
+        }
+    }
+
+    public User findByToken(String token){
+        return userRepository.findByToken(token) ;
+    }
+
+    public void updatePassword(User user, String newPassword){
+        String encodePassword = passwordEncoder.encode(newPassword);
+        user.setPassword(encodePassword);
+        user.setToken(null);
+        userRepository.save(user);
+    }
 }
