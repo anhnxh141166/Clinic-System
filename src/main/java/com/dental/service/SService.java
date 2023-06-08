@@ -1,5 +1,6 @@
 package com.dental.service;
 
+import com.dental.entity.Blog;
 import com.dental.entity.Service;
 import com.dental.repository.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,5 +48,18 @@ public class SService  {
 
     public List<Object[]> findAllServicesWithAverageStar() {
         return serviceRepository.findAllServicesWithAverageStar();
+    }
+
+    // User Page
+    public List<Service> findAllByStatusTrueOrderByCreatedAtDesc() {
+        return serviceRepository.findAllByStatusTrueOrderByCreatedAtDesc();
+    }
+
+    public Page<Service> findAllByStatusTrueOrderByCreatedAtDesc(Pageable pageable) {
+        return serviceRepository.findAllByStatusTrueOrderByCreatedAtDesc(pageable);
+    }
+
+    public Page<Service> findAllByTitleContainingAndStatusTrueOrderByCreatedAtDesc(String title, Pageable pageable) {
+        return serviceRepository.findAllByTitleContainingAndStatusTrueOrderByCreatedAtDesc(title, pageable);
     }
 }

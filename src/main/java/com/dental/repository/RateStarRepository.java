@@ -16,12 +16,13 @@ public interface RateStarRepository extends JpaRepository<RateStar, Integer> {
 
     Page<RateStar> findAllByServiceServiceId(int serviceId, Pageable pageable);
 
+    Page<RateStar> findAllByServiceServiceIdOrderByCreatedAtDesc(int serviceId, Pageable pageable);
+
     @Query("SELECT r.service.serviceId, AVG(r.star) FROM RateStar r GROUP BY r.service.serviceId")
     @Transactional
     List<Object[]> findAllWithAvg();
 
 
     List<RateStar> findTop5ByStarGreaterThanOrderByStarDesc(int greater);
-//    List<RateStar> findTop5ByStarGreaterThanOrderByStarDesc(int greater);
 
 }

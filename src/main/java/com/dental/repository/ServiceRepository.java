@@ -1,5 +1,6 @@
 package com.dental.repository;
 
+import com.dental.entity.Blog;
 import com.dental.entity.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Page;
@@ -24,4 +25,11 @@ public interface ServiceRepository extends JpaRepository<Service, Integer> {
     @Transactional
     @Query("SELECT s, AVG(r.star) FROM Service s LEFT JOIN s.rateStar r GROUP BY r.service.serviceId")
     List<Object[]> findAllServicesWithAverageStar();
+
+    // User Page
+    List<Service> findAllByStatusTrueOrderByCreatedAtDesc();
+
+    Page<Service> findAllByTitleContainingAndStatusTrueOrderByCreatedAtDesc(String title, Pageable pageable);
+
+    Page<Service> findAllByStatusTrueOrderByCreatedAtDesc(Pageable pageable);
 }

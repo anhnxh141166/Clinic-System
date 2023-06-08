@@ -96,40 +96,40 @@
                                                 </div>
                                             </a>
                                         </td>
-                                        <td class="p-3" th:text="${service.price} + ' ' + đ"></td>
+                                        <td class="p-3" th:text="'$ ' + ${service.price}"></td>
                                         <td class="p-3" th:each="review : ${reviews}"
                                             th:if="${review[0] == service.serviceId}">
-                                            <p class="m-0" th:if="${review[1]}">
-                                            <div>
-                                                <svg style="display:none;">
-                                                    <defs>
-                                                        <symbol id="fivestarss">
-                                                            <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z M0 0 h24 v24 h-24 v-24"
-                                                                  fill="white" fill-rule="evenodd"/>
-                                                            <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z M0 0 h24 v24 h-24 v-24"
-                                                                  fill="white" fill-rule="evenodd"
-                                                                  transform="translate(24)"/>
-                                                            <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z M0 0 h24 v24 h-24 v-24"
-                                                                  fill="white" fill-rule="evenodd"
-                                                                  transform="translate(48)"/>
-                                                            <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z M0 0 h24 v24 h-24 v-24"
-                                                                  fill="white" fill-rule="evenodd"
-                                                                  transform="translate(72)"/>
-                                                            <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z M0 0 h24 v24 h-24 v-24"
-                                                                  fill="white" fill-rule="evenodd"
-                                                                  transform="translate(96)"/>
-                                                        </symbol>
-                                                    </defs>
-                                                </svg>
-                                                <div class="rating">
-                                                    <progress class="rating-bg" th:value="${review[1]}"
-                                                              max="5"></progress>
-                                                    <svg>
-                                                        <use xlink:href="#fivestarss"/>
+                                            <div class="m-0" th:if="${review[1]}">
+                                                <div>
+                                                    <svg style="display:none;">
+                                                        <defs>
+                                                            <symbol id="fivestarss">
+                                                                <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z M0 0 h24 v24 h-24 v-24"
+                                                                      fill="white" fill-rule="evenodd"/>
+                                                                <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z M0 0 h24 v24 h-24 v-24"
+                                                                      fill="white" fill-rule="evenodd"
+                                                                      transform="translate(24)"/>
+                                                                <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z M0 0 h24 v24 h-24 v-24"
+                                                                      fill="white" fill-rule="evenodd"
+                                                                      transform="translate(48)"/>
+                                                                <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z M0 0 h24 v24 h-24 v-24"
+                                                                      fill="white" fill-rule="evenodd"
+                                                                      transform="translate(72)"/>
+                                                                <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z M0 0 h24 v24 h-24 v-24"
+                                                                      fill="white" fill-rule="evenodd"
+                                                                      transform="translate(96)"/>
+                                                            </symbol>
+                                                        </defs>
                                                     </svg>
+                                                    <div class="rating">
+                                                        <progress class="rating-bg" th:value="${review[1]}"
+                                                                  max="5"></progress>
+                                                        <svg>
+                                                            <use xlink:href="#fivestarss"/>
+                                                        </svg>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            </p>
                                         </td>
                                         <td class="p-3" th:if="${service.rateStar.size() == 0}">
                                             <div>

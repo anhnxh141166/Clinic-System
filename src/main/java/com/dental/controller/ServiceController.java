@@ -1,8 +1,6 @@
 package com.dental.controller;
 
-import com.dental.entity.RateStar;
-import com.dental.entity.Service;
-import com.dental.entity.User;
+import com.dental.entity.*;
 import com.dental.service.RateStarService;
 import com.dental.service.SService;
 import com.dental.service.UserService;
@@ -13,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -208,5 +207,76 @@ public class ServiceController {
             throw new IllegalAccessException("Failed to delete!");
         }
         return "redirect:/admin/service";
+    }
+
+    // USER PAGE
+    @GetMapping("service")
+    public String getAllService(
+            Model model,
+            @RequestParam(name = "page", required = false, defaultValue = Const.PAGE_DEFAULT_STR) Integer pageNum,
+            @RequestParam(name = "pageSize", required = false, defaultValue = "9") Integer pageSize,
+            @RequestParam(name = "titleSearch", required = false) String titleSearch,
+            @RequestParam(name = "statusSearch", required = false) String statusSearch
+    ) {
+        if (pageNum < 1) {
+            pageNum = 1;
+        }
+
+        Pageable pageable = PageRequest.of(pageNum - 1, pageSize);
+        List<Service> services = serviceService.getAll();
+        Page<Service> Service;
+
+        List<Object[]> servicesWithAVG = rateStarService.findAllWithAvg();
+
+        if (titleSearch != null && !titleSearch.isEmpty()) {
+            Service = serviceService.findAllByTitleContainingAndStatusTrueOrderByCreatedAtDesc(titleSearch, pageable);
+        } else {
+            Service = serviceService.findAllByStatusTrueOrderByCreatedAtDesc(pageable);
+        }
+
+        model.addAttribute("statusSearch", statusSearch);
+        model.addAttribute("usesPage", Service);
+        model.addAttribute("numberOfPage", Service.getTotalPages());
+        model.addAttribute("services", services);
+        model.addAttribute("reviews", servicesWithAVG);
+
+        return "landing/service/services";
+    }
+
+    @GetMapping("/service/{serviceId}")
+    public String getOneService(
+            @PathVariable("serviceId") int serviceId,
+            Model model,
+            @AuthenticationPrincipal UserDetailsImpl userDetails,
+            @RequestParam(name = "page", required = false, defaultValue = Const.PAGE_DEFAULT_STR) Integer pageNum,
+            @RequestParam(name = "pageSize", required = false, defaultValue = Const.PAGE_SIZE_DEFAULT_STR) Integer pageSize
+    ) {
+        if (pageNum < 1) {
+            pageNum = 1;
+        }
+
+        Pageable pageable = PageRequest.of(pageNum - 1, pageSize);
+        Service service = serviceService.get(serviceId);
+
+        List<Service> services = serviceService.findAllByStatusTrueOrderByCreatedAtDesc();
+        Page<RateStar> feedbacksByServiceId = rateStarService.findAllByServiceServiceIdOrderByCreatedAtDesc(serviceId, pageable);
+
+        User user = userDetails.getUserEntity();
+        Page<RateStar> reviewsByServiceId = rateStarService.getAllByServiceId(serviceId, pageable);
+        float avg = 0;
+        for (RateStar review : reviewsByServiceId) {
+            avg += review.getStar();
+        }
+
+        avg = avg / reviewsByServiceId.getContent().size();
+
+        model.addAttribute("service", service);
+        model.addAttribute("user", user);
+        model.addAttribute("services", services);
+        model.addAttribute("feedbacks", feedbacksByServiceId);
+        model.addAttribute("numberOfPage", feedbacksByServiceId.getTotalPages());
+        model.addAttribute("avg", avg);
+
+        return "/landing/service/service-detail";
     }
 }
