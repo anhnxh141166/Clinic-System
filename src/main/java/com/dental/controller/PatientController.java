@@ -69,23 +69,23 @@ public class PatientController {
         return url;
     }
 
-    @GetMapping("")
-    public String getAll() {
-        return "";
-    }
-
-    @GetMapping("{}")
-    public String getOne() {
-        return "";
-    }
-
-    @GetMapping("{}")
-    public String detailPatient() {
-        return "";
-    }
-
-    public String updatePatient(){
-        return "";
-    }
+//    @GetMapping("")
+//    public String getAll() {
+//        return "";
+//    }
+//
+//    @GetMapping("{}")
+//    public String getOne() {
+//        return "";
+//    }
+//
+//    @GetMapping("{}")
+//    public String detailPatient() {
+//        return "";
+//    }
+//
+//    public String updatePatient(){
+//        return "";
+//    }
 
 }
