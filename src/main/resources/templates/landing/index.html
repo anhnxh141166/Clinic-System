@@ -163,13 +163,9 @@
                                     <i class="mdi mdi-star text-warning"></i>
                                 </li>
                                 <li class="list-inline-item" th:each="count: ${#numbers.sequence(0, service.getAvgStarByServiceId(service.serviceId, servicesWithAVG))}" th:if="${service.getAvgStarByServiceId(service.serviceId, servicesWithAVG) == 0}">
-                                    <i class="mdi mdi-star text-warning"></i>
-                                    <span>Loading ...</span>
+                                    <span>Not feedback</span>
                                 </li>
-<!--                                <li class="list-inline-item" ><i class="mdi mdi-star text-warning"></i></li>-->
-<!--                                <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>-->
-<!--                                <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>-->
-<!--                                <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>-->
+
                             </ul>
 <!--                            <p class="text-muted mb-0">5 Star</p>-->
                         </div>
@@ -181,11 +177,11 @@
                             <!--                            </li>-->
                             <li class="d-flex mt-2">
                                 <i class="ri-money-dollar-circle-line text-primary align-middle"></i>
-                                <small class="text-muted ms-2" th:text="${service.price}+'$'"></small>
+                                <small class="text-muted ms-2" th:text="${service.price}+' $'"></small>
                             </li>
                             <li class="d-flex mt-2">
-                                <i class="ri-time-line text-primary align-middle"></i>
-                                <small class="text-muted ms-2" th:utext="${service.content}"></small>
+<!--                                <i class="ri-time-line text-primary align-middle"></i>-->
+                                <small class="text-muted ms-2" th:utext="${service.description}"></small>
                             </li>
                         </ul>
 
@@ -193,110 +189,6 @@
                 </div>
             </div>
 
-
-            <!--            <div class="col-xl-3 col-md-4 col-12 mt-5" th:each="service: ${services}">-->
-            <!--                <div class="card features feature-primary border-0">-->
-            <!--                    <div class="icon text-center rounded-md">-->
-            <!--                        <i class="ri-eye-fill h3 mb-0"></i>-->
-            <!--                    </div>-->
-            <!--                    <div class="card-body p-0 mt-3">-->
-            <!--                        <a href="departments.html" class="title text-dark h5" th:text="${service.title}"></a>-->
-            <!--                        <p class="text-muted mt-3" th:utext="${service.content}"></p>-->
-            <!--                        <a href="departments.html" class="link">Read More <i class="ri-arrow-right-line align-middle"></i></a>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--            </div>&lt;!&ndash;end col&ndash;&gt;-->
-
-            <!--            <div class="col-xl-3 col-md-4 col-12 mt-5">-->
-            <!--                <div class="card features feature-primary border-0">-->
-            <!--                    <div class="icon text-center rounded-md">-->
-            <!--                        <i class="ri-psychotherapy-fill h3 mb-0"></i>-->
-            <!--                    </div>-->
-            <!--                    <div class="card-body p-0 mt-3">-->
-            <!--                        <a href="departments.html" class="title text-dark h5">Psychotherapy</a>-->
-            <!--                        <p class="text-muted mt-3">There is now an abundance of readable dummy texts required purely to fill a space.</p>-->
-            <!--                        <a href="departments.html" class="link">Read  More<i class="ri-arrow-right-line align-middle"></i></a>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--            </div>&lt;!&ndash;end col&ndash;&gt;-->
-
-            <!--            <div class="col-xl-3 col-md-4 col-12 mt-5">-->
-            <!--                <div class="card features feature-primary border-0">-->
-            <!--                    <div class="icon text-center rounded-md">-->
-            <!--                        <i class="ri-stethoscope-fill h3 mb-0"></i>-->
-            <!--                    </div>-->
-            <!--                    <div class="card-body p-0 mt-3">-->
-            <!--                        <a href="departments.html" class="title text-dark h5">Primary Care</a>-->
-            <!--                        <p class="text-muted mt-3">There is now an abundance of readable dummy texts required purely to fill a space.</p>-->
-            <!--                        <a href="departments.html" class="link">Read More <i class="ri-arrow-right-line align-middle"></i></a>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--            </div>&lt;!&ndash;end col&ndash;&gt;-->
-
-            <!--            <div class="col-xl-3 col-md-4 col-12 mt-5">-->
-            <!--                <div class="card features feature-primary border-0">-->
-            <!--                    <div class="icon text-center rounded-md">-->
-            <!--                        <i class="ri-capsule-fill h3 mb-0"></i>-->
-            <!--                    </div>-->
-            <!--                    <div class="card-body p-0 mt-3">-->
-            <!--                        <a href="departments.html" class="title text-dark h5">Dental Care</a>-->
-            <!--                        <p class="text-muted mt-3">There is now an abundance of readable dummy texts required purely to fill a space.</p>-->
-            <!--                        <a href="departments.html" class="link">Read More <i class="ri-arrow-right-line align-middle"></i></a>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--            </div>&lt;!&ndash;end col&ndash;&gt;-->
-
-            <!--            <div class="col-xl-3 col-md-4 col-12 mt-5">-->
-            <!--                <div class="card features feature-primary border-0">-->
-            <!--                    <div class="icon text-center rounded-md">-->
-            <!--                        <i class="ri-microscope-fill h3 mb-0"></i>-->
-            <!--                    </div>-->
-            <!--                    <div class="card-body p-0 mt-3">-->
-            <!--                        <a href="departments.html" class="title text-dark h5">Orthopedic</a>-->
-            <!--                        <p class="text-muted mt-3">There is now an abundance of readable dummy texts required purely to fill a space.</p>-->
-            <!--                        <a href="departments.html" class="link">Read More <i class="ri-arrow-right-line align-middle"></i></a>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--            </div>&lt;!&ndash;end col&ndash;&gt;-->
-
-            <!--            <div class="col-xl-3 col-md-4 col-12 mt-5">-->
-            <!--                <div class="card features feature-primary border-0">-->
-            <!--                    <div class="icon text-center rounded-md">-->
-            <!--                        <i class="ri-pulse-fill h3 mb-0"></i>-->
-            <!--                    </div>-->
-            <!--                    <div class="card-body p-0 mt-3">-->
-            <!--                        <a href="departments.html" class="title text-dark h5">Cardiology</a>-->
-            <!--                        <p class="text-muted mt-3">There is now an abundance of readable dummy texts required purely to fill a space.</p>-->
-            <!--                        <a href="departments.html" class="link">Read More <i class="ri-arrow-right-line align-middle"></i></a>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--            </div>&lt;!&ndash;end col&ndash;&gt;-->
-
-            <!--            <div class="col-xl-3 col-md-4 col-12 mt-5">-->
-            <!--                <div class="card features feature-primary border-0">-->
-            <!--                    <div class="icon text-center rounded-md">-->
-            <!--                        <i class="ri-empathize-fill h3 mb-0"></i>-->
-            <!--                    </div>-->
-            <!--                    <div class="card-body p-0 mt-3">-->
-            <!--                        <a href="departments.html" class="title text-dark h5">Gynecology</a>-->
-            <!--                        <p class="text-muted mt-3">There is now an abundance of readable dummy texts required purely to fill a space.</p>-->
-            <!--                        <a href="departments.html" class="link">Read More <i class="ri-arrow-right-line align-middle"></i></a>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--            </div>&lt;!&ndash;end col&ndash;&gt;-->
-
-            <!--            <div class="col-xl-3 col-md-4 col-12 mt-5">-->
-            <!--                <div class="card features feature-primary border-0">-->
-            <!--                    <div class="icon text-center rounded-md">-->
-            <!--                        <i class="ri-mind-map h3 mb-0"></i>-->
-            <!--                    </div>-->
-            <!--                    <div class="card-body p-0 mt-3">-->
-            <!--                        <a href="departments.html" class="title text-dark h5">Neurology</a>-->
-            <!--                        <p class="text-muted mt-3">There is now an abundance of readable dummy texts required purely to fill a space.</p>-->
-            <!--                        <a href="departments.html" class="link">Read More <i class="ri-arrow-right-line align-middle"></i></a>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--            </div>&lt;!&ndash;end col&ndash;&gt;-->
             <div class="col-12 mt-4 pt-2 text-center">
                 <a href="#" class="btn btn-primary">See More</a>
             </div>

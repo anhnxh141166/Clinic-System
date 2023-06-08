@@ -22,6 +22,9 @@ public interface RateStarRepository extends JpaRepository<RateStar, Integer> {
     @Transactional
     List<Object[]> findAllWithAvg();
 
+    @Query("SELECT r.service.serviceId, AVG(r.star) AS aaa FROM RateStar r GROUP BY r.service.serviceId order by aaa desc ")
+    @Transactional
+    List<Object[]> findTop4WithAvg();
 
     List<RateStar> findTop5ByStarGreaterThanOrderByStarDesc(int greater);
 

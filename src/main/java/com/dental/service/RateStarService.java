@@ -47,9 +47,9 @@ public class RateStarService {
         return rateStarRepository.findAllWithAvg();
     }
 
-//    public List<Object[]> find() {
-////        return rateStarRepository.findAllWithAvg();
-//    }
+    public List<Object[]> findTop4WithAvg() {
+        return rateStarRepository.findTop4WithAvg();
+    }
 
 
     public List<RateStar> findTop5ByStarGreaterThanOrderByStarDesc(int greater) {

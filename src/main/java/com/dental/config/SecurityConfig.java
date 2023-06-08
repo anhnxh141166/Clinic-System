@@ -73,7 +73,7 @@ public class SecurityConfig {
         return http.csrf().disable()
                 .authorizeHttpRequests()
 //                    .requestMatchers("/", "assets/**", "/user/**").permitAll() // Allowing access to home page and static assets without authentication
-                    .requestMatchers("/","/register/**", "assets/**", "/forgot_password/**", "/reset_password/**", "/check_token/**", "/check_email/**").permitAll() // Allowing access to home page and static assets without authentication
+                    .requestMatchers("/","/register/**", "assets/**", "/forgot_password/**", "/reset_password/**", "/check_token/**", "/check_email/**", "/service/**", "/blog/**").permitAll() // Allowing access to home page and static assets without authentication
                     .requestMatchers("/checkEmailExists").permitAll() // Allowing access to home page and static assets without authentication
 //                    .requestMatchers("/register/**").permitAll() // Allowing access to home page and static assets without authentication
 //                    .requestMatchers("/user/homeLanding").permitAll() // Allowing access to /user/homeLanding without authentication
@@ -96,22 +96,6 @@ public class SecurityConfig {
                     .logout()
                     .logoutUrl("/doLogout")
                     .logoutSuccessUrl("/logout-success")
-//                    .logoutSuccessHandler(new LogoutSuccessHandler() {
-//                        @Override
-//                        public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-//                            System.out.println("Test logoutSuccessHandler");
-//                            User userEnity = (User) session.getAttribute("user");
-//                            System.out.println("Before delete session user");
-//                            System.out.println(userEnity);
-////                            session.removeAttribute("user");
-//                            System.out.println("After delete session user");
-//                            System.out.println(session.getAttribute("user"));
-//                            System.out.println(request.getContextPath());
-//                            response.sendRedirect(request.getContextPath());
-//                        }
-//                    })
-//                    .deleteCookies("JSESSIONID")
-//                    .invalidateHttpSession(true)
                     .permitAll()
                 .and()
                     .exceptionHandling()

@@ -67,7 +67,7 @@ public class UserController {
 
         List<RateStar> rateStars = rateStarService.getAll();
         List<RateStar> rateStarsTop5 = rateStarService.findTop5ByStarGreaterThanOrderByStarDesc(3);
-        List<Object[]> servicesWithAVG = rateStarService.findAllWithAvg();
+        List<Object[]> servicesWithAVG = rateStarService.findTop4WithAvg();
 
 
         model.addAttribute("user", userEnity);
