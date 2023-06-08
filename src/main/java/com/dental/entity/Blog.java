@@ -1,6 +1,7 @@
 package com.dental.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -21,14 +22,15 @@ public class Blog {
     private Integer blogId;
 
     @Column(length = 254, nullable = false, columnDefinition = "nvarchar(254)")
-    @Size(min = 1, message = "Title must be mandatory")
+    @Size(min = 1, max = 254, message = "Title must be mandatory and less than 254 characters")
     private String title;
 
     @Column(length = 254, nullable = true)
+    @Size(max = 254, message = "Thumbnail must be less than 254 characters")
     private String thumbnail;
 
     @Column(columnDefinition = "nvarchar(255)", nullable = false)
-    @Size(min = 1, message = "Summary must be mandatory")
+    @Size(min = 1, max = 255, message = "Summary must be mandatory and less than 255 characters")
     private String summary;
 
     @Column(nullable = true, columnDefinition = "text")
