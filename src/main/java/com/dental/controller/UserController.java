@@ -67,6 +67,8 @@ public class UserController {
 
         List<RateStar> rateStars = rateStarService.getAll();
         List<RateStar> rateStarsTop5 = rateStarService.findTop5ByStarGreaterThanOrderByStarDesc(3);
+        List<Object[]> servicesWithAVG = rateStarService.findAllWithAvg();
+
 
         model.addAttribute("user", userEnity);
         model.addAttribute("services", services);
@@ -74,8 +76,13 @@ public class UserController {
         model.addAttribute("blogs", blogs);
         model.addAttribute("rateStars", rateStars);
         model.addAttribute("rateStarsTop5", rateStarsTop5);
+        model.addAttribute("servicesWithAVG", servicesWithAVG);
         return "landing/index";
     }
+
+
+
+
 
 
     @GetMapping("/admin")

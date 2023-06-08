@@ -144,6 +144,17 @@ public class Service {
         this.appointment = appointment;
     }
 
+    public Integer getAvgStarByServiceId(Integer serviceId,List<Object[]> servicesWithAVG){
+        Double totalStar;
+        for (Object[] serviceWithAVG :servicesWithAVG){
+            if (serviceId == serviceWithAVG[0]){
+                totalStar = (Double) serviceWithAVG[1];
+                return  (int)(Math.round(totalStar));
+            }
+        }
+        return 0;
+    }
+
     @Override
     public String toString() {
         return "Service{" +
