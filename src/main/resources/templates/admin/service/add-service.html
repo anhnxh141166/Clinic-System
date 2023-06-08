@@ -74,7 +74,7 @@
                                             <label class="form-label">Price</label>
                                             <input th:name="price" th:field="*{price}"
                                                    th:value="${price}"
-                                                   id="price" type="number" class="form-control">
+                                                   id="price" type="text" class="form-control">
                                             <span class="mt-2 text-danger" th:if="${#fields.hasErrors('price')}"
                                                   th:errors="*{price}"></span>
                                         </div>
@@ -132,7 +132,7 @@
 
                                     <div class="ms-md-3 mt-4 mt-sm-0">
                                         <a href="@{/admin/service/{serviceId}(serviceId=${service.serviceId})}" class="text-dark h6" th:text="${service.title}"></a>
-                                        <p class="text-muted my-1" th:text="${service.price} + ' ' + đ"></p>
+                                        <p class="text-muted my-1" th:text="'$ ' + ${service.price}"></p>
                                         <p class="text-muted my-1" th:switch=${service.status}>
                                             <span th:case="${true}" class="badge bg-soft-success">Active</span>
                                             <span th:case="${false}" class="badge bg-soft-warning">Inactive</span>

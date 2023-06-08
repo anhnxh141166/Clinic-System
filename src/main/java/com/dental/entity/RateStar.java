@@ -27,7 +27,7 @@ public class RateStar {
     private float star;
 
     @Column(nullable = false, columnDefinition = "nvarchar(254)")
-    @Size(min = 1, message = "Feedback must be mandatory")
+    @Size(min = 1, max = 254, message = "Feedback must be mandatory and less than 254 characters")
     private String feedback;
 
     @Column(name = "created_at", nullable = false)

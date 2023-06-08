@@ -27,6 +27,10 @@ public class RateStarService {
         return rateStarRepository.findAllByServiceServiceId(serviceId, pageable);
     }
 
+    public Page<RateStar> findAllByServiceServiceIdOrderByCreatedAtDesc(int serviceId, Pageable pageable) {
+        return rateStarRepository.findAllByServiceServiceIdOrderByCreatedAtDesc(serviceId, pageable);
+    }
+
     public void save(RateStar rateStar) {
         rateStarRepository.save(rateStar);
     }

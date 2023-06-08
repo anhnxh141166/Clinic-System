@@ -145,12 +145,12 @@
 
                                     <div class="ms-md-3 mt-4 mt-sm-0">
                                         <a th:href="@{/admin/service/{serviceId}(serviceId=${service.serviceId})}" class="text-dark h6" th:text="${service.title}"></a>
-                                        <p class="text-muted my-1" th:text="${service.price} + ' ' + đ"></p>
+                                        <p class="text-muted my-1" th:text="'$ ' + ${service.price}"></p>
                                         <p class="text-muted my-1" th:switch=${service.status}>
                                             <span th:case="${true}" class="badge bg-soft-success">Active</span>
                                             <span th:case="${false}" class="badge bg-soft-warning">Inactive</span>
                                         </p>
-<!--                                        <p class="text-muted mb-0" th:text="${service.phoneNumber}"></p>-->
+                                        <!--                                        <p class="text-muted mb-0" th:text="${service.phoneNumber}"></p>-->
                                     </div>
                                 </li>
 
