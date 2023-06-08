@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.List;
 
 @Service
@@ -75,7 +76,24 @@ public class UserService {
         return userRepository.findByEmail(email) != null;
     }
 
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public void updateToken(String token, String email){
+        User user = userRepository.findByEmail(email);
+        if (user != null){
+            user.setToken(token);
+            userRepository.save(user);
+        }else {
+            //exception
+        }
+    }
+
+    public User findByToken(String token){
+        return userRepository.findByToken(token) ;
+    }
+
+    public void updatePassword(User user, String newPassword){
+        String encodePassword = passwordEncoder.encode(newPassword);
+        user.setPassword(encodePassword);
+        user.setToken(null);
+        userRepository.save(user);
     }
 }

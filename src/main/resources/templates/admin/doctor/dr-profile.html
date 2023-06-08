@@ -44,7 +44,7 @@
                             </div>
 
                             <div class="text-center avatar-profile margin-nagative mt-n5 position-relative pb-4 border-bottom">
-                                <img th:src="@{'~/assets/uploads/'+${doctor.avatar}}"
+                                <img th:src="@{'~/assets/uploads/'+${doctor.user.avatar}}"
                                      class="rounded-circle shadow-md avatar avatar-md-md" alt="">
                                 <h5 class="mt-3 mb-1" th:text="${doctor.user.fullName}"></h5>
                             </div>
@@ -53,25 +53,25 @@
                                 <div class="d-flex align-items-center mt-2">
                                     <i class="uil uil-user align-text-bottom text-primary h5 mb-0 me-2"></i>
                                     <h6 class="mb-0">Gender</h6>
-                                    <p class="text-muted mb-0 ms-2" th:text="${doctor.gender}"></p>
+                                    <p class="text-muted mb-0 ms-2" th:text="${doctor.user.gender}"></p>
                                 </div>
 
                                 <div class="d-flex align-items-center mt-2">
                                     <i class="uil uil-envelope align-text-bottom text-primary h5 mb-0 me-2"></i>
                                     <h6 class="mb-0">Birthday</h6>
-                                    <p class="text-muted mb-0 ms-2" th:text="${doctor.dateOfBirth}"></p>
+                                    <p class="text-muted mb-0 ms-2" th:text="${doctor.user.dateOfBirth}"></p>
                                 </div>
 
                                 <div class="d-flex align-items-center mt-2">
                                     <i class="uil uil-book-open align-text-bottom text-primary h5 mb-0 me-2"></i>
                                     <h6 class="mb-0">Phone No.</h6>
-                                    <p class="text-muted mb-0 ms-2" th:text="${doctor.phoneNumber}"></p>
+                                    <p class="text-muted mb-0 ms-2" th:text="${doctor.user.phoneNumber}"></p>
                                 </div>
 
                                 <div class="d-flex align-items-center mt-2">
                                     <i class="uil uil-italic align-text-bottom text-primary h5 mb-0 me-2"></i>
                                     <h6 class="mb-0">Address</h6>
-                                    <p class="text-muted mb-0 ms-2" th:text="${doctor.address}"></p>
+                                    <p class="text-muted mb-0 ms-2" th:text="${doctor.user.address}"></p>
                                 </div>
 
                                 <div class="d-flex align-items-center mt-2">
@@ -121,13 +121,13 @@
                             <ul class="list-unstyled mb-0 p-4" data-simplebar style="height: 664px;">
                                 <li class="d-md-flex align-items-center text-center text-md-start mt-3"
                                     th:each="doctor, iterStat : ${doctors}" th:if="${iterStat.index} &lt; 5">
-                                    <a th:href="@{/admin/doctor/{doctorId}(doctorId=${doctor.doctorId})}"><img th:src="@{'~/assets/uploads/'+${doctor.avatar}}"
-                                         class="avatar avatar-medium rounded-md shadow" alt=""></a>
+                                    <a th:href="@{/admin/doctor/{doctorId}(doctorId=${doctor.doctorId})}"><img th:src="@{'~/assets/uploads/'+${doctor.user.avatar}}"
+                                                                                                               class="avatar avatar-medium rounded-md shadow" alt=""></a>
 
                                     <div class="ms-md-3 mt-4 mt-sm-0">
                                         <a th:href="@{/admin/doctor/{doctorId}(doctorId=${doctor.doctorId})}" class="text-dark h6" th:text="${doctor.user.fullName}"></a>
                                         <p class="text-muted my-1" th:text="${doctor.user.email}"></p>
-                                        <p class="text-muted mb-0" th:text="${doctor.phoneNumber}"></p>
+                                        <p class="text-muted mb-0" th:text="${doctor.user.phoneNumber}"></p>
                                     </div>
                                 </li>
 

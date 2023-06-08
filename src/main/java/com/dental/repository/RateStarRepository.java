@@ -20,4 +20,8 @@ public interface RateStarRepository extends JpaRepository<RateStar, Integer> {
     @Transactional
     List<Object[]> findAllWithAvg();
 
+
+    List<RateStar> findTop5ByStarGreaterThanOrderByStarDesc(int greater);
+//    List<RateStar> findTop5ByStarGreaterThanOrderByStarDesc(int greater);
+
 }

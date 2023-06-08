@@ -26,6 +26,10 @@ public class DoctorService  {
         doctorRepository.save(blog);
     }
 
+    public void updateDoctor(String description, int id) {
+        doctorRepository.setDoctorInfoById(description, id);
+    }
+
     public void delete(int id) {
         doctorRepository.deleteById(id);
     }
@@ -34,20 +38,20 @@ public class DoctorService  {
         return doctorRepository.findAll(pageable);
     }
 
-    public Page<Doctor> findAllByUserStatusAndUserFullNameAndGender(boolean status ,String fullName, String gender, Pageable pageable) {
-        return doctorRepository.findAllByUserStatusAndUserFullNameAndGender(status, fullName, gender, pageable);
+    public Page<Doctor> findAllByUserStatusAndUserFullNameAndUserGender(boolean status ,String fullName, String gender, Pageable pageable) {
+        return doctorRepository.findAllByUserStatusAndUserFullNameAndUserGender(status, fullName, gender, pageable);
     }
 
     public Page<Doctor> findAllByUserStatusAndUserFullName(boolean status ,String fullName, Pageable pageable) {
         return doctorRepository.findAllByUserStatusAndUserFullName(status, fullName, pageable);
     }
 
-    public Page<Doctor> findAllByUserStatusAndGender(boolean status ,String gender, Pageable pageable) {
-        return doctorRepository.findAllByUserStatusAndGender(status, gender, pageable);
+    public Page<Doctor> findAllByUserStatusAndUserGender(boolean status ,String gender, Pageable pageable) {
+        return doctorRepository.findAllByUserStatusAndUserGender(status, gender, pageable);
     }
 
-    public Page<Doctor> findAllByUserFullNameAndGender(String fullName ,String gender, Pageable pageable) {
-        return doctorRepository.findAllByUserFullNameAndGender(fullName, gender, pageable);
+    public Page<Doctor> findAllByUserFullNameAndUserGender(String fullName ,String gender, Pageable pageable) {
+        return doctorRepository.findAllByUserFullNameAndUserGender(fullName, gender, pageable);
     }
 
     public Page<Doctor> findAllByUserFullName(String fullName, Pageable pageable) {
@@ -58,7 +62,16 @@ public class DoctorService  {
         return doctorRepository.findAllByUserStatus(status, pageable);
     }
 
-    public Page<Doctor> findAllByGender(String gender, Pageable pageable) {
-        return doctorRepository.findAllByGender(gender, pageable);
+    public Page<Doctor> findAllByUserGender(String gender, Pageable pageable) {
+        return doctorRepository.findAllByUserGender(gender, pageable);
+    }
+
+    // User Page
+    public Page<Doctor> findAllByUserStatusTrue(Pageable pageable) {
+        return doctorRepository.findAllByUserStatusTrue(pageable);
+    }
+
+    public Page<Doctor> findAllByUserFullNameAndUserStatusTrue(String fullName, Pageable pageable) {
+        return doctorRepository.findAllByUserFullNameAndUserStatusTrue(fullName, pageable);
     }
 }

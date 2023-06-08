@@ -15,4 +15,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Modifying
     @Query(value = "UPDATE user u SET u.full_name = ?1, u.status = ?2 WHERE u.user_id = ?3", nativeQuery = true)
     void setUserInfoById(String fullName, boolean status, int userId);
+
+    public User findByToken(String token);
 }

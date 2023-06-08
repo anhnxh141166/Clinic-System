@@ -38,7 +38,7 @@
                 <div class="row">
                     <div class="col-lg-8 mt-4">
                         <div class="card border-0 p-4 rounded shadow">
-                            <form method="POST" th:action="@{/admin/doctor/save}" th:object="${doctor}"
+                            <form method="POST" th:action="@{/admin/doctor/save}" th:object="${user}"
                                   enctype="multipart/form-data">
                                 <div class="row align-items-center justify-content-between">
                                     <div class="col-lg-2 col-md-4">
@@ -57,41 +57,41 @@
                                 </div><!--end row-->
 
 
-                                    <div class="row" th:object="${user}">
-                                        <div class="col-md-12">
-                                            <div class="mb-3">
-                                                <label class="form-label">Full Name</label>
-                                                <input th:name="fullName" th:field="*{fullName}" th:value="${fullName}"
-                                                       id="fullName" type="text" class="form-control"
-                                                       placeholder="Full Name :">
-                                                <span class="mt-2 text-danger" th:if="${#fields.hasErrors('fullName')}"
-                                                      th:errors="*{fullName}"></span>
-                                            </div>
-                                        </div><!--end col-->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label class="form-label">Full Name</label>
+                                            <input th:name="fullName" th:field="*{fullName}" th:value="${fullName}"
+                                                   id="fullName" type="text" class="form-control"
+                                                   placeholder="Full Name :">
+                                            <span class="mt-2 text-danger" th:if="${#fields.hasErrors('fullName')}"
+                                                  th:errors="*{fullName}"></span>
+                                        </div>
+                                    </div><!--end col-->
 
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label class="form-label">Your Email</label>
-                                                <input name="email" th:field="*{email}" th:value="${email}"
-                                                       id="email" type="email" class="form-control"
-                                                       placeholder="Your email :">
-                                                <span class="mt-2 text-danger" th:if="${#fields.hasErrors('email')}"
-                                                      th:errors="*{email}"></span>
-                                                <span class="mt-2 text-danger" th:if="${email}" th:text="${email}"></span>
-                                            </div>
-                                        </div><!--end col-->
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Your Email</label>
+                                            <input name="email" th:field="*{email}" th:value="${email}"
+                                                   id="email" type="email" class="form-control"
+                                                   placeholder="Your email :">
+                                            <span class="mt-2 text-danger" th:if="${#fields.hasErrors('email')}"
+                                                  th:errors="*{email}"></span>
+                                            <span class="mt-2 text-danger" th:if="${email}" th:text="${email}"></span>
+                                        </div>
+                                    </div><!--end col-->
 
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label class="form-label d-block">Status</label>
-                                                <input type="radio" th:name="status" th:value="1" checked/> Active
-                                                <input style="margin-left: 20px;" type="radio" th:name="status"
-                                                       th:value="0"/> Inactive
-                                                <span class="mt-2 text-danger" th:if="${#fields.hasErrors('status')}"
-                                                      th:errors="*{status}"></span>
-                                            </div>
-                                        </div><!--end col-->
-                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label d-block">Status</label>
+                                            <input type="radio" th:name="status" th:value="1" checked/> Active
+                                            <input style="margin-left: 20px;" type="radio" th:name="status"
+                                                   th:value="0"/> Inactive
+                                            <span class="mt-2 text-danger" th:if="${#fields.hasErrors('status')}"
+                                                  th:errors="*{status}"></span>
+                                        </div>
+                                    </div><!--end col-->
+                                </div>
 
                                 <div class="row mt-4">
                                     <div class="col-md-6">
@@ -134,12 +134,12 @@
                                             <input type="radio" th:name="gender" th:value="Male" checked/> Male
                                             <input style="margin-left: 20px;" type="radio" th:name="gender"
                                                    th:value="Female"/> Female
-                                            <span class="mt-2 text-danger" th:if="${gender}" th:text="${gender}"></span>
+                                            <span class="mt-2 text-danger d-block" th:if="${gender}" th:text="${gender}"></span>
                                         </div>
                                     </div><!--end col-->
 
                                     <div class="col-md-12">
-                                        <div class="mb-3">
+                                        <div class="mb-3" th:object="${doctor}">
                                             <label class="form-label">Your Bio Here</label>
                                             <textarea th:name="description" th:field="*{description}"
                                                       th:value="${description}"
@@ -165,13 +165,13 @@
                             <ul class="list-unstyled mb-0 p-4" data-simplebar style="height: 664px;">
                                 <li class="d-md-flex align-items-center text-center text-md-start mt-4"
                                     th:each="doctor, iterStat : ${doctors}" th:if="${iterStat.index} &lt; 5">
-                                    <img th:src="@{'~/assets/uploads/'+${doctor.avatar}}"
-                                         class="avatar avatar-medium rounded-md shadow" alt="">
+                                    <a th:href="@{/admin/doctor/{doctorId}(doctorId=${doctor.doctorId})}"><img th:src="@{'~/assets/uploads/'+${doctor.user.avatar}}"
+                                                                                                               class="avatar avatar-medium rounded-md shadow" alt=""></a>
 
                                     <div class="ms-md-3 mt-4 mt-sm-0">
-                                        <a href="#" class="text-dark h6" th:text="${doctor.user.fullName}"></a>
+                                        <a th:href="@{/admin/doctor/{doctorId}(doctorId=${doctor.doctorId})}" class="text-dark h6" th:text="${doctor.user.fullName}"></a>
                                         <p class="text-muted my-1" th:text="${doctor.user.email}"></p>
-                                        <p class="text-muted mb-0" th:text="${doctor.phoneNumber}"></p>
+                                        <p class="text-muted mb-0" th:text="${doctor.user.phoneNumber}"></p>
                                     </div>
                                 </li>
 

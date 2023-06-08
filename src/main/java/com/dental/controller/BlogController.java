@@ -85,7 +85,7 @@ public class BlogController {
             @PathVariable("blogId") int blogId,
             Model model,
             @RequestParam(name = "page", required = false, defaultValue = Const.PAGE_DEFAULT_STR) Integer pageNum,
-            @RequestParam(name = "pageSize", required = false, defaultValue = Const.PAGE_SIZE_DEFAULT_STR) Integer pageSize
+            @RequestParam(name = "pageSize", required = false, defaultValue = "8") Integer pageSize
     ) {
         if (pageNum < 1) {
             pageNum = 1;
