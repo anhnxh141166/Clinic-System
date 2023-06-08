@@ -174,9 +174,9 @@ public class DoctorController {
 
     @PostMapping("admin/doctor/update")
     public String updateDoctor(
-        @Valid Doctor doctor, BindingResult doctorBindingResult,
-        @Valid User user, BindingResult userBindingResult,
-        Model model, @RequestParam(value = "image", required = false) MultipartFile multipartFile
+            @Valid Doctor doctor, BindingResult doctorBindingResult,
+            @Valid User user, BindingResult userBindingResult,
+            Model model, @RequestParam(value = "image", required = false) MultipartFile multipartFile
     ) {
         int doctorId = doctor.getDoctorId();
 
