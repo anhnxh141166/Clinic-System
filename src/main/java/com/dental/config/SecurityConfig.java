@@ -73,7 +73,7 @@ public class SecurityConfig {
         return http.csrf().disable()
                 .authorizeHttpRequests()
 //                    .requestMatchers("/", "assets/**", "/user/**").permitAll() // Allowing access to home page and static assets without authentication
-                    .requestMatchers("/","/register/**", "assets/**", "/forgot_password/**", "/reset_password/**", "/check_token/**", "/check_email/**", "/service/**", "/blog/**").permitAll() // Allowing access to home page and static assets without authentication
+                    .requestMatchers("/", "blog/**", "service/**", "doctor/**", "/register/**", "assets/**", "/forgot_password/**", "/reset_password/**", "/check_token/**", "/check_email/**").permitAll() // Allowing access to home page and static assets without authentication
                     .requestMatchers("/checkEmailExists").permitAll() // Allowing access to home page and static assets without authentication
 //                    .requestMatchers("/register/**").permitAll() // Allowing access to home page and static assets without authentication
 //                    .requestMatchers("/user/homeLanding").permitAll() // Allowing access to /user/homeLanding without authentication

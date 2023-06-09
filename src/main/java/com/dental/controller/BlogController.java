@@ -243,11 +243,13 @@ public class BlogController {
 
         List<Blog> blogs = blogService.findAllByStatusTrueOrderByCreatedAtDesc();
 
-        User user = userDetails.getUserEntity();
+        if (userDetails != null) {
+            User user = userDetails.getUserEntity();
+            model.addAttribute("user", user);
+        }
 
         model.addAttribute("comment", new CommentBlog());
         model.addAttribute("blog", blog);
-        model.addAttribute("user", user);
         model.addAttribute("blogs", blogs);
         model.addAttribute("comments", commentsByBlogId);
         model.addAttribute("numberOfPage", commentsByBlogId.getTotalPages());

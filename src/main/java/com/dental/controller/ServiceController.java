@@ -261,7 +261,11 @@ public class ServiceController {
         List<Service> services = serviceService.findAllByStatusTrueOrderByCreatedAtDesc();
         Page<RateStar> feedbacksByServiceId = rateStarService.findAllByServiceServiceIdOrderByCreatedAtDesc(serviceId, pageable);
 
-        User user = userDetails.getUserEntity();
+
+        if (userDetails != null) {
+            User user = userDetails.getUserEntity();
+            model.addAttribute("user", user);
+        }
         Page<RateStar> reviewsByServiceId = rateStarService.getAllByServiceId(serviceId, pageable);
         float avg = 0;
         for (RateStar review : reviewsByServiceId) {
@@ -271,7 +275,6 @@ public class ServiceController {
         avg = avg / reviewsByServiceId.getContent().size();
 
         model.addAttribute("service", service);
-        model.addAttribute("user", user);
         model.addAttribute("services", services);
         model.addAttribute("feedbacks", feedbacksByServiceId);
         model.addAttribute("numberOfPage", feedbacksByServiceId.getTotalPages());

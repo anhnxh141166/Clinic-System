@@ -2,6 +2,11 @@
 <html lang="en">
 
 <head th:replace="~{layout/head :: head}"></head>
+<style>
+    .img-body img {
+        width: 100%;
+    }
+</style>
 
 <body>
 <!-- Loader -->
@@ -77,7 +82,7 @@
 <section class="section">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-lg-7">
+            <div class="col-lg-8 col-lg-7 img-body">
                 <img th:src="@{'~/assets/uploads/'+${service.thumbnail}}" style="display: block; margin: auto; height: 380px; object-fit: contain;" class="img-fluid rounded shadow" alt="">
 
                 <p class="text-muted mt-4" th:utext="${service.content}"></p>

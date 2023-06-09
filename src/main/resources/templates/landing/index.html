@@ -141,9 +141,9 @@
 
         <div class="row">
             <div class="col-xl-3 col-lg-3 col-md-6" th:each="service, iStat: ${services}" th:if="${iStat.index < 4}">
-                <div class="card team border-0 rounded shadow overflow-hidden">
+                <div class="card team border-0 rounded shadow overflow-hidden d-block">
                     <div class="team-person position-relative overflow-hidden">
-                        <img th:src="@{'~/assets/uploads/'+${service.thumbnail}}" class="img-fluid" alt="">
+                        <img th:src="@{'~/assets/uploads/'+${service.thumbnail}}"  style="width: 100%; object-fit: cover; height: 200px;" class="img-fluid" alt="">
                         <!--                        <img th:src="@{'~/assets/uploads/'+${doctor.user.avatar}}" class="img-fluid" alt="">-->
 
                         <ul class="list-unstyled team-like">
@@ -152,7 +152,7 @@
                         </ul>
                     </div>
                     <div class="card-body">
-                        <a href="#" class="title text-dark h5 d-block mb-0" th:text="${service.title}"> </a>
+                        <a th:href="@{/service/{serviceId}(serviceId=${service.serviceId})}" class="title text-dark h5 d-block mb-0" th:text="${service.title}"> </a>
                         <!--                        <small class="text-muted speciality">Eye Care</small>-->
 
                         <div class="d-flex justify-content-between align-items-center mt-2">
@@ -163,7 +163,7 @@
                                     <i class="mdi mdi-star text-warning"></i>
                                 </li>
                                 <li class="list-inline-item" th:each="count: ${#numbers.sequence(0, service.getAvgStarByServiceId(service.serviceId, servicesWithAVG))}" th:if="${service.getAvgStarByServiceId(service.serviceId, servicesWithAVG) == 0}">
-                                    <span>Not feedback</span>
+                                    <span>No feedback yet</span>
                                 </li>
 
                             </ul>
@@ -190,7 +190,7 @@
             </div>
 
             <div class="col-12 mt-4 pt-2 text-center">
-                <a href="#" class="btn btn-primary">See More</a>
+                <a th:href="@{/service}" class="btn btn-primary">See More</a>
             </div>
         </div><!--end row-->
     </div><!--end container-->
@@ -323,7 +323,6 @@
                 <div class="client-review-slider">
 
                     <div class="tiny-slide text-center" th:each="rateStart: ${rateStarsTop5}">
-                        <p class="text-muted h6 fw-normal fst-italic" th:text="${rateStart.feedback}"></p>
                         <!--                        <img src="../assets/images/client/01.jpg" class="img-fluid avatar avatar-small rounded-circle mx-auto shadow my-3" alt="">-->
                         <img th:if="${rateStart.user.avatar != null}"
                              th:src="@{'~/assets/uploads/'+${rateStart.user.avatar}}"
@@ -336,6 +335,7 @@
                                 <i class="mdi mdi-star text-warning"></i>
                             </li>
                         </ul>
+                        <p class="text-muted h6 fw-normal fst-italic" th:text="${rateStart.feedback}"></p>
                         <h6 class="text-primary" th:text="${rateStart.user.fullName}"><small
                                 class="text-muted">C.E.O</small></h6>
                     </div><!--end customer testi-->

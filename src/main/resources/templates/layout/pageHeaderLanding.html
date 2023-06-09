@@ -111,7 +111,7 @@
 <!--                            <a class="dropdown-item text-dark" th:unless="${user.userEntity}" href=""><span class="mb-0 d-inline-block me-1"><i-->
 <!--                                    class="uil uil-sign-out-alt align-middle h6"></i></span> Login </a>-->
 
-                        <a class="dropdown-item text-dark" th:if="${user!=null}" href="javascript: logoutForm.submit()"><span class="mb-0 d-inline-block me-1"><i
+                        <a class="dropdown-item text-dark" th:if="${session.user!=null}" href="javascript: logoutForm.submit()"><span class="mb-0 d-inline-block me-1"><i
                                 class="uil uil-sign-out-alt align-middle h6"></i></span> Logout</a>
                         <form name="logoutForm" th:action="@{/doLogout}" method="post" th:hidden="true">
                             <input type="submit" value="Logout">
