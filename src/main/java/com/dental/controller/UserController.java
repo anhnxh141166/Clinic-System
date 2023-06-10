@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -61,7 +62,7 @@ public class UserController {
         if (userDetails != null){
             userEnity = userDetails.getUserEntity();
         }
-        List<Service> services = serviceService.getAll();
+        List<Service> top4Service = getTop4Service();
         List<Doctor> doctors = doctorService.getAll();
         List<Blog> blogs = blogService.getAll();
 
@@ -71,13 +72,28 @@ public class UserController {
 
 
         model.addAttribute("user", userEnity);
-        model.addAttribute("services", services);
+        model.addAttribute("top4Service", top4Service);
         model.addAttribute("doctors", doctors);
         model.addAttribute("blogs", blogs);
         model.addAttribute("rateStars", rateStars);
         model.addAttribute("rateStarsTop5", rateStarsTop5);
         model.addAttribute("servicesWithAVG", servicesWithAVG);
         return "landing/index";
+    }
+
+    public List<Service> getTop4Service(){
+        List<Service> top4Service = new ArrayList<>();
+        int count = 0;
+        List<Object[]> servicesWithAVG = rateStarService.findTop4WithAvg();
+        for (Object[] serviceWithAVG :servicesWithAVG){
+            if (count < 4){
+                int id = (Integer) serviceWithAVG[0];
+                Service service = serviceService.get(id);
+                top4Service.add(service);
+            }
+            count++;
+        }
+        return top4Service;
     }
 
 

@@ -140,7 +140,7 @@
         </div><!--end row-->
 
         <div class="row">
-            <div class="col-xl-3 col-lg-3 col-md-6" th:each="service, iStat: ${services}" th:if="${iStat.index < 4}">
+            <div class="col-xl-3 col-lg-3 col-md-6" th:each="service, iStat: ${top4Service}" th:if="${iStat.index < 4}">
                 <div class="card team border-0 rounded shadow overflow-hidden d-block">
                     <div class="team-person position-relative overflow-hidden">
                         <img th:src="@{'~/assets/uploads/'+${service.thumbnail}}"  style="width: 100%; object-fit: cover; height: 200px;" class="img-fluid" alt="">
