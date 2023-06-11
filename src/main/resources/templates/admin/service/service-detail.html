@@ -56,7 +56,7 @@
                         </div>
                         <ul class="list-unstyled mt-2 mb-0">
                             <i class="mdi mdi-cash"></i>
-                            <li class="list-inline-item user text-muted me-2" th:text="${service.price} + ' ' + đ"></li>
+                            <li class="list-inline-item user text-muted me-2" th:text="'$ ' + ${service.price}"></li>
                             <li class="list-inline-item date text-muted" th:switch=${service.status}>
                                 <span th:case="${true}" class="badge bg-soft-success">Active</span>
                                 <span th:case="${false}" class="badge bg-soft-warning">Inactive</span>
@@ -103,15 +103,15 @@
                                             <div class="d-flex justify-content-between">
                                                 <div class="d-flex align-items-center">
                                                     <a class="pe-3" href="#">
-                                                        <img th:src="@{'~/assets/uploads/'+${review.user.patient.avatar}}"
+                                                        <img th:src="@{'~/assets/uploads/'+${review.user.avatar}}"
                                                              class="img-fluid avatar avatar-md-sm rounded-circle shadow"
                                                              alt="img">
                                                     </a>
 
                                                     <div class="commentor-detail">
                                                         <h6 class="mb-0"><a href="javascript:void(0)"
-                                                            class="text-dark media-heading"
-                                                            th:text="${review.user.fullName}"></a></h6>
+                                                                            class="text-dark media-heading"
+                                                                            th:text="${review.user.fullName}"></a></h6>
                                                         <small class="text-muted" th:text="${review.createdAt}"></small>
                                                     </div>
                                                 </div>
@@ -219,12 +219,12 @@
                                 <li class="d-md-flex align-items-center text-center text-md-start mt-3"
                                     th:each="service, iterStat : ${services}" th:if="${iterStat.index} &lt; 5">
                                     <a th:href="@{/admin/service/{serviceId}(serviceId=${service.serviceId})}"><img th:src="@{'~/assets/uploads/'+${service.thumbnail}}" style="object-fit: cover;"
-                                         class="avatar avatar-medium rounded-md shadow" alt=""></a>
+                                                                                                                    class="avatar avatar-medium rounded-md shadow" alt=""></a>
 
                                     <div class="ms-md-3 mt-4 mt-sm-0">
                                         <a th:href="@{/admin/service/{serviceId}(serviceId=${service.serviceId})}"
                                            class="text-dark h6" th:text="${service.title}"></a>
-                                        <p class="text-muted my-1" th:text="${service.price} + ' ' + đ"></p>
+                                        <p class="text-muted my-1" th:text="'$ ' + ${service.price}"></p>
                                         <p class="text-muted my-1" th:switch=${service.status}>
                                             <span th:case="${true}" class="badge bg-soft-success">Active</span>
                                             <span th:case="${false}" class="badge bg-soft-warning">Inactive</span>

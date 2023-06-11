@@ -111,7 +111,7 @@
 <!--                            <a class="dropdown-item text-dark" th:unless="${user.userEntity}" href=""><span class="mb-0 d-inline-block me-1"><i-->
 <!--                                    class="uil uil-sign-out-alt align-middle h6"></i></span> Login </a>-->
 
-                        <a class="dropdown-item text-dark" th:if="${user!=null}" href="javascript: logoutForm.submit()"><span class="mb-0 d-inline-block me-1"><i
+                        <a class="dropdown-item text-dark" th:if="${session.user!=null}" href="javascript: logoutForm.submit()"><span class="mb-0 d-inline-block me-1"><i
                                 class="uil uil-sign-out-alt align-middle h6"></i></span> Logout</a>
                         <form name="logoutForm" th:action="@{/doLogout}" method="post" th:hidden="true">
                             <input type="submit" value="Logout">
@@ -177,13 +177,8 @@
                 <li class="has-submenu parent-parent-menu-item"><a href="javascript:void(0)">Pages</a><span
                         class="menu-arrow"></span>
                     <ul class="submenu">
-                        <li><a href="aboutus.html" class="sub-menu-item"> About Us</a></li>
-                        <li><a href="departments.html" class="sub-menu-item">Departments</a></li>
-                        <li><a href="faqs.html" class="sub-menu-item">FAQs</a></li>
+                        <li><a th:href="@{/service}" class="sub-menu-item">Services</a></li>
                         <li><a th:href="@{/blog}" class="sub-menu-item">Blogs</a></li>
-                        <li><a href="terms.html" class="sub-menu-item">Terms & Policy</a></li>
-                        <li><a href="privacy.html" class="sub-menu-item">Privacy Policy</a></li>
-                        <li><a href="contact.html" class="sub-menu-item">Contact</a></li>
                     </ul>
                 </li>
                 <li><a th:href="@{/admin}" th:if="${user != null && user.role == 'Admin'}" class="sub-menu-item">Admin</a></li>

@@ -1,9 +1,7 @@
 package com.dental.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -21,11 +19,11 @@ public class Service {
     private Integer serviceId;
 
     @Column(nullable = false, columnDefinition = "nvarchar(100)")
-    @Size(min = 1, message = "Title must be mandatory")
+    @Size(min = 1, max = 100, message = "Title must be mandatory and less than 100 characters")
     private String title;
 
     @Column(nullable = false, columnDefinition = "text")
-    @Size(min = 1, message = "Description must be mandatory")
+    @Size(min = 1, max = 255, message = "Description must be mandatory and less than 255 characters")
     private String description;
 
     @Column(nullable = false, columnDefinition = "text")
@@ -41,8 +39,10 @@ public class Service {
 
     @Column(nullable = false)
     @NotNull(message = "Price must be mandatory")
-    @Min(value = 1, message = "Price must be a number")
-    private Double price;
+    @DecimalMin(value = "1", message = "Price must be larger than 1")
+    @DecimalMax(value = "20000000", message = "Price must be less than 20000000")
+    @Pattern(regexp = "^[0-9]+(\\.[0-9]+)?$", message = "Price must be a valid number")
+    private String price;
 
     @Column(name = "created_at", nullable = false)
     @CreationTimestamp
@@ -104,11 +104,11 @@ public class Service {
         this.status = status;
     }
 
-    public Double getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 

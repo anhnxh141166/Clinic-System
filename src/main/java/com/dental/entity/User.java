@@ -2,6 +2,7 @@ package com.dental.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -20,7 +21,7 @@ public class User {
     private Integer userId;
 
     @Column(length = 254, nullable = false, unique = true)
-    @Size(min = 1, message = "Email must be mandatory")
+    @Size(min = 1, max = 254, message = "Email must be mandatory and less than 254 characters")
     @Email(message = "This field must be an email")
     private String email;
 
@@ -28,18 +29,18 @@ public class User {
     private String password;
 
     @Column(nullable = true, columnDefinition = "nvarchar(8)")
-    @Size(min = 1, message = "Gender must be mandatory")
+    @Size(min = 1, max = 8, message = "Gender must be mandatory and less than 8 characters")
     private String gender;
 
     @Column(nullable = true)
     private java.sql.Date dateOfBirth;
 
     @Column(nullable = true, columnDefinition = "nvarchar(100)")
-    @Size(min = 1, message = "Address must be mandatory")
+    @Size(min = 1, max = 100, message = "Address must be mandatory and less than 100 characters")
     private String address;
 
     @Column(nullable = true, length = 12)
-    @Size(min = 1, message = "Phone must be mandatory")
+    @Size(min = 1, max = 12, message = "Phone must be mandatory and less than 12 characters")
     @Pattern(regexp = "^(?:\\+)?[0-9]*$", message = "Wrong type of phone number")
     private String phoneNumber;
 
@@ -47,7 +48,8 @@ public class User {
     private String avatar;
 
     @Column(columnDefinition = "nvarchar(50)" , nullable = false)
-    @Size(min = 1, message = "Full name must be mandatory")
+    @Size(min = 1, max = 50, message = "Full name must be mandatory and less than 50 characters")
+    @Pattern(regexp = "^[\\p{L}\\s]+$", message = "Full name must not contain special character and not empty")
     private String fullName;
 
     @Column(length = 1, nullable = false, columnDefinition = "bit default 1")
@@ -55,6 +57,7 @@ public class User {
 
     @Column(length = 20, nullable = false, columnDefinition = "nvarchar(20) default 'Patient'")
     @Pattern(regexp = "Admin|Patient|Doctor|Staff", message = "Role undefined")
+    @Size(max = 20, message = "Role must be less than 20 characters")
     private String role;
 
     @Column(name = "created_at", nullable = false)

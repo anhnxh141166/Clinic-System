@@ -27,6 +27,10 @@ public class RateStarService {
         return rateStarRepository.findAllByServiceServiceId(serviceId, pageable);
     }
 
+    public Page<RateStar> findAllByServiceServiceIdOrderByCreatedAtDesc(int serviceId, Pageable pageable) {
+        return rateStarRepository.findAllByServiceServiceIdOrderByCreatedAtDesc(serviceId, pageable);
+    }
+
     public void save(RateStar rateStar) {
         rateStarRepository.save(rateStar);
     }
@@ -43,9 +47,9 @@ public class RateStarService {
         return rateStarRepository.findAllWithAvg();
     }
 
-//    public List<Object[]> find() {
-////        return rateStarRepository.findAllWithAvg();
-//    }
+    public List<Object[]> findTop4WithAvg() {
+        return rateStarRepository.findTop4WithAvg();
+    }
 
 
     public List<RateStar> findTop5ByStarGreaterThanOrderByStarDesc(int greater) {
