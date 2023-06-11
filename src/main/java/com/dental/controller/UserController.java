@@ -24,6 +24,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,7 +35,6 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping()
 public class UserController {
 
     @Autowired
@@ -79,6 +79,9 @@ public class UserController {
         model.addAttribute("rateStarsTop5", rateStarsTop5);
         model.addAttribute("servicesWithAVG", servicesWithAVG);
         return "landing/index";
+//        return "landing/index-two";
+// test link: http://localhost:8888/user/homeLanding
+
     }
 
     public List<Service> getTop4Service(){
@@ -132,12 +135,16 @@ public class UserController {
                                BindingResult result,
                                Model model) {
         System.out.println(user);
+        String message = "";
         if(user==null){
-            return "landing/auth/signup";
+            message = "Register fail";
         }else {
             userService.registerUser(user);
+            message = "Register successful";
         }
-        return "redirect:/login";
+//        return "redirect:/login";
+        model.addAttribute("message", message);
+        return "landing/auth/signup";
     }
 
     @RequestMapping(value = "/checkEmailExists", method = RequestMethod.GET)
@@ -163,44 +170,80 @@ public class UserController {
         return "landing/user/profile";
     }
 
-    @PostMapping("/profile/change-password")
+    @PostMapping("/change-password")
     public String changePassword(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @RequestParam("currentPassword") String currentPassword,
             @RequestParam("newPassword") String newPassword,
             @RequestParam("confirmPassword") String confirmPassword,
-            Model model)
-    {
-        String url = "landing/user/profile";
+            Model model,
+            RedirectAttributes redirectAttributes) {
+        String url = "landing/patient/patient-profile";
         User userEntity = userDetails.getUserEntity();
         String message = "";
 
-        //login success
-        if (userEntity != null){
-            // password correct
-            if (passwordEncoder.matches(currentPassword,userEntity.getPassword())){
-                //current Password not same new password
-                if (!currentPassword.equals(newPassword)){
-                    //confirm password
-                    if (newPassword.equals(confirmPassword)){
+//        //login success
+//        if (userEntity != null) {
+//            // password correct
+//            if (passwordEncoder.matches(currentPassword, userEntity.getPassword())) {
+//                //current Password not same new password
+//                if (!currentPassword.equals(newPassword)) {
+//                    //confirm password
+//                    if (newPassword.equals(confirmPassword)) {
+//                        userEntity = userService.update(userEntity, newPassword);
+//                        userDetails.setUserEntity(userEntity);
+//                        redirectAttributes.addFlashAttribute("passwordMessage", "Change password success");
+////                        return "redirect:/patient/profile";
+//                        return "redirect:/profile";
+//                    } else {
+//                        message = "Confirm password not same !!!";
+//                    }
+//                } else {
+//                    message = "Please enter new password different old password!!!";
+//                }
+//            } else {
+//                message = "Wrong password !";
+//            }
+//        } else {
+//            message = "Please login !!!";
+//        }
+//
+//        model.addAttribute("message", message);
+//        model.addAttribute("user", userEntity);
+//        return "landing/user/profile";
+
+        // Check if user is logged in
+        if (userEntity != null) {
+            // Check if current password is correct
+            if (passwordEncoder.matches(currentPassword, userEntity.getPassword())) {
+                // Check if new password is different from the current password
+                if (!currentPassword.equals(newPassword)) {
+                    // Check if new password matches the confirm password
+                    if (newPassword.equals(confirmPassword)) {
+                        // Update the user's password
                         userEntity = userService.update(userEntity, newPassword);
                         userDetails.setUserEntity(userEntity);
-                    }else{
-                        message = "Confirm password not match!!!";
+//                        redirectAttributes.addFlashAttribute("passwordMessage", "Change password success");
+                        model.addAttribute("passwordMessage", "Change password success");
+//                        return "redirect:/profile";
+                        return "landing/user/profile";
+                    } else {
+                        message = "Confirm password does not match!";
                     }
-                }else {
-                    message = "Please enter new password different old password!!!";
+                } else {
+                    message = "Please enter a new password different from the old password!";
                 }
-            }else{
-                message = "Wrong password !";
+            } else {
+                message = "Wrong password!";
             }
-        }else{
-            message = "Please login !!!";
+        } else {
+            message = "Please login!";
         }
 
+        redirectAttributes.addFlashAttribute("message", message);
         model.addAttribute("message", message);
-        model.addAttribute("user",userEntity);
-        return url;
+//        return "redirect:/profile";
+        return "landing/user/profile";
     }
 
     @PostMapping("profile/update")

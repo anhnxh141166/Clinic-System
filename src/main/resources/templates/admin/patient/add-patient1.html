@@ -23,13 +23,13 @@
         <div class="container-fluid">
             <div class="layout-specing">
                 <div class="d-md-flex justify-content-between">
-                    <h5 class="mb-0">Add New Doctor</h5>
+                    <h5 class="mb-0">Add New Patient</h5>
 
                     <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                         <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
                             <li class="breadcrumb-item"><a href="../index.html">Doctris</a></li>
-                            <li class="breadcrumb-item"><a th:href="@{/admin/doctor}">Doctors</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Add Doctor</li>
+                            <li class="breadcrumb-item"><a th:href="@{/admin/patient}">Patients</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Add Patient</li>
                         </ul>
                     </nav>
                 </div>
@@ -37,18 +37,14 @@
                 <div class="row">
                     <div class="col-lg-8 mt-4">
                         <div class="card border-0 p-4 rounded shadow">
-                            <form method="POST" id="form-submit" th:action="@{/admin/doctor/update}" th:object="${user}"
+                            <form method="POST" th:action="@{/admin/patient/save}" th:object="${user}"
                                   enctype="multipart/form-data">
                                 <div class="row align-items-center justify-content-between">
                                     <div class="col-lg-2 col-md-4">
-                                        <div class="preview-box avatar avatar-md-md rounded-pill shadow mx-auto d-block">
-                                            <img th:if="${user.avatar}" th:src="@{'~/assets/uploads/'+${user.avatar}}" style="border-radius: 50%; height: 100%;"
-                                                 class="preview-content w-100" src=${reader.result} />
-                                        </div>
+                                        <div class="preview-box avatar avatar-md-md rounded-pill shadow mx-auto d-block"></div>
                                     </div><!--end col-->
 
                                     <div class="col-4">
-                                        <p id="avatar" class="d-none" th:name="avatar" th:text="${user.avatar}"></p>
                                         <input type="file" id="image" name="image"
                                                accept="image/*"
                                                onchange={handleChange()} hidden/>
@@ -57,14 +53,11 @@
                                         <span class="mt-2 text-danger d-block" th:if="${image}"
                                               th:text="${image}"></span>
                                     </div>
-                                    <input th:name="userId" id="userId" th:field="*{userId}"
-                                           type="text"
-                                           class="form-control" hidden>
                                 </div><!--end row-->
 
 
-                                <div class="row mt-3">
-                                    <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12">
                                         <div class="mb-3">
                                             <label class="form-label">Full Name</label>
                                             <input th:name="fullName" th:field="*{fullName}" th:value="${fullName}"
@@ -75,20 +68,24 @@
                                         </div>
                                     </div><!--end col-->
 
-                                    <div class="col-md-6" th:switch="${user.status}">
-                                        <div class="mb-3" th:case="true">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Your Email</label>
+                                            <input name="email" th:field="*{email}" th:value="${email}"
+                                                   id="email" type="email" class="form-control"
+                                                   placeholder="Your email :">
+                                            <span class="mt-2 text-danger" th:if="${#fields.hasErrors('email')}"
+                                                  th:errors="*{email}"></span>
+                                            <span class="mt-2 text-danger" th:if="${email}" th:text="${email}"></span>
+                                        </div>
+                                    </div><!--end col-->
+
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
                                             <label class="form-label d-block">Status</label>
                                             <input type="radio" th:name="status" th:value="1" checked/> Active
                                             <input style="margin-left: 20px;" type="radio" th:name="status"
                                                    th:value="0"/> Inactive
-                                            <span class="mt-2 text-danger" th:if="${#fields.hasErrors('status')}"
-                                                  th:errors="*{status}"></span>
-                                        </div>
-                                        <div class="mb-3" th:case="false">
-                                            <label class="form-label d-block">Status</label>
-                                            <input type="radio" th:name="status" th:value="1"/> Active
-                                            <input style="margin-left: 20px;" type="radio" th:name="status"
-                                                   th:value="0" checked/> Inactive
                                             <span class="mt-2 text-danger" th:if="${#fields.hasErrors('status')}"
                                                   th:errors="*{status}"></span>
                                         </div>
@@ -130,20 +127,13 @@
                                         </div>
                                     </div><!--end col-->
 
-                                    <div class="col-md-6" th:switch="${user.gender}">
-                                        <div class="mb-3" th:case="Male">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
                                             <label class="form-label d-block">Gender</label>
                                             <input type="radio" th:name="gender" th:value="Male" checked/> Male
                                             <input style="margin-left: 20px;" type="radio" th:name="gender"
                                                    th:value="Female"/> Female
-                                            <span class="mt-2 text-danger" th:if="${gender}" th:text="${gender}"></span>
-                                        </div>
-                                        <div class="mb-3" th:case="Female">
-                                            <label class="form-label d-block">Gender</label>
-                                            <input type="radio" th:name="gender" th:value="Male" /> Male
-                                            <input style="margin-left: 20px;" type="radio" th:name="gender"
-                                                   th:value="Female" checked/> Female
-                                            <span class="mt-2 text-danger" th:if="${gender}" th:text="${gender}"></span>
+                                            <span class="mt-2 text-danger d-block" th:if="${gender}" th:text="${gender}"></span>
                                         </div>
                                     </div><!--end col-->
 
@@ -160,7 +150,7 @@
                                     </div>
                                 </div><!--end row-->
 
-                                <button type="submit" class="btn btn-primary btn-update">Update Doctor</button>
+                                <button type="submit" class="btn btn-primary">Add Patient</button>
                             </form>
                         </div>
                     </div><!--end col-->
@@ -168,7 +158,7 @@
                     <div class="col-lg-4 mt-4">
                         <div class="card rounded border-0 shadow">
                             <div class="p-4 border-bottom">
-                                <h5 class="mb-0">Doctors List</h5>
+                                <h5 class="mb-0">Patients List</h5>
                             </div>
 
                             <ul class="list-unstyled mb-0 p-4" data-simplebar style="height: 664px;">
@@ -185,7 +175,7 @@
                                 </li>
 
                                 <li class="mt-4">
-                                    <a th:href="@{/admin/doctor}" class="btn btn-primary">All Doctors</a>
+                                    <a th:href="@{/admin/patient}" class="btn btn-primary">All Patients</a>
                                 </li>
                             </ul>
                         </div>
@@ -223,20 +213,6 @@
 <script src="../../assets/js/select2.init.js"></script>
 
 <script>
-    $('.btn-update').on('click', function (e) {
-        // e.preventDefault()
-        const avatar = $('#avatar');
-        const image = $('#image');
-
-        if (image.val() == "") {
-            image.prop('disabled', true);
-            const form = $('#form-submit');
-            const avatarValue = avatar.html();
-            const avatarField = $(`<input type=\"text\" name="avatar" value=\"${avatarValue}\" hidden />`);
-            form.append(avatarField)
-        }
-    });
-
     const handleChange = () => {
         const fileUploader = document.querySelector('#image');
         const getFile = fileUploader.files

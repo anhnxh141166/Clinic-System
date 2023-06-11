@@ -48,8 +48,8 @@ public class User {
     private String avatar;
 
     @Column(columnDefinition = "nvarchar(50)" , nullable = false)
+    @Size(min = 1, max = 50, message = "Full name must be mandatory and less than 50 characters")
     @Pattern(regexp = "^[\\p{L}\\s]+$", message = "Full name must not contain special character and not empty")
-    @Size(max = 50, message = "Full name must be less than 50 characters")
     private String fullName;
 
     @Column(length = 1, nullable = false, columnDefinition = "bit default 1")
