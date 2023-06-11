@@ -119,12 +119,16 @@ public class UserController {
                                BindingResult result,
                                Model model) {
         System.out.println(user);
+        String message = "";
         if(user==null){
-            return "landing/auth/signup";
+            message = "Register fail";
         }else {
             userService.registerUser(user);
+            message = "Register successful";
         }
-        return "redirect:/login";
+//        return "redirect:/login";
+        model.addAttribute("message", message);
+        return "landing/auth/signup";
     }
 
     @RequestMapping(value = "/checkEmailExists", method = RequestMethod.GET)

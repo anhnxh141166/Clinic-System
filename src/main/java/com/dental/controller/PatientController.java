@@ -1,36 +1,49 @@
 package com.dental.controller;
 
+import com.dental.entity.Doctor;
+import com.dental.entity.Patient;
 import com.dental.entity.User;
 import com.dental.entity.UserDetailsImpl;
+import com.dental.service.PatientService;
 import com.dental.service.UserService;
+import com.dental.util.Const;
+import com.dental.util.UploadFile;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
 
 @Controller
-@RequestMapping("patient")
+@RequestMapping("")
 public class PatientController {
 
     @Autowired
     UserService userService;
 
+    @Autowired
+    PatientService patientService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @GetMapping("/profile")
+    @GetMapping("/patient/profile")
     public String viewProfile(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
         model.addAttribute("user", userDetails.getUserEntity());
         return "landing/patient/patient-profile";
     }
 
-    @PostMapping("/change-password")
+    @PostMapping("/patient/change-password")
     public String changePassword(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @RequestParam("currentPassword") String currentPassword,
@@ -69,15 +82,119 @@ public class PatientController {
         return url;
     }
 
-//    @GetMapping("")
-//    public String getAll() {
-//        return "";
-//    }
+    @GetMapping("/admin/patient")
+    public String getAll(
+        Model model,
+        @RequestParam(name = "page", required = false, defaultValue = Const.PAGE_DEFAULT_STR) Integer pageNum,
+        @RequestParam(name = "pageSize", required = false, defaultValue = Const.PAGE_SIZE_DEFAULT_STR) Integer pageSize,
+        @RequestParam(name = "fullName", required = false) String fullName,
+        @RequestParam(name = "statusSearch", required = false) String statusSearch,
+        @RequestParam(name = "gender", required = false) String gender
+    ) {
+            if (pageNum < 1) {
+                pageNum = 1;
+            }
+
+            Pageable pageable = PageRequest.of(pageNum - 1, pageSize);
+            List<Patient> patients = patientService.getAll();
+            Page<Patient> Patient;
+
+            boolean status = true;
+            if (statusSearch != null && statusSearch.equals("0")) {
+                status = false;
+            }
+
+            if (fullName != null && !fullName.isEmpty() && statusSearch != null && !statusSearch.isEmpty() && gender != null && !gender.isEmpty()){
+                Patient = patientService.findAllByUserStatusAndUserFullNameAndUserGender(status, fullName, gender, pageable);
+            } else if (gender != null && !gender.isEmpty() && fullName != null && !fullName.isEmpty()){
+                Patient = patientService.findAllByUserFullNameAndUserGender(fullName, gender, pageable);
+            } else if (gender != null && !gender.isEmpty() && statusSearch != null && !statusSearch.isEmpty()){
+                Patient = patientService.findAllByUserStatusAndUserGender(status, gender, pageable);
+            } else if (fullName != null && !fullName.isEmpty() && statusSearch != null && !statusSearch.isEmpty()){
+                Patient = patientService.findAllByUserStatusAndUserFullName(status, fullName, pageable);
+            } else if (statusSearch != null && !statusSearch.isEmpty()) {
+                Patient = patientService.findAllByUserStatus(status, pageable);
+            } else if (fullName != null && !fullName.isEmpty()) {
+                Patient = patientService.findAllByUserFullName(fullName, pageable);
+            } else if (gender != null && !gender.isEmpty()) {
+                Patient = patientService.findAllByUserGender(gender, pageable);
+            } else {
+                Patient = patientService.findAll(pageable);
+            }
+
+            model.addAttribute("fullName", fullName);
+            model.addAttribute("statusSearch", statusSearch);
+            model.addAttribute("usesPage", Patient);
+            model.addAttribute("numberOfPage", Patient.getTotalPages());
+            model.addAttribute("patients", patients);
+
+            return "admin/patient/patients1";
+    }
 //
-//    @GetMapping("{}")
-//    public String getOne() {
-//        return "";
-//    }
+    @GetMapping("admin/patient/edit/{patientId}")
+    public String showPatientUpdate(@PathVariable("patientId") int patientId, Model model) {
+        Patient patient = patientService.getPatientById(patientId);
+        List<Patient> patients = patientService.getAll();
+        User user = userService.get(patient.getUser().getUserId());
+        model.addAttribute("patient", patient);
+        model.addAttribute("patients", patients);
+        model.addAttribute("user", user);
+        return "admin/patient/update-patient";
+
+    }
+
+    @PostMapping("admin/patient/update")
+    public String updatePatient(
+            @Valid Patient patient, BindingResult patientBindingResult,
+            @Valid User user, BindingResult userBindingResult,
+            Model model, @RequestParam(value = "image", required = false) MultipartFile multipartFile
+    ) {
+        int patientId = user.getUserId();
+
+        User u = userService.get(patientId);
+        user.setPatient(u.getPatient());
+
+        user.setEmail(u.getEmail());
+        user.setPassword(u.getPassword());
+        user.setRole(u.getRole());
+        user.setCreatedAt(u.getCreatedAt());
+
+        if (patientBindingResult.hasErrors() || userBindingResult.hasErrors()) {
+            return "admin/patient/update-patient";
+        }
+
+        if (multipartFile != null) {
+            String fileName = UploadFile.getFileName(multipartFile);
+
+            if (!fileName.isEmpty()) {
+                user.setAvatar(fileName);
+                try {
+                    UploadFile.saveFile(fileName, multipartFile);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
+        try {
+            userService.save(user);
+            return "redirect:/admin/patient/" + patientId;
+        } catch (Error e) {
+            System.out.println(e);
+            return "admin/patient/update-patient";
+        }
+    }
+
+    @GetMapping("admin/patient/add")
+    public String showPatientAdd(Model model) {
+        Patient patient = new Patient();
+        User user = new User();
+        model.addAttribute("patient", patient);
+        model.addAttribute("user", user);
+        return "admin/patient/add-patient1";
+    }
+
+
 //
 //    @GetMapping("{}")
 //    public String detailPatient() {
