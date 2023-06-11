@@ -159,12 +159,16 @@ public class PatientController {
 
         User u = userService.get(patientId);
         user.setPatient(u.getPatient());
-//
+
         user.setEmail(u.getEmail());
         user.setPassword(u.getPassword());
         user.setRole(u.getRole());
+        user.setFullName(u.getFullName());
+        user.setDateOfBirth(u.getDateOfBirth());
+        user.setPhoneNumber(u.getPhoneNumber());
+        user.setAddress(u.getAddress());
         user.setCreatedAt(u.getCreatedAt());
-//
+
         if (patientBindingResult.hasErrors() || userBindingResult.hasErrors()) {
             return "admin/patient/update-patient";
         }

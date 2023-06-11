@@ -34,10 +34,6 @@
                             </ul>
                         </nav>
                     </div>
-
-                    <div class="mt-4 mt-sm-0">
-                        <a href="/admin/doctor/doctor-add" class="btn btn-primary">Add Patient</a>
-                    </div>
                 </div>
 
                 <form role="search" method="get" id="searchform" class="searchform" th:action="@{/admin/patient}">
@@ -91,9 +87,11 @@
                                         <tr th:each="patient : ${usesPage}">
                                             <th class="p-3" th:text="${patient.patientId}"></th>
                                             <td class="py-3">
-                                                <a th:href="@{/admin/patient/{patientId}(patientId=${patient.patientId})}" class="text-dark">
+                                                <a href="#" class="text-dark">
                                                     <div class="d-flex align-items-center">
-                                                        <img th:src="@{'~/assets/uploads/'+${patient.user.avatar}}"
+                                                        <img th:if="${patient.user.avatar}" th:src="@{'~/assets/uploads/'+${patient.user.avatar}}"
+                                                             class="avatar avatar-md-sm rounded-circle shadow" alt="">
+                                                        <img th:unless="${patient.user.avatar}" th:src="@{'~/assets/images/avatar.png'}"
                                                              class="avatar avatar-md-sm rounded-circle shadow" alt="">
                                                         <span class="ms-2" th:text="${patient.user.fullName}"></span>
                                                     </div>
@@ -107,8 +105,6 @@
                                                 <span th:case="${false}" class="badge bg-soft-warning">Inactive</span>
                                             </td>
                                             <td class="text-end p-3">
-                                                <a th:href="@{/admin/patient/{patientId}(patientId=${patient.patientId})}" class="btn btn-icon btn-pills btn-soft-primary"><i
-                                                        class="uil uil-eye"></i></a>
                                                 <a th:href="@{/admin/patient/edit/{patientId}(patientId=${patient.patientId})}" class="btn btn-icon btn-pills btn-soft-success"><i
                                                         class="uil uil-pen"></i></a>
                                                 <!--                                                <a th:href="@{/admin/doctor/delete/{doctorId}(doctorId=${doctor.doctorId})}" class="btn btn-icon btn-delete btn-pills btn-soft-danger"><i-->

@@ -51,7 +51,7 @@
 
                                     <div class="col-4">
                                         <p id="avatar" class="d-none" th:name="avatar" th:text="${user.avatar}"></p>
-                                        <input type="file" id="image" name="image"
+                                        <input type="file" id="image"
                                                accept="image/*"
                                                onchange={handleChange()} hidden/>
 <!--                                        <label class="btn-upload btn btn-primary mt-4" for="image">Upload Avatar</label>-->
@@ -68,8 +68,8 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label">Full Name</label>
-                                            <input readonly th:name="fullName" th:field="*{fullName}" th:value="${fullName}"
-                                                   id="fullName" type="text" class="form-control"
+                                            <input readonly th:value="${user.fullName}"
+                                                   type="text" class="form-control"
                                                    placeholder="Full Name :">
                                             <span class="mt-2 text-danger" th:if="${#fields.hasErrors('fullName')}"
                                                   th:errors="*{fullName}"></span>
@@ -100,9 +100,8 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label">Phone no.</label>
-                                            <input readonly th:name="phoneNumber" th:field="*{phoneNumber}"
-                                                   th:value="${phoneNumber}"
-                                                   id="phoneNumber" type="text" class="form-control"
+                                            <input readonly th:value="${phoneNumber}"
+                                                  type="text" class="form-control"
                                                    placeholder="Phone no. :">
                                             <span class="mt-2 text-danger" th:if="${#fields.hasErrors('phoneNumber')}"
                                                   th:errors="*{phoneNumber}"></span>
@@ -112,9 +111,8 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label">Date of birth</label>
-                                            <input readonly th:name="dateOfBirth" th:field="*{dateOfBirth}"
-                                                   th:value="${dateOfBirth}"
-                                                   id="dateOfBirth" type="date" class="form-control">
+                                            <input readonly th:value="${dateOfBirth}"
+                                                  type="date" class="form-control">
                                             <span class="mt-2 text-danger" th:if="${dateOfBirth}"
                                                   th:text="${dateOfBirth}"></span>
                                         </div>
@@ -155,7 +153,7 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label">Gender</label>
-                                            <input readonly th:name="gender" th:field="*{gender}"
+                                            <input readonly th:value="${gender}"
                                                    id="gender" type="text" class="form-control">
                                             <span class="mt-2 text-danger" th:if="${gender}"
                                                   th:text="${gender}"></span>
@@ -165,8 +163,8 @@
 
                                     <div class="col-md-12">
                                             <label class="form-label">Address</label>
-                                            <input readonly th:name="address" th:field="*{address}" th:value="${address}"
-                                                   id="address" type="text" class="form-control"
+                                            <input readonly th:value="${address}"
+                                                   type="text" class="form-control"
                                                    placeholder="Address. :">
                                             <span class="mt-2 text-danger" th:if="${#fields.hasErrors('address')}"
                                                   th:errors="*{address}"></span>
@@ -188,8 +186,12 @@
                             <ul class="list-unstyled mb-0 p-4" data-simplebar style="height: 664px;">
                                 <li class="d-md-flex align-items-center text-center text-md-start mt-4"
                                     th:each="patient, iterStat : ${patients}" th:if="${iterStat.index} &lt; 5">
-                                    <a th:href="@{/admin/patient/{patientId}(patientId=${patient.patientId})}"><img th:src="@{'~/assets/uploads/'+${patient.user.avatar}}"
-                                                                                                               class="avatar avatar-medium rounded-md shadow" alt=""></a>
+                                    <a th:href="@{/admin/patient/edit/{patientId}(patientId=${patient.patientId})}">
+                                        <img th:if="${patient.user.avatar}" th:src="@{'~/assets/uploads/'+${patient.user.avatar}}"
+                                       class="avatar avatar-medium rounded-md shadow" alt="">
+                                        <img th:unless="${patient.user.avatar}" th:src="@{'~/assets/images/avatar.png'}"
+                                       class="avatar avatar-medium rounded-md shadow" alt="">
+                                    </a>
 
                                     <div class="ms-md-3 mt-4 mt-sm-0">
                                         <a th:href="@{/admin/patient/{patientId}(patientId=${patient.patientId})}" class="text-dark h6" th:text="${patient.user.fullName}"></a>
@@ -242,13 +244,14 @@
         const avatar = $('#avatar');
         const image = $('#image');
 
-        if (image.val() == "") {
-            image.prop('disabled', true);
-            const form = $('#form-submit');
-            const avatarValue = avatar.html();
-            const avatarField = $(`<input type=\"text\" name="avatar" value=\"${avatarValue}\" hidden />`);
-            form.append(avatarField)
+        image.prop('disabled', true);
+        const form = $('#form-submit');
+        const avatarValue = avatar.html();
+        let avatarField = $(`<input type=\"text\" value= hidden />`);
+        if (avatarValue != "") {
+            avatarField = $(`<input type=\"text\" name="avatar" value=\"${avatarValue}\" hidden />`);
         }
+        form.append(avatarField)
     });
 
     const handleChange = () => {

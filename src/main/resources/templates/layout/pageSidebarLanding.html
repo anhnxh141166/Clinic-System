@@ -6,35 +6,35 @@
   <div class="text-center avatar-profile margin-nagative mt-n5 position-relative pb-4 border-bottom">
     <img th:if="${user.avatar}" th:src="@{'~/assets/uploads/'+${user.avatar}}" class="rounded-circle shadow-md avatar avatar-md-md" alt="">
     <img th:unless="${user.avatar}" th:src="@{'~/assets/images/avatar.png'}" class="rounded-circle shadow-md avatar avatar-md-md" alt="">
-    <h5 class="mt-3 mb-1" th:text="${user.fullName}"></h5>
+    <h5 class="mt-3 mb-1" th:text="${session.user.fullName}"></h5>
     <p class="text-muted mb-0"></p>
     <hr>
     <div class="list-unstyled p-4">
       <div class="d-flex align-items-center mt-2">
         <i class="uil uil-user align-text-bottom text-primary h5 mb-0 me-2"></i>
         <h6 class="mb-0">Gender</h6>
-        <p class="text-muted mb-0 ms-2" th:text="${user.gender}"></p>
+        <p class="text-muted mb-0 ms-2" th:text="${session.user.gender}"></p>
       </div>
 
       <div class="d-flex align-items-center mt-2">
         <i class="uil uil-envelope align-text-bottom text-primary h5 mb-0 me-2"></i>
         <h6 class="mb-0">Birthday</h6>
-        <p class="text-muted mb-0 ms-2" th:text="${user.dateOfBirth}"></p>
+        <p class="text-muted mb-0 ms-2" th:text="${session.user.dateOfBirth}"></p>
       </div>
 
       <div class="d-flex align-items-center mt-2">
         <i class="uil uil-book-open align-text-bottom text-primary h5 mb-0 me-2"></i>
         <h6 class="mb-0">Phone No.</h6>
-        <p class="text-muted mb-0 ms-2" th:text="${user.phoneNumber}"></p>
+        <p class="text-muted mb-0 ms-2" th:text="${session.user.phoneNumber}"></p>
       </div>
 
       <div class="d-flex align-items-center mt-2">
         <i class="uil uil-italic align-text-bottom text-primary h5 mb-0 me-2"></i>
         <h6 class="mb-0">Address</h6>
-        <p class="text-muted mb-0 ms-2" th:text="${user.address}"></p>
+        <p class="text-muted mb-0 ms-2" th:text="${session.user.address}"></p>
       </div>
 
-      <div class="d-flex align-items-center mt-2" th:if="${user.role == 'Patient'}">
+      <div class="d-flex align-items-center mt-2" th:if="${session.user.role == 'Patient'}">
         <i class="uil uil-medical-drip align-text-bottom text-primary h5 mb-0 me-2"></i>
         <h6 class="mb-0">Blood Group</h6>
         <p class="text-muted mb-0 ms-2" th:if="${user.patient != null && user.patient.bloodGroup != null}" th:text="${user.patient.bloodGroup}"></p>

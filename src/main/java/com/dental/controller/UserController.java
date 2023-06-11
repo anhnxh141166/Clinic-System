@@ -38,6 +38,9 @@ import java.util.Map;
 public class UserController {
 
     @Autowired
+    private HttpSession session;
+
+    @Autowired
     UserService userService;
 
     @Autowired
@@ -59,7 +62,7 @@ public class UserController {
     @GetMapping("/")
     public String viewHomeLandingPage(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
         User userEnity = null;
-        if (userDetails != null){
+        if (userDetails != null) {
             userEnity = userDetails.getUserEntity();
         }
         List<Service> top4Service = getTop4Service();
@@ -84,12 +87,12 @@ public class UserController {
 
     }
 
-    public List<Service> getTop4Service(){
+    public List<Service> getTop4Service() {
         List<Service> top4Service = new ArrayList<>();
         int count = 0;
         List<Object[]> servicesWithAVG = rateStarService.findTop4WithAvg();
-        for (Object[] serviceWithAVG :servicesWithAVG){
-            if (count < 4){
+        for (Object[] serviceWithAVG : servicesWithAVG) {
+            if (count < 4) {
                 int id = (Integer) serviceWithAVG[0];
                 Service service = serviceService.get(id);
                 top4Service.add(service);
@@ -98,10 +101,6 @@ public class UserController {
         }
         return top4Service;
     }
-
-
-
-
 
 
     @GetMapping("/admin")
@@ -136,15 +135,13 @@ public class UserController {
                                Model model) {
         System.out.println(user);
         String message = "";
-        if(user==null){
+        if (user == null) {
             message = "Register fail";
-        }else {
+        } else {
             userService.registerUser(user);
             message = "Register successful";
         }
-//        return "redirect:/login";
-        model.addAttribute("message", message);
-        return "landing/auth/signup";
+        return "redirect:/login";
     }
 
     @RequestMapping(value = "/checkEmailExists", method = RequestMethod.GET)
@@ -178,39 +175,8 @@ public class UserController {
             @RequestParam("confirmPassword") String confirmPassword,
             Model model,
             RedirectAttributes redirectAttributes) {
-        String url = "landing/patient/patient-profile";
         User userEntity = userDetails.getUserEntity();
         String message = "";
-
-//        //login success
-//        if (userEntity != null) {
-//            // password correct
-//            if (passwordEncoder.matches(currentPassword, userEntity.getPassword())) {
-//                //current Password not same new password
-//                if (!currentPassword.equals(newPassword)) {
-//                    //confirm password
-//                    if (newPassword.equals(confirmPassword)) {
-//                        userEntity = userService.update(userEntity, newPassword);
-//                        userDetails.setUserEntity(userEntity);
-//                        redirectAttributes.addFlashAttribute("passwordMessage", "Change password success");
-////                        return "redirect:/patient/profile";
-//                        return "redirect:/profile";
-//                    } else {
-//                        message = "Confirm password not same !!!";
-//                    }
-//                } else {
-//                    message = "Please enter new password different old password!!!";
-//                }
-//            } else {
-//                message = "Wrong password !";
-//            }
-//        } else {
-//            message = "Please login !!!";
-//        }
-//
-//        model.addAttribute("message", message);
-//        model.addAttribute("user", userEntity);
-//        return "landing/user/profile";
 
         // Check if user is logged in
         if (userEntity != null) {
@@ -225,8 +191,7 @@ public class UserController {
                         userDetails.setUserEntity(userEntity);
 //                        redirectAttributes.addFlashAttribute("passwordMessage", "Change password success");
                         model.addAttribute("passwordMessage", "Change password success");
-//                        return "redirect:/profile";
-                        return "landing/user/profile";
+                        return "redirect:/profile";
                     } else {
                         message = "Confirm password does not match!";
                     }
@@ -242,8 +207,7 @@ public class UserController {
 
         redirectAttributes.addFlashAttribute("message", message);
         model.addAttribute("message", message);
-//        return "redirect:/profile";
-        return "landing/user/profile";
+        return "redirect:/profile";
     }
 
     @PostMapping("profile/update")
@@ -295,6 +259,7 @@ public class UserController {
             }
 
             userService.save(user);
+            session.setAttribute("user", userService.get(user.getUserId()));
             return "redirect:/profile";
         } catch (Error e) {
             System.out.println(e);

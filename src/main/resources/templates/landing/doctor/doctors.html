@@ -74,8 +74,8 @@
                         </div>
                         <div class="col-md-6">
                             <div class="card-body">
-                                <a th:href="@{/doctor/{doctorId}(doctorId=${doctor.doctorId})}" th:data-id="${doctor.doctorId}" class="title text-dark h5 d-block mb-0 doctor-detail" th:text="${doctor.user.fullName}"
-                                   data-bs-toggle="modal" data-bs-target="#viewprofile"></a>
+                                <a th:href="@{/doctor/{doctorId}(doctorId=${doctor.doctorId})}" class="title text-dark h5 d-block mb-0 doctor-detail" th:text="${doctor.user.fullName}"
+                                   data-bs-toggle="modal" th:data-bs-target="'#viewprofile' + ${doctor.doctorId}" th:data-id="${doctor.doctorId}"></a>
                                 <!--                                <a th:href="@{/doctor/{doctorId}(doctorId=${doctor.doctorId})}" class="title text-dark h5 d-block mb-0 doctor-detail" th:text="${doctor.user.fullName}"></a>-->
                                 <small class="text-muted speciality">Dental Care</small>
                                 <ul class="list-unstyled mt-2 mb-0">
