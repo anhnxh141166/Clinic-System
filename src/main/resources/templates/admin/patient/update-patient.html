@@ -23,7 +23,9 @@
         <div class="container-fluid">
             <div class="layout-specing">
                 <div class="d-md-flex justify-content-between">
-                    <h5 class="mb-0">Add New Doctor</h5>
+                    <h5 class="mb-0">Update Patient</h5>
+
+                    <div class="text-center" ><span aria-hidden="true" class="text-center text-success mb-3 h3" th:text="${message}"></span></div>
 
                     <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                         <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
@@ -37,7 +39,7 @@
                 <div class="row">
                     <div class="col-lg-8 mt-4">
                         <div class="card border-0 p-4 rounded shadow">
-                            <form method="POST" id="form-submit" th:action="@{/admin/doctor/update}" th:object="${user}"
+                            <form method="POST" id="form-submit" th:action="@{/admin/patient/update}" th:object="${user}"
                                   enctype="multipart/form-data">
                                 <div class="row align-items-center justify-content-between">
                                     <div class="col-lg-2 col-md-4">
@@ -52,12 +54,11 @@
                                         <input type="file" id="image" name="image"
                                                accept="image/*"
                                                onchange={handleChange()} hidden/>
-                                        <label class="btn-upload btn btn-primary mt-4" for="image">Upload
-                                            Avatar</label>
+<!--                                        <label class="btn-upload btn btn-primary mt-4" for="image">Upload Avatar</label>-->
                                         <span class="mt-2 text-danger d-block" th:if="${image}"
                                               th:text="${image}"></span>
                                     </div>
-                                    <input th:name="userId" id="userId" th:field="*{userId}"
+                                    <input readonly th:name="userId" id="userId" th:field="*{userId}"
                                            type="text"
                                            class="form-control" hidden>
                                 </div><!--end row-->
@@ -67,7 +68,7 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label">Full Name</label>
-                                            <input th:name="fullName" th:field="*{fullName}" th:value="${fullName}"
+                                            <input readonly th:name="fullName" th:field="*{fullName}" th:value="${fullName}"
                                                    id="fullName" type="text" class="form-control"
                                                    placeholder="Full Name :">
                                             <span class="mt-2 text-danger" th:if="${#fields.hasErrors('fullName')}"
@@ -99,7 +100,7 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label">Phone no.</label>
-                                            <input th:name="phoneNumber" th:field="*{phoneNumber}"
+                                            <input readonly th:name="phoneNumber" th:field="*{phoneNumber}"
                                                    th:value="${phoneNumber}"
                                                    id="phoneNumber" type="text" class="form-control"
                                                    placeholder="Phone no. :">
@@ -111,7 +112,7 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label">Date of birth</label>
-                                            <input th:name="dateOfBirth" th:field="*{dateOfBirth}"
+                                            <input readonly th:name="dateOfBirth" th:field="*{dateOfBirth}"
                                                    th:value="${dateOfBirth}"
                                                    id="dateOfBirth" type="date" class="form-control">
                                             <span class="mt-2 text-danger" th:if="${dateOfBirth}"
@@ -121,46 +122,59 @@
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
+                                            <div class="mb-3" th:object="${patient}">
+                                                <label class="form-label">Blood group</label>
+                                                <input class="form-control" readonly th:field="*{bloodGroup}"/>
+                                                <!--                                            <textarea th:name="bloodGroup" th:field="*{bloodGroup}"-->
+                                                <!--                                                      th:value="${bloodGroup}"-->
+                                                <!--                                                      id="bloodGroup" rows="3" class="form-control"-->
+                                                <!--                                                      placeholder="Bio :"></textarea>-->
+                                                <!--                                            <span class="mt-2 text-danger" th:if="${#fields.hasErrors('bloodGroup')}"-->
+                                                <!--                                                  th:errors="*{bloodGroup}"></span>-->
+                                            </div>
+
+                                        </div>
+                                    </div><!--end col-->
+
+<!--                                    <div class="col-md-6" th:switch="${user.gender}">-->
+<!--                                        <div class="mb-3" th:case="Male">-->
+<!--                                            <label class="form-label d-block">Gender</label>-->
+<!--                                            <input readonly type="radio" th:name="gender" th:value="Male" checked/> Male-->
+<!--                                            <input readonly style="margin-left: 20px;" type="radio" th:name="gender"-->
+<!--                                                   th:value="Female"/> Female-->
+<!--                                            <span class="mt-2 text-danger" th:if="${gender}" th:text="${gender}"></span>-->
+<!--                                        </div>-->
+<!--                                        <div class="mb-3" th:case="Female">-->
+<!--                                            <label class="form-label d-block">Gender</label>-->
+<!--                                            <input readonly type="radio" th:name="gender" th:value="Male" /> Male-->
+<!--                                            <input readonly style="margin-left: 20px;" type="radio" th:name="gender"-->
+<!--                                                   th:value="Female" checked/> Female-->
+<!--                                            <span class="mt-2 text-danger" th:if="${gender}" th:text="${gender}"></span>-->
+<!--                                        </div>-->
+<!--                                    </div>&lt;!&ndash;end col&ndash;&gt;-->
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Gender</label>
+                                            <input readonly th:name="gender" th:field="*{gender}"
+                                                   id="gender" type="text" class="form-control">
+                                            <span class="mt-2 text-danger" th:if="${gender}"
+                                                  th:text="${gender}"></span>
+                                        </div>
+                                    </div><!--end col-->
+
+
+                                    <div class="col-md-12">
                                             <label class="form-label">Address</label>
-                                            <input th:name="address" th:field="*{address}" th:value="${address}"
+                                            <input readonly th:name="address" th:field="*{address}" th:value="${address}"
                                                    id="address" type="text" class="form-control"
                                                    placeholder="Address. :">
                                             <span class="mt-2 text-danger" th:if="${#fields.hasErrors('address')}"
                                                   th:errors="*{address}"></span>
-                                        </div>
-                                    </div><!--end col-->
 
-                                    <div class="col-md-6" th:switch="${user.gender}">
-                                        <div class="mb-3" th:case="Male">
-                                            <label class="form-label d-block">Gender</label>
-                                            <input type="radio" th:name="gender" th:value="Male" checked/> Male
-                                            <input style="margin-left: 20px;" type="radio" th:name="gender"
-                                                   th:value="Female"/> Female
-                                            <span class="mt-2 text-danger" th:if="${gender}" th:text="${gender}"></span>
-                                        </div>
-                                        <div class="mb-3" th:case="Female">
-                                            <label class="form-label d-block">Gender</label>
-                                            <input type="radio" th:name="gender" th:value="Male" /> Male
-                                            <input style="margin-left: 20px;" type="radio" th:name="gender"
-                                                   th:value="Female" checked/> Female
-                                            <span class="mt-2 text-danger" th:if="${gender}" th:text="${gender}"></span>
-                                        </div>
-                                    </div><!--end col-->
-
-                                    <div class="col-md-12">
-                                        <div class="mb-3" th:object="${doctor}">
-                                            <label class="form-label">Your Bio Here</label>
-                                            <textarea th:name="description" th:field="*{description}"
-                                                      th:value="${description}"
-                                                      id="description" rows="3" class="form-control"
-                                                      placeholder="Bio :"></textarea>
-                                            <span class="mt-2 text-danger" th:if="${#fields.hasErrors('description')}"
-                                                  th:errors="*{description}"></span>
-                                        </div>
                                     </div>
                                 </div><!--end row-->
 
-                                <button type="submit" class="btn btn-primary btn-update">Update Doctor</button>
+                                <button type="submit" class="btn btn-primary btn-update mt-5">Update Patient</button>
                             </form>
                         </div>
                     </div><!--end col-->
@@ -168,24 +182,24 @@
                     <div class="col-lg-4 mt-4">
                         <div class="card rounded border-0 shadow">
                             <div class="p-4 border-bottom">
-                                <h5 class="mb-0">Doctors List</h5>
+                                <h5 class="mb-0">Patients List</h5>
                             </div>
 
                             <ul class="list-unstyled mb-0 p-4" data-simplebar style="height: 664px;">
                                 <li class="d-md-flex align-items-center text-center text-md-start mt-4"
-                                    th:each="doctor, iterStat : ${doctors}" th:if="${iterStat.index} &lt; 5">
-                                    <a th:href="@{/admin/doctor/{doctorId}(doctorId=${doctor.doctorId})}"><img th:src="@{'~/assets/uploads/'+${doctor.user.avatar}}"
+                                    th:each="patient, iterStat : ${patients}" th:if="${iterStat.index} &lt; 5">
+                                    <a th:href="@{/admin/patient/{patientId}(patientId=${patient.patientId})}"><img th:src="@{'~/assets/uploads/'+${patient.user.avatar}}"
                                                                                                                class="avatar avatar-medium rounded-md shadow" alt=""></a>
 
                                     <div class="ms-md-3 mt-4 mt-sm-0">
-                                        <a th:href="@{/admin/doctor/{doctorId}(doctorId=${doctor.doctorId})}" class="text-dark h6" th:text="${doctor.user.fullName}"></a>
-                                        <p class="text-muted my-1" th:text="${doctor.user.email}"></p>
-                                        <p class="text-muted mb-0" th:text="${doctor.user.phoneNumber}"></p>
+                                        <a th:href="@{/admin/patient/{patientId}(patientId=${patient.patientId})}" class="text-dark h6" th:text="${patient.user.fullName}"></a>
+                                        <p class="text-muted my-1" th:text="${patient.user.email}"></p>
+                                        <p class="text-muted mb-0" th:text="${patient.user.phoneNumber}"></p>
                                     </div>
                                 </li>
 
                                 <li class="mt-4">
-                                    <a th:href="@{/admin/doctor}" class="btn btn-primary">All Doctors</a>
+                                    <a th:href="@{/admin/patient}" class="btn btn-primary">All Patients</a>
                                 </li>
                             </ul>
                         </div>

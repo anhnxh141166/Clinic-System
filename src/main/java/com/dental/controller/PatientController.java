@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.util.List;
@@ -43,44 +44,48 @@ public class PatientController {
         return "landing/patient/patient-profile";
     }
 
-    @PostMapping("/patient/change-password")
-    public String changePassword(
-            @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @RequestParam("currentPassword") String currentPassword,
-            @RequestParam("newPassword") String newPassword,
-            @RequestParam("confirmPassword") String confirmPassword,
-            Model model) {
-        String url = "landing/patient/patient-profile";
-        User userEntity = userDetails.getUserEntity();
-        String message = "";
-
-        //login success
-        if (userEntity != null) {
-            // password correct
-            if (passwordEncoder.matches(currentPassword, userEntity.getPassword())) {
-                //current Password not same new password
-                if (!currentPassword.equals(newPassword)) {
-                    //confirm password
-                    if (newPassword.equals(confirmPassword)) {
-                        userEntity = userService.update(userEntity, newPassword);
-                        userDetails.setUserEntity(userEntity);
-                    } else {
-                        message = "Confirm password not same !!!";
-                    }
-                } else {
-                    message = "Please enter new password different old password!!!";
-                }
-            } else {
-                message = "Wrong password !";
-            }
-        } else {
-            message = "Please login !!!";
-        }
-
-        model.addAttribute("message", message);
-        model.addAttribute("user", userEntity);
-        return url;
-    }
+//    @PostMapping("/change-password")
+//    public String changePassword(
+//            @AuthenticationPrincipal UserDetailsImpl userDetails,
+//            @RequestParam("currentPassword") String currentPassword,
+//            @RequestParam("newPassword") String newPassword,
+//            @RequestParam("confirmPassword") String confirmPassword,
+//            Model model,
+//            RedirectAttributes redirectAttributes) {
+//        String url = "landing/patient/patient-profile";
+//        User userEntity = userDetails.getUserEntity();
+//        String message = "";
+//
+//        //login success
+//        if (userEntity != null) {
+//            // password correct
+//            if (passwordEncoder.matches(currentPassword, userEntity.getPassword())) {
+//                //current Password not same new password
+//                if (!currentPassword.equals(newPassword)) {
+//                    //confirm password
+//                    if (newPassword.equals(confirmPassword)) {
+//                        userEntity = userService.update(userEntity, newPassword);
+//                        userDetails.setUserEntity(userEntity);
+//                        redirectAttributes.addFlashAttribute("passwordMessage", "Change password success");
+////                        return "redirect:/patient/profile";
+//                        return "redirect:/patient/profile";
+//                    } else {
+//                        message = "Confirm password not same !!!";
+//                    }
+//                } else {
+//                    message = "Please enter new password different old password!!!";
+//                }
+//            } else {
+//                message = "Wrong password !";
+//            }
+//        } else {
+//            message = "Please login !!!";
+//        }
+//
+//        model.addAttribute("message", message);
+//        model.addAttribute("user", userEntity);
+//        return "landing/patient/patient-profile";
+//    }
 
     @GetMapping("/admin/patient")
     public String getAll(
@@ -147,18 +152,19 @@ public class PatientController {
     public String updatePatient(
             @Valid Patient patient, BindingResult patientBindingResult,
             @Valid User user, BindingResult userBindingResult,
-            Model model, @RequestParam(value = "image", required = false) MultipartFile multipartFile
+            Model model, @RequestParam(value = "image", required = false) MultipartFile multipartFile,
+            RedirectAttributes redirectAttributes
     ) {
         int patientId = user.getUserId();
 
         User u = userService.get(patientId);
         user.setPatient(u.getPatient());
-
+//
         user.setEmail(u.getEmail());
         user.setPassword(u.getPassword());
         user.setRole(u.getRole());
         user.setCreatedAt(u.getCreatedAt());
-
+//
         if (patientBindingResult.hasErrors() || userBindingResult.hasErrors()) {
             return "admin/patient/update-patient";
         }
@@ -177,11 +183,16 @@ public class PatientController {
         }
 
         try {
+            patientService.updatePatient(patient.getBloodGroup(), patientId);
             userService.save(user);
-            return "redirect:/admin/patient/" + patientId;
+            redirectAttributes.addFlashAttribute("message", "Update successful");
+            return "redirect:/admin/patient/edit/" + patientId;
         } catch (Error e) {
             System.out.println(e);
-            return "admin/patient/update-patient";
+            redirectAttributes.addFlashAttribute("message", "Update fail");
+//            model.addAttribute("message", "Update fail");
+//            return "admin/patient/update-patient";
+            return "redirect:/admin/patient/edit/" + patientId;
         }
     }
 

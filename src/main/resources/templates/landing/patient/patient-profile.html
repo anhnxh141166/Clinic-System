@@ -263,6 +263,10 @@
                             </div><!--end row-->
                         </div>
 
+
+                        <span aria-hidden="true" class="text-center text-success mb-3 h3" th:text="${passwordMessage}">
+                        Successful</span>
+
                         <div class="tab-pane fade" id="pills-experience" role="tabpanel"
                              aria-labelledby="experience-tab">
                             <h5 class="mb-0">Personal Information :</h5>
@@ -772,7 +776,7 @@
 
     $.validator.addMethod("noSpace", function(value, element) {
         // return value.indexOf(" ") < 0;
-         return /^\S+$/.test(value);
+        return /^\S+$/.test(value);
     }, "Password should not contain spaces.");
 
     $.validator.addMethod("matchNewPassword", function(value, element) {
@@ -831,36 +835,6 @@
             }
         });
 
-        // $(document).ready(function () {
-        //     var fileNameExists = false;
-        //     $('#email').blur(function () {
-        //         var email = $(this).val();
-        //         $.ajax({
-        //             url: '/user/checkEmailExists',
-        //             type: 'GET',
-        //             data: {email: email.toLowerCase()},
-        //             success: function (response) {
-        //                 if (response.exists) {
-        //                     $('#emailMessage').html('<span style="color:red;">Email already exists!</span>');
-        //                     fileNameExists = true;
-        //                 } else {
-        //                     $('#emailMessage').empty();
-        //                     fileNameExists = false;
-        //                 }
-        //             }
-        //             // ,
-        //             // error: function() {
-        //             //     alert('Error checking term name!');
-        //             // }
-        //         });
-        //     });
-        //     $('form').submit(function (event) {
-        //         if (fileNameExists) {
-        //             event.preventDefault();
-        //             $('#emailMessage').html('<span style="color:red;">Email already exists!</span>');
-        //         }
-        //     });
-        // });
     });
 
         </script>
