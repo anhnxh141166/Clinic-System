@@ -166,6 +166,7 @@ public class PatientController {
         user.setFullName(u.getFullName());
         user.setDateOfBirth(u.getDateOfBirth());
         user.setPhoneNumber(u.getPhoneNumber());
+        user.setGender(u.getGender());
         user.setAddress(u.getAddress());
         user.setCreatedAt(u.getCreatedAt());
 

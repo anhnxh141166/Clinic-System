@@ -1,10 +1,8 @@
 package com.dental.entity;
 
+import com.dental.util.AgeConstraint;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -33,6 +31,7 @@ public class User {
     private String gender;
 
     @Column(nullable = true)
+    @AgeConstraint(message = "Your age must be greater than 20")
     private java.sql.Date dateOfBirth;
 
     @Column(nullable = true, columnDefinition = "nvarchar(100)")

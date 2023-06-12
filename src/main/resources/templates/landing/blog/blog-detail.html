@@ -176,7 +176,7 @@
                                             <img style="height: 66px; width: 100%; object-fit: cover;" alt="img" th:src="@{'~/assets/uploads/'+${blog.thumbnail}}" class="img-fluid rounded"></a>
                                     </div>
                                     <div class="post-recent-content float-start">
-                                        <a th:href="@{/admin/blog/{blogId}(blogId=${blog.blogId})}"
+                                        <a th:href="@{/blog/{blogId}(blogId=${blog.blogId})}"
                                            th:text="${blog.title}"></a>
                                         <span class="text-muted mt-2" th:text="${blog.createdAt}"></span>
                                     </div>

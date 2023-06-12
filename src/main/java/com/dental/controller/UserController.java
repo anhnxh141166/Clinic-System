@@ -226,10 +226,6 @@ public class UserController {
         user.setRole(u.getRole());
         user.setCreatedAt(u.getCreatedAt());
 
-        if (user.getDateOfBirth() == null) {
-            model.addAttribute("dateOfBirth", "Date of birth must be mandatory");
-        }
-
         if (user.getGender() == null) {
             model.addAttribute("gender", "Gender must be mandatory");
         }
