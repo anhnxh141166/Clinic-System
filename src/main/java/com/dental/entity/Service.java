@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -57,12 +58,8 @@ public class Service {
     @OneToMany(mappedBy = "service", cascade = CascadeType.ALL)
     private List<RateStar> rateStar;
 
-    @ManyToMany
-    @JoinTable(
-            name = "appointment_detail",
-            joinColumns = @JoinColumn(name = "service_id"),
-            inverseJoinColumns = @JoinColumn(name = "appointment_id"))
-    Set<Appointment> appointment;
+    @ManyToMany(mappedBy = "service")
+    Set<Appointment> appointment = new HashSet<>();
 
     public Integer getServiceId() {
         return serviceId;

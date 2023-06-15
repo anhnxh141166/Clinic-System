@@ -155,7 +155,10 @@
               </li>
             </ul>
 
-            <button class="btn btn-primary mt-3">Book now</button>
+            <form method="get" th:action="@{/booking}">
+              <input type="text" th:name="serviceId" th:value="${service.serviceId}" hidden/>
+              <button class="btn btn-primary mt-3">Book now</button>
+            </form>
           </div>
         </div>
       </div>

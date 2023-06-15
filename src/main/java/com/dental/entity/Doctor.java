@@ -36,6 +36,9 @@ public class Doctor {
     @JoinColumn(name = "doctor_id")
     private User user;
 
+    @OneToMany(mappedBy = "doctor")
+    private List<Appointment> appointment;
+
     public Integer getDoctorId() {
         return doctorId;
     }

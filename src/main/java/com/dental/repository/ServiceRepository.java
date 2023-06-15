@@ -11,9 +11,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface ServiceRepository extends JpaRepository<Service, Integer> {
+    List<Service> findAllByServiceIdIn(List<Integer> services);
+
     Page<Service> findAll(Pageable pageable);
 
     Page<Service> findAllByStatusAndTitleContaining(boolean status, String title, Pageable pageable);

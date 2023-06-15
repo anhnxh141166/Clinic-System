@@ -1,5 +1,6 @@
 package com.dental.service;
 
+import com.dental.entity.Blog;
 import com.dental.entity.Patient;
 import com.dental.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,10 @@ public class PatientService {
 
     public List<Patient> getAll() {
         return patientRepository.findAll();
+    }
+
+    public Patient get(int id) {
+        return patientRepository.findById(id).get();
     }
 
     public Patient getPatientById(int id) {
