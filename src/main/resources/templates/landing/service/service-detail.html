@@ -87,7 +87,10 @@
 
                 <p class="text-muted mt-4" th:utext="${service.content}"></p>
 
-                <button class="btn btn-primary d-block my-3 w-100">Make appointment</button>
+                <form method="get" th:action="@{/booking}">
+                    <input type="text" th:name="serviceId" th:value="${service.serviceId}" hidden/>
+                    <button class="btn btn-primary d-block my-3 w-100">Make appointment</button>
+                </form>
 
                 <h5 class="card-title mt-4 mb-0">Feedbacks :</h5>
 

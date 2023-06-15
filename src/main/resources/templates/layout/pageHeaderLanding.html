@@ -127,54 +127,23 @@
             <!-- Navigation Menu-->
             <ul class="navigation-menu nav-left nav-light">
                 <li class="parent-menu-item">
-                    <a th:href="@{/}">Home</a><span class="menu-arrow"></span>
+                    <a th:href="@{/}" class="sub-menu-item">Home</a>
                 </li>
 
-                <li class="has-submenu parent-parent-menu-item">
-                    <a href="javascript:void(0)">Doctors</a><span class="menu-arrow"></span>
-                    <ul class="submenu">
-                        <li class="has-submenu parent-menu-item">
-                            <a href="javascript:void(0)" class="menu-item"> Dashboard </a><span
-                                class="submenu-arrow"></span>
-                            <ul class="submenu">
-                                <li><a href="doctor-appointment.html" class="sub-menu-item">Appointment</a></li>
-                                <li><a href="patient-list.html" class="sub-menu-item">Patients</a></li>
-                                <li><a href="invoices.html" class="sub-menu-item">Invoices</a></li>
-                                </li>
-                                <li><a href="login.html" class="sub-menu-item">Login</a></li>
-                                <li><a href="signup.html" class="sub-menu-item">Sign Up</a></li>
-                                <li><a href="forgot-password.html" class="sub-menu-item">Forgot Password</a></li>
-                            </ul>
-                        </li>
-                        <li><a th:href="@{/doctor}" class="sub-menu-item">Doctors</a></li>
-                    </ul>
+                <li class="parent-menu-item">
+                    <a th:href="@{/doctor}" class="sub-menu-item">Doctors</a>
                 </li>
 
-                <li class="has-submenu parent-menu-item">
-                    <a href="javascript:void(0)">Patients</a><span class="menu-arrow"></span>
-                    <ul class="submenu">
-                        <li><a href="patient-dashboard.html" class="sub-menu-item">Dashboard</a></li>
-                        <li><a href="patient-profile.html" class="sub-menu-item">Profile</a></li>
-                        <li><a href="booking-appointment.html" class="sub-menu-item">Book Appointment</a></li>
-                        <li><a href="patient-invoice.html" class="sub-menu-item">Invoice</a></li>
-                    </ul>
+                <li class="parent-menu-item">
+                    <a th:href="@{/service}" class="sub-menu-item">Services</a>
                 </li>
 
-                <li class="has-submenu parent-menu-item">
-                    <a href="javascript:void(0)">Pharmacy</a><span class="menu-arrow"></span>
-                    <ul class="submenu">
-                        <li><a href="pharmacy-shop-cart.html" class="sub-menu-item">Shop Cart</a></li>
-                        <li><a href="pharmacy-checkout.html" class="sub-menu-item">Checkout</a></li>
-                        <li><a href="pharmacy-account.html" class="sub-menu-item">Account</a></li>
-                    </ul>
+                <li class="parent-menu-item">
+                    <a th:href="@{/service}" class="sub-menu-item">Services</a>
                 </li>
 
-                <li class="has-submenu parent-parent-menu-item"><a href="javascript:void(0)">Pages</a><span
-                        class="menu-arrow"></span>
-                    <ul class="submenu">
-                        <li><a th:href="@{/service}" class="sub-menu-item">Services</a></li>
-                        <li><a th:href="@{/blog}" class="sub-menu-item">Blogs</a></li>
-                    </ul>
+                <li class="parent-menu-item">
+                    <a th:href="@{/blog}" class="sub-menu-item">Blogs</a>
                 </li>
                 <li><a th:href="@{/admin}" th:if="${user != null && user.role == 'Admin'}" class="sub-menu-item">Admin</a></li>
             </ul><!--end navigation menu-->

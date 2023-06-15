@@ -39,7 +39,7 @@ public class User {
     private String address;
 
     @Column(nullable = true, length = 12)
-    @Size(min = 1, max = 12, message = "Phone must be mandatory and less than 12 characters")
+    @Size(min = 10, max = 12, message = "Phone must be mandatory and less than 12 characters")
     @Pattern(regexp = "^(?:\\+)?[0-9]*$", message = "Wrong type of phone number")
     private String phoneNumber;
 
@@ -47,7 +47,7 @@ public class User {
     private String avatar;
 
     @Column(columnDefinition = "nvarchar(50)" , nullable = false)
-    @Size(min = 1, max = 50, message = "Full name must be mandatory and less than 50 characters")
+    @Size(min = 6, max = 50, message = "Full name must be mandatory and less than 50 characters")
     @Pattern(regexp = "^[\\p{L}\\s]+$", message = "Full name must not contain special character and not empty")
     private String fullName;
 

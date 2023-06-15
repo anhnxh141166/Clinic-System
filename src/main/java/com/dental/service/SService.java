@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @org.springframework.stereotype.Service
 public class SService  {
@@ -16,6 +17,10 @@ public class SService  {
 
     public List<Service> getAll() {
         return serviceRepository.findAll();
+    }
+
+    public List<Service> getAllByIds(List<Integer> services) {
+        return serviceRepository.findAllByServiceIdIn(services);
     }
 
     public Service get(int id) {

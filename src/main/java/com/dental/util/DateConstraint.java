@@ -12,10 +12,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Target({FIELD, METHOD, PARAMETER})
 @Retention(RUNTIME)
-@Constraint(validatedBy = AgeValidator.class)
+@Constraint(validatedBy = DateValidator.class)
 @Documented
-public @interface AgeConstraint {
-    String message() default "Invalid age";
+public @interface DateConstraint {
+    String message() default "Invalid date";
 
     Class<?>[] groups() default {};
 
