@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{layout/head :: head}"></head>
+<style>
+    .table > tbody {
+        vertical-align: middle;
+    }
+</style>
+<body>
+<!-- Loader -->
+<div id="preloader">
+    <div id="status">
+        <div class="spinner">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
+        </div>
+    </div>
+</div>
+<!-- Loader -->
+
+<!-- Navbar STart -->
+<header th:replace="~{layout/pageHeaderLanding :: pageHeaderLanding}"></header><!--end header-->
+<!-- Navbar End -->
+
+<!-- Start Hero -->
+<section class="bg-dashboard">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-3 col-lg-4 col-md-5 col-12">
+                <div th:replace="~{layout/pageSidebarLanding :: sidebarLanding}"></div>
+            </div><!--end col-->
+
+            <div class="col-xl-9 col-lg-8 col-md-7 mt-4 pt-2 mt-sm-0 pt-sm-0">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5 class="mb-0">Appointment Detail</h5>
+                    </div><!--end col-->
+                    <div class="col-md-6 text-end">
+                        <a th:href="@{/appoinment/completed/{appointmentId}(appointmentId=${appointment.appointmentId})}" th:data-id="${appointment.appointmentId}" class="btn btn-primary btn-complete"
+                        >Confirm complete</a>
+                    </div><!--end col-->
+                </div><!--end row-->
+                <hr>
+                <div class="row">
+                    <div class="col-12 mt-4">
+                        <div class="row">
+                            <div class="col-4">
+                                <h6 class="d-inline-block">Date:</h6>
+                                <span class="text-muted" th:text="${appointment.getDate('')}"></span>
+                            </div>
+                            <div class="col-4">
+                                <h6 class="d-inline-block">Time:</h6>
+                                <span class="text-muted" th:text="${appointment.time}"></span>
+                            </div>
+                            <div class="col-4">
+                                <h6 class="d-inline-block">Status:</h6>
+                                <div class="d-inline" th:switch="${appointment.status}">
+                                    <span th:case="New" class="badge bg-soft-primary">New</span>
+                                    <span th:case="Assigned" class="badge bg-soft-warning">Assigned</span>
+                                    <span th:case="Completed" class="badge bg-soft-success">Completed</span>
+                                    <span th:case="Cancle" class="badge bg-soft-danger">Cancle</span>
+                                </div>
+                            </div>
+                            <div class="col-12" th:if="${appointment.note}">
+                                <h6 class="d-inline-block">Note:</h6>
+                                <span class="text-muted" th:text="${appointment.note}"></span>
+                            </div>
+                        </div>
+                        <hr>
+                        <h5 class="mb-2">Patient information</h5>
+                        <h6 class="d-inline-block">Fullname:</h6>
+                        <span class="text-muted" th:text="${appointment.patient.user.fullName}"></span>
+                        <br>
+                        <h6 class="d-inline-block">Date of birth:</h6>
+                        <span class="text-muted" th:text="${appointment.patient.user.dateOfBirth}"></span>
+                        <br>
+                        <h6 class="d-inline">Gender:</h6>
+                        <span class="text-muted" th:text="${appointment.patient.user.gender}"></span>
+                        <hr>
+
+                        <h5 class="mb-2">Services</h5>
+                        <div class="bg-white shadow rounded">
+                            <table class="table mb-0 table-center">
+                                <thead>
+                                <tr>
+                                    <th class="border-bottom p-3" style="min-width: 50px;">#</th>
+                                    <th class="border-bottom p-3" style="min-width: 150px;">Services</th>
+                                    <th class="border-bottom p-3" style="min-width: 150px;">Price</th>
+                                    <th th:if="${session.user.role == 'Patient'}" class="border-bottom p-3"
+                                        style="min-width: 220px;">Doctor
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:if="${session.user.role == 'Patient'}" th:each="appointment : ${appointments}">
+                                    <th class="p-3" th:text="${appointment.appointmentId}"></th>
+                                    <td class="p-3">
+                                        <a href="#" class="text-dark " th:each="service : ${appointment.service}">
+                                            <div class="d-flex align-items-center mt-2">
+                                                <img th:src="@{'~/assets/uploads/'+${service.thumbnail}}"
+                                                     class="avatar avatar-md-sm rounded-circle shadow" alt="">
+                                                <span class="ms-2" th:text="${service.title}"></span>
+                                            </div>
+                                        </a>
+                                    </td>
+                                    <td class="p-3" th:text="${appointment.getDate('')}"></td>
+                                    <td class="p-3" th:text="${appointment.time}"></td>
+                                    <td class="p-3">
+                                        <a href="#" class="text-dark" th:if="${appointment.doctor}">
+                                            <div class="d-flex align-items-center">
+                                                <img th:if="${appointment.doctor?.user.avatar}"
+                                                     th:src="@{'~/assets/uploads/'+${appointment.doctor.user.avatar}}"
+                                                     class="avatar avatar-md-sm rounded-circle border shadow" alt="">
+                                                <img th:unless="${appointment.doctor?.user.avatar}"
+                                                     th:src="@{'~/assets/images/avatar.png'}"
+                                                     class="avatar avatar-md-sm rounded-circle border shadow" alt="">
+                                                <span class="ms-2"
+                                                      th:text="${appointment.doctor?.user?.fullName}"></span>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="text-dark" th:unless="${appointment.doctor}">
+                                            <div class="d-flex align-items-center">
+                                                <span class="ms-2">Not assign yet</span>
+                                            </div>
+                                        </a>
+                                    </td>
+                                    <td class="p-3" th:switch="${appointment.status}">
+                                        <span th:case="New" class="badge bg-soft-primary">New</span>
+                                        <span th:case="Assigned" class="badge bg-soft-warning">Assigned</span>
+                                        <span th:case="Completed" class="badge bg-soft-success">Completed</span>
+                                        <span th:case="Cancle" class="badge bg-soft-danger">Cancle</span>
+                                    </td>
+                                    <td class="text-end p-3">
+                                        <a th:href="@{/appointment/{appointmentId}(appointmentId=${appointment.appointmentId})}"
+                                           class="btn btn-icon btn-pills btn-soft-primary"><i
+                                                class="uil uil-eye"></i></a>
+                                        <a th:if="${appointment.status != 'Cancle' && appointment.status != 'Completed'}"
+                                           th:href="@{/appointments/delete/{appointmentId}(appointmentId=${appointment.appointmentId})}"
+                                           class="btn btn-icon btn-delete btn-pills btn-soft-danger"><i
+                                                class="uil uil-times-circle"></i></a>
+                                    </td>
+                                </tr>
+
+                                <!--                                Doctor-->
+                                <tr th:if="${session.user.role == 'Doctor'}" th:each="service : ${appointment.service}">
+                                    <th class="p-3" th:text="${service.serviceId}"></th>
+                                    <td class="p-3">
+                                        <a href="#" class="text-dark ">
+                                            <div class="d-flex align-items-center mt-2">
+                                                <img th:src="@{'~/assets/uploads/'+${service.thumbnail}}"
+                                                     class="avatar avatar-md-sm rounded-circle shadow" alt="">
+                                                <span class="ms-2" th:text="${service.title}"></span>
+                                            </div>
+                                        </a>
+                                    </td>
+                                    <td class="p-3" th:text="'$ ' + ${service.price}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div><!--end row-->
+            </div><!--end col-->
+        </div><!--end row-->
+    </div><!--end container-->
+</section><!--end section-->
+<!-- End Hero -->
+
+<!-- Footer Start -->
+<footer th:replace="~{layout/homeFooter :: homeFooter}"></footer>
+<!-- End -->
+
+<!-- Back to top -->
+<a href="#" onclick="topFunction()" id="back-to-top" class="btn btn-icon btn-pills btn-primary back-to-top"><i
+        data-feather="arrow-up" class="icons"></i></a>
+<!-- Back to top -->
+
+<!-- javascript -->
+<script th:replace="~{layout/script :: script}"></script>
+<script>
+    $('.btn-complete').on('click', function (e) {
+        e.preventDefault();
+        const appointmentId = $(this).attr("data-id");
+        SwalComplete(this.href, {
+            appointmentId
+        }, `/appointment/${appointmentId}`, "Successfully updated!");
+    });
+</script>
+</body>
+
+</html>

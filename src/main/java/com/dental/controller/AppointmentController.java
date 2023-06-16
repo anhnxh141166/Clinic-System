@@ -25,6 +25,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Controller
@@ -45,9 +46,9 @@ public class AppointmentController {
 
     @GetMapping("/booking")
     public String formAppointment(
-        @AuthenticationPrincipal UserDetailsImpl userDetails,
-        @RequestParam(value = "serviceId", required = false) List<Integer> serviceIds,
-        Model model
+            @AuthenticationPrincipal UserDetailsImpl userDetails,
+            @RequestParam(value = "serviceId", required = false) List<Integer> serviceIds,
+            Model model
     ) {
         if (userDetails == null) {
             return "redirect:/";
@@ -65,12 +66,12 @@ public class AppointmentController {
 
     @GetMapping("/appointments")
     public String listAppointment(
-        @AuthenticationPrincipal UserDetailsImpl userDetails,
-        Model model,
-        @RequestParam(name = "page", required = false, defaultValue = Const.PAGE_DEFAULT_STR) Integer pageNum,
-        @RequestParam(name = "pageSize", required = false, defaultValue = Const.PAGE_SIZE_DEFAULT_STR) Integer pageSize,
-        @RequestParam(name = "date", required = false) Date date,
-        @RequestParam(name = "status", required = false) String status
+            @AuthenticationPrincipal UserDetailsImpl userDetails,
+            Model model,
+            @RequestParam(name = "page", required = false, defaultValue = Const.PAGE_DEFAULT_STR) Integer pageNum,
+            @RequestParam(name = "pageSize", required = false, defaultValue = Const.PAGE_SIZE_DEFAULT_STR) Integer pageSize,
+            @RequestParam(name = "date", required = false) Date date,
+            @RequestParam(name = "status", required = false) String status
     ) {
         if (userDetails == null) {
             return "redirect:/";
@@ -80,17 +81,31 @@ public class AppointmentController {
             pageNum = 1;
         }
 
+        String role = userDetails.getUserEntity().getRole();
+        int userId = userDetails.getUserEntity().getUserId();
         Pageable pageable = PageRequest.of(pageNum - 1, pageSize);
         Page<Appointment> appointments;
 
-        if (date != null && status != null && !status.isEmpty()){
-            appointments = appointmentService.findAllByStatusAndDate(status, date, pageable);
-        } else if (status != null && !status.isEmpty()) {
-            appointments = appointmentService.findAllByStatus(status, pageable);
-        } else if (date != null) {
-            appointments = appointmentService.findAllByDate(date, pageable);
+        if (role.equals("Patient")) {
+            if (date != null && status != null && !status.isEmpty()) {
+                appointments = appointmentService.findAllByPatientPatientIdAndStatusAndDate(userId, status, date, pageable);
+            } else if (status != null && !status.isEmpty()) {
+                appointments = appointmentService.findAllByPatientPatientIdAndStatus(userId, status, pageable);
+            } else if (date != null) {
+                appointments = appointmentService.findAllByPatientPatientIdAndDate(userId, date, pageable);
+            } else {
+                appointments = appointmentService.findAllByPatientPatientIdOrderByDateDesc(userId, pageable);
+            }
         } else {
-            appointments = appointmentService.findAllByOrderByDateDesc(pageable);
+            if (date != null && status != null && !status.isEmpty()) {
+                appointments = appointmentService.findAllByDoctorDoctorIdAndStatusAndDate(userId, status, date, pageable);
+            } else if (status != null && !status.isEmpty()) {
+                appointments = appointmentService.findAllByDoctorDoctorIdAndStatus(userId, status, pageable);
+            } else if (date != null) {
+                appointments = appointmentService.findAllByDoctorDoctorIdAndDate(userId, date, pageable);
+            } else {
+                appointments = appointmentService.findAllByDoctorDoctorIdOrderByDateDesc(userId, pageable);
+            }
         }
 
         model.addAttribute("user", userService.get(userDetails.getUserEntity().getUserId()));
@@ -101,8 +116,45 @@ public class AppointmentController {
         return "/landing/appointment/appointments";
     }
 
+    @GetMapping("/appointment/{appointmentId}")
+    public String listAppointment(
+            @PathVariable("appointmentId") int appointmentId,
+            Model model,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
+        if (userDetails == null) {
+            return "redirect:/";
+        }
+
+        String role = userDetails.getUserEntity().getRole();
+        int userId = userDetails.getUserEntity().getUserId();
+        Optional<Appointment> a = appointmentService.getById(appointmentId);
+
+        if (a == null || a.isEmpty()) {
+            return "redirect:/appointments";
+        }
+        Appointment appointment = a.get();
+
+        if (role.equals("Patient")) {
+            if (appointment.getPatient().getPatientId() != userId) {
+                return "redirect:/appointments";
+            }
+        } else {
+            if (appointment.getDoctor() == null) {
+                return "redirect:/appointments";
+            }
+            if (appointment.getDoctor().getDoctorId() != userId) {
+                return "redirect:/appointments";
+            }
+        }
+
+        model.addAttribute("user", userService.get(userDetails.getUserEntity().getUserId()));
+        model.addAttribute("appointment", appointment);
+        return "/landing/appointment/appointment-detail";
+    }
+
     @PostMapping("/booking/save")
-    public String makeAppointment (
+    public String makeAppointment(
             @Valid Appointment appointment,
             BindingResult result,
             @Valid User user,
@@ -170,15 +222,12 @@ public class AppointmentController {
 //        }
         List<Service> selectedServices = serviceService.getAllByIds(serviceIds);
         int patientId = userDetails.getUserEntity().getUserId();
-        System.out.println("patientId neeeeeeeeeeeeeeeeeeeeee");
-        System.out.println(patientId);
         Patient patient = patientService.get(patientId);
         appointment.setPatient(patient);
         appointment.setStatus("New");
         appointment.setService(selectedServices);
 
         try {
-            System.out.println("abccccccccccccccccccccccccccccccccccccccccc");
             appointmentService.save(appointment);
             return "redirect:/appointments";
         } catch (Error e) {
@@ -187,10 +236,8 @@ public class AppointmentController {
     }
 
     @PostMapping("/appointments/delete/{appointmentId}")
-    public String cancleAppointment (@PathVariable("appointmentId") int appointmentId, Model model) throws IllegalAccessException {
+    public String cancleAppointment(@PathVariable("appointmentId") int appointmentId, Model model) throws IllegalAccessException {
         try {
-            System.out.println("appointmentId neeeeeeeeeeeeeeeeeee");
-            System.out.println(appointmentId);
             Appointment p = appointmentService.get(appointmentId);
             if (p != null && p.getStatus().equals("Completed")) {
                 throw new IllegalAccessException("Cannot cancle this appointment!");
@@ -205,5 +252,20 @@ public class AppointmentController {
             throw new IllegalAccessException("Failed to cancle!");
         }
         return "redirect:/appointments";
+    }
+
+    @PostMapping("/appoinment/completed/{appointmentId}")
+    public String completeAppointment(@PathVariable("appointmentId") int appointmentId, Model model) throws IllegalAccessException {
+        try {
+            Appointment p = appointmentService.get(appointmentId);
+            if (p != null && !p.getStatus().equals("Assigned")) {
+                throw new IllegalAccessException("Cannot change this appointment to complete !");
+            }
+
+            appointmentService.updateAppointmentStatus("Completed", appointmentId);
+        } catch (Error e) {
+            throw new IllegalAccessException("Failed to change status!");
+        }
+        return "redirect:/appointment/" + appointmentId;
     }
 }

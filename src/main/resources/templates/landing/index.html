@@ -158,7 +158,7 @@
                         <div class="d-flex justify-content-between align-items-center mt-2">
                             <input type="hidden" th:with="servicesWithAVG=${servicesWithAVG}"/>
                             <ul class="list-unstyled mb-0">
-<!--                                th:each="count: ${#numbers.sequence(1, rateStart.star)}"-->
+                                <!--                                th:each="count: ${#numbers.sequence(1, rateStart.star)}"-->
                                 <li class="list-inline-item" th:each="count: ${#numbers.sequence(1, service.getAvgStarByServiceId(service.serviceId, servicesWithAVG))}" th:if="${service.getAvgStarByServiceId(service.serviceId, servicesWithAVG) > 0}">
                                     <i class="mdi mdi-star text-warning"></i>
                                 </li>
@@ -167,7 +167,7 @@
                                 </li>
 
                             </ul>
-<!--                            <p class="text-muted mb-0">5 Star</p>-->
+                            <!--                            <p class="text-muted mb-0">5 Star</p>-->
                         </div>
 
                         <ul class="list-unstyled mt-2 mb-0">
@@ -180,7 +180,7 @@
                                 <small class="text-muted ms-2" th:text="${service.price}+' $'"></small>
                             </li>
                             <li class="d-flex mt-2">
-<!--                                <i class="ri-time-line text-primary align-middle"></i>-->
+                                <!--                                <i class="ri-time-line text-primary align-middle"></i>-->
                                 <small class="text-muted ms-2" th:utext="${service.description}"></small>
                             </li>
                         </ul>
@@ -215,32 +215,32 @@
 
         <div class="row align-items-center">
 
-                <div class="col-xl-3 col-lg-3 col-md-6 mt-4 pt-2" th:each="doctor, iStat: ${doctors}" th:if="${iStat.index < 4}">
-                        <div class="card team border-0 rounded shadow overflow-hidden">
-                            <div class="team-img position-relative">
-                                <!--                        <img src="../assets/images/doctors/01.jpg" class="img-fluid" alt="">-->
-                                <img th:src="@{'~/assets/uploads/'+${doctor.user.avatar}}" class="img-fluid" alt="">
-                                <!--                        <img th:src="@{'~/assets/uploads/1685933866233-08.jpg'}" class="img-fluid" alt="">-->
+            <div class="col-xl-3 col-lg-3 col-md-6 mt-4 pt-2" th:each="doctor, iStat: ${doctors}" th:if="${iStat.index < 4}">
+                <div class="card team border-0 rounded shadow overflow-hidden">
+                    <div class="team-img position-relative">
+                        <!--                        <img src="../assets/images/doctors/01.jpg" class="img-fluid" alt="">-->
+                        <img th:src="@{'~/assets/uploads/'+${doctor.user.avatar}}" class="img-fluid" alt="">
+                        <!--                        <img th:src="@{'~/assets/uploads/1685933866233-08.jpg'}" class="img-fluid" alt="">-->
 
-                                <!--                        <ul class="list-unstyled team-social mb-0">-->
-                                <!--                            <li><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="facebook"-->
-                                <!--                                                                                               class="icons"></i></a>-->
-                                <!--                            </li>-->
-                                <!--                            <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i-->
-                                <!--                                    data-feather="linkedin" class="icons"></i></a></li>-->
-                                <!--                            <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i-->
-                                <!--                                    data-feather="github" class="icons"></i></a></li>-->
-                                <!--                            <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i-->
-                                <!--                                    data-feather="twitter" class="icons"></i></a></li>-->
-                                <!--                        </ul>-->
-                            </div>
-                            <div class="card-body content text-center">
-                                <a href="#" class="title text-dark h5 d-block mb-0"
-                                   th:text="${doctor.user.fullName}"></a>
-                                <!--                        <small class="text-muted speciality">Eye Care</small>-->
-                            </div>
-                        </div>
-                </div><!--end col-->
+                        <!--                        <ul class="list-unstyled team-social mb-0">-->
+                        <!--                            <li><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="facebook"-->
+                        <!--                                                                                               class="icons"></i></a>-->
+                        <!--                            </li>-->
+                        <!--                            <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i-->
+                        <!--                                    data-feather="linkedin" class="icons"></i></a></li>-->
+                        <!--                            <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i-->
+                        <!--                                    data-feather="github" class="icons"></i></a></li>-->
+                        <!--                            <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i-->
+                        <!--                                    data-feather="twitter" class="icons"></i></a></li>-->
+                        <!--                        </ul>-->
+                    </div>
+                    <div class="card-body content text-center">
+                        <a href="#" class="title text-dark h5 d-block mb-0"
+                           th:text="${doctor.user.fullName}"></a>
+                        <!--                        <small class="text-muted speciality">Eye Care</small>-->
+                    </div>
+                </div>
+            </div><!--end col-->
 
 
 
@@ -372,7 +372,7 @@
                             <i class="uil uil-calendar-alt text-dark h6 me-1"></i>
                             <li class="list-inline-item text-muted small me-3" th:text="${blog.createdAt}"></li>
                         </ul>
-                        <a href="blog-detail.html" class="text-dark title h5" th:text="${blog.title}">Easily connect to
+                        <a th:href="@{/blog/{blogId}(blogId=${blog.blogId})}" class="text-dark title h5" th:text="${blog.title}">Easily connect to
                             doctor and make a
                             treatment</a>
                         <div class="post-meta d-flex justify-content-between mt-3">

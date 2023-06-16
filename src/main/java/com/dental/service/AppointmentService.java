@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AppointmentService {
@@ -22,6 +23,9 @@ public class AppointmentService {
 
     public Appointment get(int id) {
         return appointmentRepository.findById(id).get();
+    }
+    public Optional<Appointment> getById(int id) {
+        return appointmentRepository.findById(id);
     }
 
 //    public Page<Appointment> getAllByBlogId(int blogId, Pageable pageable) {
@@ -54,5 +58,37 @@ public class AppointmentService {
 
     public Page<Appointment> findAllByStatusAndDate(String status, Date date, Pageable pageable) {
         return appointmentRepository.findAllByStatusAndDate(status, date, pageable);
+    }
+
+    public Page<Appointment> findAllByPatientPatientIdOrderByDateDesc(int patientId, Pageable pageable) {
+        return appointmentRepository.findAllByPatientPatientIdOrderByDateDesc(patientId, pageable);
+    }
+
+    public Page<Appointment> findAllByPatientPatientIdAndStatus(int patientId, String status, Pageable pageable) {
+        return appointmentRepository.findAllByPatientPatientIdAndStatus(patientId, status, pageable);
+    }
+
+    public Page<Appointment> findAllByPatientPatientIdAndDate(int patientId, Date date, Pageable pageable) {
+        return appointmentRepository.findAllByPatientPatientIdAndDate(patientId, date, pageable);
+    }
+
+    public Page<Appointment> findAllByPatientPatientIdAndStatusAndDate(int patientId, String status, Date date, Pageable pageable) {
+        return appointmentRepository.findAllByPatientPatientIdAndStatusAndDate(patientId, status, date, pageable);
+    }
+
+    public Page<Appointment> findAllByDoctorDoctorIdOrderByDateDesc(int patientId, Pageable pageable) {
+        return appointmentRepository.findAllByDoctorDoctorIdOrderByDateDesc(patientId, pageable);
+    }
+
+    public Page<Appointment> findAllByDoctorDoctorIdAndStatus(int doctorId, String status, Pageable pageable) {
+        return appointmentRepository.findAllByDoctorDoctorIdAndStatus(doctorId, status, pageable);
+    }
+
+    public Page<Appointment> findAllByDoctorDoctorIdAndDate(int doctorId, Date date, Pageable pageable) {
+        return appointmentRepository.findAllByDoctorDoctorIdAndDate(doctorId, date, pageable);
+    }
+
+    public Page<Appointment> findAllByDoctorDoctorIdAndStatusAndDate(int doctorId, String status, Date date, Pageable pageable) {
+        return appointmentRepository.findAllByDoctorDoctorIdAndStatusAndDate(doctorId, status, date, pageable);
     }
 }

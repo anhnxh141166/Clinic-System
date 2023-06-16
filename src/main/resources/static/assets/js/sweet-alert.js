@@ -3,7 +3,7 @@ function SwalDelete(url, data, redirectUrl) {
         title: 'Are you sure?',
         text: 'It will be deleted permanently',
         icon: 'warning',
-        buttons: ["Cancel", "Accept"],
+        buttons: ["Cancel", "Delete"],
         dangerMode: true,
         closeModal: true,
         allowOutsideClick: false,
@@ -41,7 +41,45 @@ function SwalStatus(url, data, redirectUrl, message) {
         title: 'Are you sure?',
         text: 'Appointment will be cancle',
         icon: 'warning',
-        buttons: ["Cancel", "Delete"],
+        buttons: ["Cancel", "Accepted"],
+        dangerMode: true,
+        closeModal: true,
+        allowOutsideClick: false,
+    }).then(result => {
+        console.log(result)
+        if (result === true) {
+            return new Promise(function (resolve) {
+                $.ajax({
+                    url,
+                    type: 'POST',
+                    data,
+                })
+                    .done(function (response) {
+                        console.log(response)
+                        setTimeout(() => {
+                            window.location.href = redirectUrl;
+                        }, 1000)
+                        swal('Update!', message, "success");
+                    })
+                    .fail(function (error) {
+                        console.log(error);
+                        swal(
+                            'Oops...',
+                            'Something went wrong!',
+                            'error'
+                        );
+                    });
+            });
+        }
+    });
+}
+
+function SwalComplete(url, data, redirectUrl, message) {
+    swal({
+        title: 'Did you have to complete appointment?',
+        text: 'Appointment will be change to completed',
+        icon: 'warning',
+        buttons: ["Cancel", "Accepted"],
         dangerMode: true,
         closeModal: true,
         allowOutsideClick: false,
