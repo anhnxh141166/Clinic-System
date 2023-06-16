@@ -117,7 +117,7 @@ public class AppointmentController {
     }
 
     @GetMapping("/appointment/{appointmentId}")
-    public String listAppointment(
+    public String appointmentDetail(
             @PathVariable("appointmentId") int appointmentId,
             Model model,
             @AuthenticationPrincipal UserDetailsImpl userDetails
