@@ -43,16 +43,19 @@
 
   </div>
 
-  <ul class="list-unstyled sidebar-nav mb-0">
-    <li class="navbar-item"><a href="doctor-dashboard.html" class="navbar-link"><i
-            class="ri-airplay-line align-middle navbar-icon"></i> Dashboard</a></li>
+  <ul th:if="${session.user.role == 'Patient' || session.user.role == 'Doctor'}" class="list-unstyled sidebar-nav mb-0">
     <li class="navbar-item"><a th:href="@{/appointments}" class="navbar-link"><i
             class="ri-calendar-check-line align-middle navbar-icon"></i> Appointment</a></li>
     <li class="navbar-item"><a href="../bill/invoices.html" class="navbar-link"><i
             class="ri-pages-line align-middle navbar-icon"></i> Invoices</a></li>
     <li class="navbar-item"><a th:href="@{/profile}" class="navbar-link"><i
             class="ri-user-line align-middle navbar-icon"></i> Profile</a></li>
-    <li class="navbar-item"><a href="../patient/patient-list.html" class="navbar-link"><i
+    <li th:if="${session.user.role == 'Doctor'}" class="navbar-item"><a href="../patient/patient-list.html" class="navbar-link"><i
             class="ri-empathize-line align-middle navbar-icon"></i> Patients</a></li>
+  </ul>
+
+  <ul th:if="${session.user.role == 'Admin' || session.user.role == 'Staff'}" class="list-unstyled sidebar-nav mb-0">
+    <li class="navbar-item"><a th:href="@{/profile}" class="navbar-link"><i
+            class="ri-user-line align-middle navbar-icon"></i> Profile</a></li>
   </ul>
 </div>

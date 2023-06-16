@@ -21,6 +21,22 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 
     Page<Appointment> findAllByStatusAndDate(String status, Date date, Pageable pageable);
 
+    Page<Appointment> findAllByPatientPatientIdOrderByDateDesc(int patientId, Pageable pageable);
+
+    Page<Appointment> findAllByPatientPatientIdAndDate(int patientId, Date date, Pageable pageable);
+
+    Page<Appointment> findAllByPatientPatientIdAndStatus(int patientId, String status, Pageable pageable);
+
+    Page<Appointment> findAllByPatientPatientIdAndStatusAndDate(int patientId, String status, Date date, Pageable pageable);
+
+    Page<Appointment> findAllByDoctorDoctorIdOrderByDateDesc(int patientId, Pageable pageable);
+
+    Page<Appointment> findAllByDoctorDoctorIdAndDate(int patientId, Date date, Pageable pageable);
+
+    Page<Appointment> findAllByDoctorDoctorIdAndStatus(int patientId, String status, Pageable pageable);
+
+    Page<Appointment> findAllByDoctorDoctorIdAndStatusAndDate(int patientId, String status, Date date, Pageable pageable);
+
     @Transactional
     @Modifying
     @Query(value = "UPDATE appointment p SET p.status = ?1 WHERE p.appointment_id = ?2", nativeQuery = true)
