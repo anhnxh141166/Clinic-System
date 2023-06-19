@@ -99,4 +99,8 @@ public class AppointmentService {
     public int countAppointmentsByDate(Date date) {
         return appointmentRepository.countAppointmentsByDate(date);
     }
+
+    public int countAppointmentsByDateAndTime(Date date, String time) {
+        return appointmentRepository.countAppointmentsByDateAndTime(date, time);
+    }
 }

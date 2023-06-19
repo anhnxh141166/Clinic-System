@@ -53,4 +53,6 @@ public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
             "    HAVING COUNT(*) >= 5 " +
             ") AND (SELECT status FROM user WHERE user_id = d.doctor_id) = 1", nativeQuery = true)
     List<Doctor> getAllDoctorEmptyCalendar(Date date, String time);
+
+    int countDoctorsByUserStatus(boolean status);
 }

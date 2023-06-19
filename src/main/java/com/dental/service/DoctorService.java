@@ -84,4 +84,8 @@ public class DoctorService  {
     public long countDoctors() {
         return doctorRepository.count();
     }
+
+    public int countDoctorsByUserStatus() {
+        return doctorRepository.countDoctorsByUserStatus(true);
+    }
 }

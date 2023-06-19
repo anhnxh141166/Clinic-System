@@ -50,4 +50,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
     void updateAppointmentDoctor(int doctorId, int appointmentId);
 
     int countAppointmentsByDate(Date date);
+
+    int countAppointmentsByDateAndTime(Date date, String time);
 }

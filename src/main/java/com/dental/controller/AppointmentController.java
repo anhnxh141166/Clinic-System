@@ -227,10 +227,10 @@ public class AppointmentController {
             }
         }
 
-        long numOfDoctors = doctorService.countDoctors();
-        int numOfAppointment = appointmentService.countAppointmentsByDate(appointment.getDate());
-        if (numOfAppointment >= numOfDoctors * 10) {
-            model.addAttribute("errMes", "This day is full. You can book another day!");
+        long numOfDoctors = doctorService.countDoctorsByUserStatus();
+        int numOfAppointment = appointmentService.countAppointmentsByDateAndTime(appointment.getDate(), appointment.getTime());
+        if (numOfAppointment >= numOfDoctors * 5) {
+            model.addAttribute("errMes", "This slot is full. You can book another slot or day!");
             model.addAttribute("services", serviceService.getAll());
             model.addAttribute("selectedServices", serviceIds);
             return "/landing/appointment/booking";
