@@ -12,10 +12,14 @@ import com.dental.service.DoctorService;
 import com.dental.service.RateStarService;
 import com.dental.service.SService;
 import com.dental.service.UserService;
+import com.dental.util.Const;
 import com.dental.util.UploadFile;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -110,12 +114,12 @@ public class UserController {
         return "admin/index";
     }
 
-    @GetMapping("/error")
-    public String viewTest(Model model) {
-        User user = new User();
-        user.setFullName("Nguyen Van B");
-        return "landing/error";
-    }
+//    @GetMapping("/error")
+//    public String viewTest(Model model) {
+//        User user = new User();
+//        user.setFullName("Nguyen Van B");
+//        return "landing/error";
+//    }
 
     @PostMapping()
     public void registerUser(@ModelAttribute("") User user) {
@@ -260,6 +264,168 @@ public class UserController {
         } catch (Error e) {
             System.out.println(e);
             return "landing/user/profile";
+        }
+    }
+
+    // ADMIN PAGE
+    @GetMapping("/admin/user")
+    public String getAll(
+            Model model,
+            @AuthenticationPrincipal UserDetailsImpl userDetails,
+            @RequestParam(name = "page", required = false, defaultValue = Const.PAGE_DEFAULT_STR) Integer pageNum,
+            @RequestParam(name = "pageSize", required = false, defaultValue = Const.PAGE_SIZE_DEFAULT_STR) Integer pageSize,
+            @RequestParam(name = "fullName", required = false) String fullName,
+            @RequestParam(name = "statusSearch", required = false) String statusSearch,
+            @RequestParam(name = "role", required = false) String role
+    ) {
+        if (pageNum < 1) {
+            pageNum = 1;
+        }
+
+        if (userDetails != null && !userDetails.getUserEntity().getRole().equals("Admin")) {
+            return "redirect:/admin";
+        }
+
+        Pageable pageable = PageRequest.of(pageNum - 1, pageSize);
+        Page<User> User;
+
+        boolean status = true;
+        if (statusSearch != null && statusSearch.equals("0")) {
+            status = false;
+        }
+
+        if (fullName != null && !fullName.isEmpty() && statusSearch != null && !statusSearch.isEmpty() && role != null && !role.isEmpty()){
+            User = userService.findAllByStatusAndFullNameAndRole(status, fullName, role, pageable);
+        } else if (role != null && !role.isEmpty() && fullName != null && !fullName.isEmpty()){
+            User = userService.findAllByFullNameAndRole(fullName, role, pageable);
+        } else if (role != null && !role.isEmpty() && statusSearch != null && !statusSearch.isEmpty()){
+            User = userService.findAllByStatusAndRole(status, role, pageable);
+        } else if (fullName != null && !fullName.isEmpty() && statusSearch != null && !statusSearch.isEmpty()){
+            User = userService.findAllByStatusAndFullName(status, fullName, pageable);
+        } else if (statusSearch != null && !statusSearch.isEmpty()) {
+            User = userService.findAllByStatus(status, pageable);
+        } else if (fullName != null && !fullName.isEmpty()) {
+            User = userService.findAllByFullName(fullName, pageable);
+        } else if (role != null && !role.isEmpty()) {
+            User = userService.findAllByRole(role, pageable);
+        } else {
+            User = userService.findAll(pageable);
+        }
+
+        model.addAttribute("fullName", fullName);
+        model.addAttribute("statusSearch", statusSearch);
+        model.addAttribute("role", role);
+        model.addAttribute("users", User);
+        model.addAttribute("numberOfPage", User.getTotalPages());
+
+        return "admin/user/users";
+    }
+
+    @GetMapping("admin/user/user-add")
+    public String addUserForm(Model model) {
+        List<User> users = userService.getAllUser();
+        model.addAttribute("user", new User());
+        model.addAttribute("users", users);
+
+        return "admin/user/add-user";
+    }
+
+    @PostMapping("admin/user/save")
+    public String createUser(
+            @Valid User user, BindingResult userBindingResult,
+            @RequestParam("image") MultipartFile multipartFile, Model model
+    ) {
+        User u = userService.getByEmail(user.getEmail());
+
+        if (u != null) {
+            model.addAttribute("email", "Email already used");
+        }
+
+        if (multipartFile.isEmpty()) {
+            model.addAttribute("image", "Avatar must be mandatory");
+        }
+
+        if (user.getDateOfBirth() == null) {
+            model.addAttribute("dateOfBirth", "Date of birth must be mandatory");
+        }
+
+        if (user.getGender() == null) {
+            model.addAttribute("gender", "Gender must be mandatory");
+        }
+
+        if (userBindingResult.hasErrors() || multipartFile.isEmpty() || u != null) {
+            List<User> users = userService.getAllUser();
+            model.addAttribute("users", users);
+            return "admin/user/add-user";
+        }
+
+        String fileName = UploadFile.getFileName(multipartFile);
+        user.setAvatar(fileName);
+
+        user.setPassword(passwordEncoder.encode("minh123456789"));
+        user.setRole("Staff");
+
+        try {
+            UploadFile.saveFile(fileName, multipartFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            userService.save(user);
+
+            return "redirect:/admin/user";
+        } catch (Error e) {
+            System.out.println(e);
+            return "admin/user/add-user";
+        }
+    }
+
+    @GetMapping("admin/user/edit/{userId}")
+    public String editDoctor(@PathVariable("userId") int userId, Model model) {
+        User user = userService.get(userId);
+        model.addAttribute("user", user);
+        return "admin/user/update-user";
+    }
+
+    @PostMapping("admin/user/update")
+    public String updateDoctor(
+            @Valid User user, BindingResult userBindingResult,
+            Model model, @RequestParam(value = "image", required = false) MultipartFile multipartFile
+    ) {
+        int userId = user.getUserId();
+
+        User u = userService.get(userId);
+        user.setDoctor(u.getDoctor());
+
+        user.setEmail(u.getEmail());
+        user.setPassword(u.getPassword());
+        user.setRole(u.getRole());
+        user.setCreatedAt(u.getCreatedAt());
+
+        if (userBindingResult.hasErrors()) {
+            return "admin/user/update-user";
+        }
+
+        if (multipartFile != null) {
+            String fileName = UploadFile.getFileName(multipartFile);
+
+            if (!fileName.isEmpty()) {
+                user.setAvatar(fileName);
+                try {
+                    UploadFile.saveFile(fileName, multipartFile);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
+        try {
+            userService.save(user);
+            return "redirect:/admin/user";
+        } catch (Error e) {
+            System.out.println(e);
+            return "admin/user/update-user";
         }
     }
 }

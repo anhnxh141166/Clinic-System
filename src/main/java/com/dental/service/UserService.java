@@ -5,6 +5,8 @@ import com.dental.entity.User;
 import com.dental.repository.PatientRepository;
 import com.dental.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -106,5 +108,37 @@ public class UserService {
         user.setPassword(encodePassword);
         user.setToken(null);
         userRepository.save(user);
+    }
+
+    public Page<User> findAllByStatusAndFullNameAndRole(boolean status , String fullName, String role, Pageable pageable) {
+        return userRepository.findAllByStatusAndFullNameAndRole(status, fullName, role, pageable);
+    }
+
+    public Page<User> findAllByStatusAndFullName(boolean status ,String fullName, Pageable pageable) {
+        return userRepository.findAllByStatusAndFullName(status, fullName, pageable);
+    }
+
+    public Page<User> findAllByStatusAndRole(boolean status ,String role, Pageable pageable) {
+        return userRepository.findAllByStatusAndRole(status, role, pageable);
+    }
+
+    public Page<User> findAllByFullNameAndRole(String fullName ,String role, Pageable pageable) {
+        return userRepository.findAllByFullNameAndRole(fullName, role, pageable);
+    }
+
+    public Page<User> findAllByFullName(String fullName, Pageable pageable) {
+        return userRepository.findAllByFullName(fullName, pageable);
+    }
+
+    public Page<User> findAllByStatus(boolean status, Pageable pageable) {
+        return userRepository.findAllByStatus(status, pageable);
+    }
+
+    public Page<User> findAllByRole(String role, Pageable pageable) {
+        return userRepository.findAllByRole(role, pageable);
+    }
+
+    public Page<User> findAll(Pageable pageable) {
+        return userRepository.findAll(pageable);
     }
 }
