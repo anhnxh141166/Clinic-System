@@ -1,6 +1,7 @@
 package com.dental.repository;
 
 import com.dental.entity.Appointment;
+import com.dental.entity.Doctor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
+import java.util.List;
 
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, Integer> {
@@ -39,6 +41,13 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE appointment p SET p.status = ?1 WHERE p.appointment_id = ?2", nativeQuery = true)
+    @Query(value = "UPDATE appointment p SET p.status = ?1, p.doctor_id = null WHERE p.appointment_id = ?2", nativeQuery = true)
     void updateAppointmentStatus(String status, int userId);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE `clinic_dental`.`appointment` SET `doctor_id` = ? WHERE (`appointment_id` = ?)", nativeQuery = true)
+    void updateAppointmentDoctor(int doctorId, int appointmentId);
+
+
 }

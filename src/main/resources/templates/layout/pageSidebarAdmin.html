@@ -53,7 +53,7 @@
 
             <ul class="sidebar-menu pt-3">
                 <li><a th:href="@{/admin}"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
-                <li><a href="appointment.html"><i class="uil uil-stethoscope me-2 d-inline-block"></i>Appointment</a>
+                <li><a th:href="@{/admin/appointments}"><i class="uil uil-stethoscope me-2 d-inline-block"></i>Appointment</a>
                 </li>
 
                 <li><a th:if="${session.user.role == 'Admin'}" th:href="@{/admin/user}"><i class="uil uil-user me-2 d-inline-block"></i>Users</a></li>

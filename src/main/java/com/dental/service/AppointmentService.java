@@ -44,6 +44,10 @@ public class AppointmentService {
         appointmentRepository.updateAppointmentStatus(status, id);
     }
 
+    public void updateAppointmentDoctor(int doctorId, int appointmentId){
+        appointmentRepository.updateAppointmentDoctor(doctorId, appointmentId);
+    }
+
     public Page<Appointment> findAllByOrderByDateDesc(Pageable pageable) {
         return appointmentRepository.findAllByOrderByDateDesc(pageable);
     }

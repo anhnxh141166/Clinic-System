@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
 import java.util.List;
 
 @Repository
@@ -39,4 +40,17 @@ public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
     Page<Doctor> findAllByUserStatusTrue(Pageable pageable);
 
     Page<Doctor> findAllByUserFullNameAndUserStatusTrue(String fullName, Pageable pageable);
+
+    @Transactional
+    @Modifying
+    @Query(value = "SELECT d.doctor_id, d.description " +
+            "FROM doctor d " +
+            "WHERE d.doctor_id NOT IN ( " +
+            "    SELECT a.doctor_id " +
+            "    FROM appointment a " +
+            "    WHERE a.date = ? AND a.time = ? " +
+            "    GROUP BY a.doctor_id, a.time " +
+            "    HAVING COUNT(*) >= 5 " +
+            ") AND (SELECT status FROM user WHERE user_id = d.doctor_id) = 1", nativeQuery = true)
+    List<Doctor> getAllDoctorEmptyCalendar(Date date, String time);
 }
