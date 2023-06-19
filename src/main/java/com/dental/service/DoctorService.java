@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.List;
 
 @Service
@@ -73,5 +74,10 @@ public class DoctorService  {
 
     public Page<Doctor> findAllByUserFullNameAndUserStatusTrue(String fullName, Pageable pageable) {
         return doctorRepository.findAllByUserFullNameAndUserStatusTrue(fullName, pageable);
+    }
+
+    public List<Doctor> getAllDoctorEmptyCalendar(Date date, String time){
+        System.out.println("chay qua getAllDoctorEmptyCalendar");
+        return doctorRepository.getAllDoctorEmptyCalendar(date, time);
     }
 }
