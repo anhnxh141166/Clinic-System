@@ -139,6 +139,11 @@ public class AppointmentController {
             return "redirect:/appointments";
         }
         Appointment appointment = a.get();
+        List<Service> services = appointment.getService();
+        double totalPrice = 0;
+        for (Service s : services) {
+            totalPrice += Double.parseDouble(s.getPrice());
+        }
 
         if (role.equals("Patient")) {
             if (appointment.getPatient().getPatientId() != userId) {
@@ -155,6 +160,7 @@ public class AppointmentController {
 
         model.addAttribute("user", userService.get(userDetails.getUserEntity().getUserId()));
         model.addAttribute("appointment", appointment);
+        model.addAttribute("totalPrice", totalPrice);
         return "/landing/appointment/appointment-detail";
     }
 
@@ -221,10 +227,14 @@ public class AppointmentController {
             }
         }
 
-//        if () {
-//            model.addAttribute("message", message);
-//            return "/landing/appointment/booking";
-//        }
+        long numOfDoctors = doctorService.countDoctors();
+        int numOfAppointment = appointmentService.countAppointmentsByDate(appointment.getDate());
+        if (numOfAppointment >= numOfDoctors * 10) {
+            model.addAttribute("errMes", "This day is full. You can book another day!");
+            model.addAttribute("services", serviceService.getAll());
+            model.addAttribute("selectedServices", serviceIds);
+            return "/landing/appointment/booking";
+        }
         List<Service> selectedServices = serviceService.getAllByIds(serviceIds);
         int patientId = userDetails.getUserEntity().getUserId();
         Patient patient = patientService.get(patientId);
@@ -241,20 +251,20 @@ public class AppointmentController {
     }
 
     @PostMapping("/appointments/delete/{appointmentId}")
-    public String cancleAppointment(@PathVariable("appointmentId") int appointmentId, Model model) throws IllegalAccessException {
+    public String cancelAppointment(@PathVariable("appointmentId") int appointmentId, Model model) throws IllegalAccessException {
         try {
             Appointment p = appointmentService.get(appointmentId);
             if (p != null && p.getStatus().equals("Completed")) {
-                throw new IllegalAccessException("Cannot cancle this appointment!");
+                throw new IllegalAccessException("Cannot cancel this appointment!");
             }
 
-            if (p.getStatus().equals("Cancle")) {
-                throw new IllegalAccessException("Cannot cancle this appointment!");
+            if (p.getStatus().equals("Cancel")) {
+                throw new IllegalAccessException("Cannot cancel this appointment!");
             }
 
-            appointmentService.updateAppointmentStatus("Cancle", appointmentId);
+            appointmentService.updateAppointmentStatus("Cancel", appointmentId);
         } catch (Error e) {
-            throw new IllegalAccessException("Failed to cancle!");
+            throw new IllegalAccessException("Failed to cancel!");
         }
         return "redirect:/appointments";
     }
@@ -276,13 +286,14 @@ public class AppointmentController {
 
     @GetMapping("/admin/appointments")
     public String viewListAppointment(Model model,
-                                      @AuthenticationPrincipal UserDetailsImpl userDetails,
-                                      @RequestParam(name = "page", required = false, defaultValue = Const.PAGE_DEFAULT_STR) Integer pageNum,
-                                      @RequestParam(name = "pageSize", required = false, defaultValue = Const.PAGE_SIZE_DEFAULT_STR) Integer pageSize,
-                                      @RequestParam(name = "titleSearch", required = false) String titleSearch,
-                                      @RequestParam(name = "fullName", required = false) String fullName,
-                                      @RequestParam(name = "date", required = false) Date date,
-                                      @RequestParam(name = "status", required = false) String status) {
+      @AuthenticationPrincipal UserDetailsImpl userDetails,
+      @RequestParam(name = "page", required = false, defaultValue = Const.PAGE_DEFAULT_STR) Integer pageNum,
+      @RequestParam(name = "pageSize", required = false, defaultValue = Const.PAGE_SIZE_DEFAULT_STR) Integer pageSize,
+      @RequestParam(name = "titleSearch", required = false) String titleSearch,
+      @RequestParam(name = "fullName", required = false) String fullName,
+      @RequestParam(name = "date", required = false) Date date,
+      @RequestParam(name = "status", required = false) String status)
+    {
 
         System.out.println("==============Test==========:" + "page=" + pageNum + "pageSize=" + pageSize + "date=" + date + "status=" + status + "fullName" + fullName);
         if (userDetails == null) {
@@ -344,7 +355,6 @@ public class AppointmentController {
         }
 
 
-
         model.addAttribute("user", userService.get(userDetails.getUserEntity().getUserId()));
         model.addAttribute("appointment", appointment);
         model.addAttribute("doctors", doctors);
@@ -369,7 +379,7 @@ public class AppointmentController {
         }
         Appointment appointment = a.get();
         System.out.println(appointment.getStatus());
-        if (appointment.getStatus().equals("Cancle") || appointment.getStatus().equals("Completed")){
+        if (appointment.getStatus().equals("Cancel") || appointment.getStatus().equals("Completed")) {
 
             redirectAttributes.addFlashAttribute("errorMessage", "Can not assign");
             return "redirect:/admin/appointment/" + appointmentId;
@@ -377,27 +387,27 @@ public class AppointmentController {
         }
         appointment.setDoctor(doctor);
         appointmentService.updateAppointmentDoctor(doctor.getDoctorId(), appointmentId);
-        appointmentService.updateAppointmentStatus("Assigned",appointmentId);
+        appointmentService.updateAppointmentStatus("Assigned", appointmentId);
 
         return "redirect:/admin/appointment/" + appointmentId;
 
     }
 
-    @PostMapping("/admin/appointments/delete/{appointmentId}")
+    @PostMapping("/admin/appointments/cancel/{appointmentId}")
     public String deleteAppointment(@PathVariable("appointmentId") int appointmentId, Model model) throws IllegalAccessException {
         try {
             Appointment p = appointmentService.get(appointmentId);
             if (p != null && p.getStatus().equals("Completed")) {
-                throw new IllegalAccessException("Cannot cancle this appointment!");
+                throw new IllegalAccessException("Cannot cancel this appointment!");
             }
 
-            if (p.getStatus().equals("Cancle")) {
-                throw new IllegalAccessException("Cannot cancle this appointment!");
+            if (p.getStatus().equals("Cancel")) {
+                throw new IllegalAccessException("Cannot cancel this appointment!");
             }
 
-            appointmentService.updateAppointmentStatus("Cancle", appointmentId);
+            appointmentService.updateAppointmentStatus("Cancel", appointmentId);
         } catch (Error e) {
-            throw new IllegalAccessException("Failed to cancle!");
+            throw new IllegalAccessException("Failed to cancel!");
         }
         return "redirect:/admin/appointments";
     }

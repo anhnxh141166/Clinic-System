@@ -95,4 +95,8 @@ public class AppointmentService {
     public Page<Appointment> findAllByDoctorDoctorIdAndStatusAndDate(int doctorId, String status, Date date, Pageable pageable) {
         return appointmentRepository.findAllByDoctorDoctorIdAndStatusAndDate(doctorId, status, date, pageable);
     }
+
+    public int countAppointmentsByDate(Date date) {
+        return appointmentRepository.countAppointmentsByDate(date);
+    }
 }

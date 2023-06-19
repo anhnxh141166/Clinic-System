@@ -39,7 +39,7 @@ function SwalDelete(url, data, redirectUrl) {
 function SwalStatus(url, data, redirectUrl, message) {
     swal({
         title: 'Are you sure?',
-        text: 'Appointment will be cancle',
+        text: 'Appointment will be cancel',
         icon: 'warning',
         buttons: ["Cancel", "Accepted"],
         dangerMode: true,

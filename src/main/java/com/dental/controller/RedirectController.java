@@ -32,8 +32,8 @@ public class RedirectController {
         session.setAttribute("u", u);
         System.out.println(u);
         if (userEnity!= null){
-            if (userEnity.getRole().equals("Admin")){
-                return "redirect:/admin/blog";
+            if (userEnity.getRole().equals("Admin") || userEnity.getRole().equals("Staff")){
+                return "redirect:/admin";
             } else {
                 return "redirect:/";
 //                return "landing/index";

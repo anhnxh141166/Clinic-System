@@ -57,7 +57,7 @@
                                     <option th:selected="${status == 'Assigned'}" th:value="Assigned">Assigned</option>
                                     <option th:selected="${status == 'Completed'}" th:value="Completed">Completed
                                     </option>
-                                    <option th:selected="${status == 'Cancle'}" th:value="Cancle">Cancle</option>
+                                    <option th:selected="${status == 'Cancel'}" th:value="Cancel">Cancel</option>
                                 </select>
                             </div>
 
@@ -103,7 +103,7 @@
                                                 <span th:case="New" class="badge bg-soft-primary">New</span>
                                                 <span th:case="Assigned" class="badge bg-soft-warning">Assigned</span>
                                                 <span th:case="Completed" class="badge bg-soft-success">Completed</span>
-                                                <span th:case="Cancle" class="badge bg-soft-danger">Cancle</span>
+                                                <span th:case="Cancel" class="badge bg-soft-danger">Cancel</span>
                                             </td>
                                             <td class="text-end p-3">
                                                 <a th:href="@{/admin/appointment/{appointmentId}(appointmentId=${appointment.appointmentId})}" class="btn btn-icon btn-pills btn-soft-primary"
@@ -116,7 +116,7 @@
 <!--                                                   data-bs-toggle="modal" data-bs-target="#cancelappointment"><i-->
 <!--                                                        class="uil uil-times-circle"></i></a>-->
 
-                                                <a th:if="${appointment.status != 'Cancle' && appointment.status != 'Completed'}" th:href="@{/admin/appointments/delete/{appointmentId}(appointmentId=${appointment.appointmentId})}" class="btn btn-icon btn-delete btn-pills btn-soft-danger"><i
+                                                <a th:if="${appointment.status != 'Cancel' && appointment.status != 'Completed'}" th:href="@{/admin/appointments/delete/{appointmentId}(appointmentId=${appointment.appointmentId})}" class="btn btn-icon btn-delete btn-pills btn-soft-danger"><i
                                                         class="uil uil-times-circle"></i></a>
                                             </td>
                                         </tr>
@@ -501,7 +501,7 @@
         const appointmentId = $(this).attr("data-id");
         SwalStatus(this.href, {
             appointmentId
-        }, "/admin/appointments", "Successfully cancle!");
+        }, "/admin/appointments", "Successfully cancel!");
     });
 </script>
 <!-- Select2 -->

@@ -80,4 +80,8 @@ public class DoctorService  {
         System.out.println("chay qua getAllDoctorEmptyCalendar");
         return doctorRepository.getAllDoctorEmptyCalendar(date, time);
     }
+
+    public long countDoctors() {
+        return doctorRepository.count();
+    }
 }

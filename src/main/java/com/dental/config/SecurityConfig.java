@@ -61,27 +61,16 @@ public class SecurityConfig {
         return new CustomAccessDeniedHandler();
     }
 
-
-
-
-
-
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         return http.csrf().disable()
                 .authorizeHttpRequests()
-//                    .requestMatchers("/", "assets/**", "/user/**").permitAll() // Allowing access to home page and static assets without authentication
                     .requestMatchers("/", "blog/**", "service/**", "doctor/**", "/register/**", "assets/**", "/forgot_password/**", "/reset_password/**", "/check_token/**", "/check_email/**").permitAll() // Allowing access to home page and static assets without authentication
                     .requestMatchers("/checkEmailExists").permitAll() // Allowing access to home page and static assets without authentication
-//                    .requestMatchers("/register/**").permitAll() // Allowing access to home page and static assets without authentication
-//                    .requestMatchers("/user/homeLanding").permitAll() // Allowing access to /user/homeLanding without authentication
-                    .requestMatchers("/admin/**", "/admin/blog/blogs").hasAuthority("Admin") // Require ADMIN authority for admin pages
-//                    .anyRequest().authenticated() // Require authentication for other URLs
-//                .requestMatchers("/doLogout").authenticated()
+                    .requestMatchers("/admin/**").hasAnyAuthority("Admin", "Staff") // Require Staff authority for admin pages
+                    .requestMatchers("/admin/user/**").hasAuthority("Admin") // Require ADMIN authority for admin pages
                 .requestMatchers("/*").authenticated()
-//                .requestMatchers("/*").permitAll()
                 .anyRequest().authenticated() // Require authentication for other URLs
                 .and()
                     .formLogin()

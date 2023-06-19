@@ -43,7 +43,7 @@
     <nav id="sidebar" class="sidebar-wrapper">
         <div class="sidebar-content" data-simplebar style="height: calc(100% - 60px);">
             <div class="sidebar-brand">
-                <a href="../landing/index-two.html">
+                <a th:href="@{/admin}">
                     <!--<a href="index.html">-->
                     <img th:src="@{/assets/images/logo-dark.png}" height="24" class="logo-light-mode" alt="">
                     <img th:src="@{/assets/images/logo-light.png}" height="24" class="logo-dark-mode" alt="">
@@ -86,7 +86,7 @@
                     </div>
                 </li>
 
-                <li><a href="../landing/index-two.html" target="_blank"><i class="uil uil-window me-2 d-inline-block"></i>Landing page</a></li>
+                <li><a th:href="@{/admin}" target="_blank"><i class="uil uil-window me-2 d-inline-block"></i>Landing page</a></li>
             </ul>
             <!-- sidebar-menu  -->
         </div>
