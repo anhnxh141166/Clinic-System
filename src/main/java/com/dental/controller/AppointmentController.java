@@ -379,12 +379,42 @@ public class AppointmentController {
         }
         Appointment appointment = a.get();
         System.out.println(appointment.getStatus());
-        if (appointment.getStatus().equals("Cancel") || appointment.getStatus().equals("Completed")) {
 
+        if (appointment.getStatus().equals("Cancel") || appointment.getStatus().equals("Completed")) {
             redirectAttributes.addFlashAttribute("errorMessage", "Can not assign");
             return "redirect:/admin/appointment/" + appointmentId;
-
         }
+
+
+        LocalDate currentDate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate comparisonDate = LocalDate.parse(appointment.getDateString(), formatter);
+
+            System.out.println("comparisonDateTest="+comparisonDate.isBefore(currentDate));
+        if (comparisonDate.isBefore(currentDate)) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Booking day for this morning is over");
+            return "redirect:/admin/appointment/" + appointmentId;
+        }
+
+        if (comparisonDate.equals(currentDate)) {
+            ZoneId zone = ZoneId.of("Asia/Ho_Chi_Minh");
+            LocalTime currentTime = LocalTime.now(zone);
+            DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("HH");
+            String hour24Format = currentTime.format(formatter2);
+
+            if (appointment.getTime().equals("Morning") && Integer.parseInt(hour24Format) >= 12) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Over time working");
+                return "redirect:/admin/appointment/" + appointmentId;
+            }
+
+            if (appointment.getTime().equals("Afternoon") && Integer.parseInt(hour24Format) >= 18) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Over time working");
+                return "redirect:/admin/appointment/" + appointmentId;
+            }
+        }
+
+
+
         appointment.setDoctor(doctor);
         appointmentService.updateAppointmentDoctor(doctor.getDoctorId(), appointmentId);
         appointmentService.updateAppointmentStatus("Assigned", appointmentId);
