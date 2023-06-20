@@ -262,7 +262,7 @@ public class AppointmentController {
                 throw new IllegalAccessException("Cannot cancel this appointment!");
             }
 
-            appointmentService.updateAppointmentStatus("Cancel", appointmentId);
+            appointmentService.cancelAppointment(appointmentId);
         } catch (Error e) {
             throw new IllegalAccessException("Failed to cancel!");
         }
@@ -392,7 +392,7 @@ public class AppointmentController {
 
             System.out.println("comparisonDateTest="+comparisonDate.isBefore(currentDate));
         if (comparisonDate.isBefore(currentDate)) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Booking day for this morning is over");
+            redirectAttributes.addFlashAttribute("errorMessage", "Overtime to assign");
             return "redirect:/admin/appointment/" + appointmentId;
         }
 
@@ -403,17 +403,15 @@ public class AppointmentController {
             String hour24Format = currentTime.format(formatter2);
 
             if (appointment.getTime().equals("Morning") && Integer.parseInt(hour24Format) >= 12) {
-                redirectAttributes.addFlashAttribute("errorMessage", "Over time working");
+                redirectAttributes.addFlashAttribute("errorMessage", "Overtime to assign");
                 return "redirect:/admin/appointment/" + appointmentId;
             }
 
             if (appointment.getTime().equals("Afternoon") && Integer.parseInt(hour24Format) >= 18) {
-                redirectAttributes.addFlashAttribute("errorMessage", "Over time working");
+                redirectAttributes.addFlashAttribute("errorMessage", "Overtime to assign");
                 return "redirect:/admin/appointment/" + appointmentId;
             }
         }
-
-
 
         appointment.setDoctor(doctor);
         appointmentService.updateAppointmentDoctor(doctor.getDoctorId(), appointmentId);
@@ -423,7 +421,7 @@ public class AppointmentController {
 
     }
 
-    @PostMapping("/admin/appointments/cancel/{appointmentId}")
+    @PostMapping("/admin/appointments/delete/{appointmentId}")
     public String deleteAppointment(@PathVariable("appointmentId") int appointmentId, Model model) throws IllegalAccessException {
         try {
             Appointment p = appointmentService.get(appointmentId);
@@ -435,7 +433,7 @@ public class AppointmentController {
                 throw new IllegalAccessException("Cannot cancel this appointment!");
             }
 
-            appointmentService.updateAppointmentStatus("Cancel", appointmentId);
+            appointmentService.cancelAppointment(appointmentId);
         } catch (Error e) {
             throw new IllegalAccessException("Failed to cancel!");
         }

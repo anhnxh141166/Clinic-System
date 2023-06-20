@@ -42,7 +42,12 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
     @Transactional
     @Modifying
     @Query(value = "UPDATE appointment p SET p.status = ?1, p.doctor_id = null WHERE p.appointment_id = ?2", nativeQuery = true)
-    void updateAppointmentStatus(String status, int userId);
+    void cancelAppointment(String status, int appointmentId);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE appointment p SET p.status = ?1 WHERE p.appointment_id = ?2", nativeQuery = true)
+    void updateAppointmentStatus(String status, int appointmentId);
 
     @Transactional
     @Modifying

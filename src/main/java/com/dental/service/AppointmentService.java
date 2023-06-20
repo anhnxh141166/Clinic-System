@@ -44,6 +44,10 @@ public class AppointmentService {
         appointmentRepository.updateAppointmentStatus(status, id);
     }
 
+    public void cancelAppointment(int id) {
+        appointmentRepository.cancelAppointment("Cancel", id);
+    }
+
     public void updateAppointmentDoctor(int doctorId, int appointmentId){
         appointmentRepository.updateAppointmentDoctor(doctorId, appointmentId);
     }

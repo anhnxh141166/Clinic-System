@@ -52,8 +52,8 @@ public class Service {
     @ManyToMany(mappedBy = "service")
     private Set<Doctor> doctor;
 
-    @OneToMany(mappedBy = "service", cascade = CascadeType.ALL)
-    private List<MedicalInformation> medicalInformation;
+//    @OneToMany(mappedBy = "service", cascade = CascadeType.ALL)
+//    private List<MedicalInformation> medicalInformation;
 
     @OneToMany(mappedBy = "service", cascade = CascadeType.ALL)
     private List<RateStar> rateStar;
@@ -117,13 +117,13 @@ public class Service {
         this.doctor = doctor;
     }
 
-    public List<MedicalInformation> getMedicalInformation() {
-        return medicalInformation;
-    }
-
-    public void setMedicalInformation(List<MedicalInformation> medicalInformation) {
-        this.medicalInformation = medicalInformation;
-    }
+//    public List<MedicalInformation> getMedicalInformation() {
+//        return medicalInformation;
+//    }
+//
+//    public void setMedicalInformation(List<MedicalInformation> medicalInformation) {
+//        this.medicalInformation = medicalInformation;
+//    }
 
     public List<RateStar> getRateStar() {
         return rateStar;
@@ -162,7 +162,6 @@ public class Service {
                 ", status=" + status +
                 ", price=" + price +
                 ", doctor=" + doctor.size() +
-                ", medicalInformation=" + medicalInformation.size() +
                 ", rateStar=" + rateStar.size() +
                 ", appointment=" + appointment.size() +
                 '}';

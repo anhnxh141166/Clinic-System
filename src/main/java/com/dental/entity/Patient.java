@@ -18,14 +18,14 @@ public class Patient {
     @Column(nullable = true, columnDefinition = "varchar(5)")
     private String bloodGroup;
 
-    @OneToMany(mappedBy = "patient")
-    private List<MedicalInformation> medicalInformation;
+//    @OneToMany(mappedBy = "patient")
+//    private List<MedicalInformation> medicalInformation;
 
     @OneToMany(mappedBy = "patient")
     private List<Appointment> appointment;
 
-    @OneToMany(mappedBy = "patient")
-    private List<PatientHistory> patientHistory;
+//    @OneToMany(mappedBy = "patient")
+//    private List<PatientHistory> patientHistory;
 
     @OneToOne
     @MapsId
