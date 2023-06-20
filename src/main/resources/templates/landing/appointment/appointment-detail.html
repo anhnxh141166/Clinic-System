@@ -37,9 +37,13 @@
                         <h5 class="mb-0">Appointment Detail</h5>
                     </div><!--end col-->
                     <div th:if="${session.user.role == 'Doctor'}" class="col-md-6 text-end">
-                        <a th:href="@{/appoinment/completed/{appointmentId}(appointmentId=${appointment.appointmentId})}"
-                           th:data-id="${appointment.appointmentId}" class="btn btn-primary btn-complete"
-                        >Confirm complete</a>
+<!--                        <a th:href="@{/appoinment/completed/{appointmentId}(appointmentId=${appointment.appointmentId})}"-->
+<!--                           th:data-id="${appointment.appointmentId}" class="btn btn-primary btn-complete"-->
+<!--                        >Confirm complete</a>-->
+                        <a th:unless="${appointment.patientHistory}" th:href="@{/appointment/medical/{appointmentId}(appointmentId=${appointment.appointmentId})}" class="btn btn-primary"
+                        >Add medical infomation</a>
+                        <a th:if="${appointment.patientHistory}" th:href="@{/appointment/medical/edit/{appointmentId}(appointmentId=${appointment.appointmentId})}" class="btn btn-primary"
+                        >Update medical infomation</a>
                     </div><!--end col-->
                 </div><!--end row-->
                 <hr>
@@ -70,15 +74,21 @@
                         </div>
                         <hr>
                         <div th:if="${session.user.role == 'Doctor'}">
-                            <h5 class="mb-2">Patient information</h5>
-                            <h6 class="d-inline-block">Fullname:</h6>
-                            <span class="text-muted" th:text="${appointment.patient.user.fullName}"></span>
-                            <br>
-                            <h6 class="d-inline-block">Date of birth:</h6>
-                            <span class="text-muted" th:text="${appointment.patient.user.dateOfBirth}"></span>
-                            <br>
-                            <h6 class="d-inline">Gender:</h6>
-                            <span class="text-muted" th:text="${appointment.patient.user.gender}"></span>
+                            <h5 class="mb-3">Patient information</h5>
+                            <div class="row">
+                                <div class="col-12 col-md-4">
+                                    <h6 class="d-inline-block">Full name:</h6>
+                                    <span class="text-muted" th:text="${appointment.patient.user.fullName}"></span>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <h6 class="d-inline-block">Date of birth:</h6>
+                                    <span class="text-muted" th:text="${appointment.patient.user.dateOfBirth}"></span>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <h6 class="d-inline">Gender:</h6>
+                                    <span class="text-muted" th:text="${appointment.patient.user.gender}"></span>
+                                </div>
+                            </div>
                             <hr>
                         </div>
 
@@ -159,6 +169,113 @@
                             </table>
                         </div>
                         <h5 class="mt-3" th:text="'Total: $' + ${totalPrice}"></h5>
+
+                        <hr>
+                        <h5 class="mb-2">Medical information</h5>
+                        <div class="row" th:if="${appointment.patientHistory}">
+                            <div class="row mt-3">
+                                <div class="col-sm-12 mt-3">
+                                    <div class="form-group row">
+                                        <div class="col-6">
+                                            <label>Nhiệt độ cơ thể: </label>
+                                            <span class="text-muted" th:text="${appointment.patientHistory.temperature + '℃'}"/>
+                                        </div>
+                                        <div class="col-6">
+                                            <label>Huyết áp</label>
+                                            <span class="text-muted" th:text="${appointment.patientHistory.bloodPressure}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <label
+                                        class="col-sm-12 col-md-12 col-form-label form-control-label">Tiền sử
+                                    bệnh toàn thân:
+                                </label>
+                            </div>
+                            <div class="row form-group" style="padding-left: 20px;">
+                                <div class="col-md-3 col-sm-12"><input
+                                        th:checked="${appointment.patientHistory.liver}"
+                                        type="checkbox" class="form-check-input disabled disabled"> Gan
+                                </div>
+                                <div class="col-md-3 col-sm-12"><input
+                                         th:checked="${appointment.patientHistory.diabetes}"
+                                        type="checkbox" class="form-check-input disabled"> Tiểu đường
+                                </div>
+                                <div class="col-md-3 col-sm-12"><input
+                                        th:checked="${appointment.patientHistory.rheumatism}"
+                                        type="checkbox" class="form-check-input disabled"> Thấp khớp
+                                </div>
+                                <div class="col-md-3 col-sm-12"><input
+                                        th:checked="${appointment.patientHistory.nerve}"
+                                        type="checkbox" class="form-check-input disabled"> Thần kinh
+                                </div>
+                                <div class="col-md-3 col-sm-12"><input
+                                        th:checked="${appointment.patientHistory.allergy}"
+                                        type="checkbox" class="form-check-input disabled"> Dị ứng
+                                </div>
+                                <div class="col-md-3 col-sm-12"><input
+                                        th:checked="${appointment.patientHistory.digest}"
+                                        type="checkbox" class="form-check-input disabled"> Tiêu hóa
+                                </div>
+                                <div class="col-md-3 col-sm-12"><input
+                                        th:checked="${appointment.patientHistory.respiratory}"
+                                        type="checkbox" class="form-check-input disabled"> Hô hấp
+                                </div>
+                                <div class="col-md-3 col-sm-12"><input
+                                        th:checked="${appointment.patientHistory.cardiovascular}"
+                                        type="checkbox" class="form-check-input disabled"> Tim mạch
+                                </div>
+                                <div class="col-md-3 col-sm-12"><input
+                                        th:checked="${appointment.patientHistory.kidney}"
+                                        type="checkbox" class="form-check-input disabled"> Thận
+                                </div>
+                                <div class="col-sm-12 mt-2">
+                                    <label for="other1">Khác</label>
+                                    <input type="text" id="other1"
+                                           th:value="${appointment.patientHistory.other1}" class="form-control disabled">
+                                </div>
+                            </div>
+                            <div class="row"><label
+                                    class="col-sm-12 col-md-12 col-form-label form-control-label">Tiền sử bệnh
+                                răng miệng:</label></div>
+                            <div class="row form-group" style="padding-left: 20px;">
+                                <div class="col-md-3 col-sm-12"><input
+                                        th:checked="${appointment.patientHistory.temporomandibularJoint}"
+                                        type="checkbox" class="form-check-input disabled"> Khớp thái dương hàm
+                                </div>
+                                <div class="col-md-3 col-sm-12"><input
+                                        th:checked="${appointment.patientHistory.toothExtraction}"
+                                        type="checkbox" class="form-check-input disabled"> Đã từng nhổ răng
+                                </div>
+                                <div class="col-md-3 col-sm-12"><input
+                                        th:checked="${appointment.patientHistory.orthodonticTreatment}"
+                                        type="checkbox" class="form-check-input disabled"> Đã từng chỉnh nha
+                                </div>
+                                <div class="col-md-3 col-sm-12"><input
+                                        th:checked="${appointment.patientHistory.dentalBraces}"
+                                        type="checkbox" class="form-check-input disabled"> Đã
+                                    từng đeo hàm
+                                </div>
+                                <div class="col-sm-12 mt-2">
+                                    <label for="other2">Khác</label>
+                                    <input type="text"
+                                           th:value="${appointment.patientHistory.other2}" id="other2" class="form-control disabled">
+                                </div>
+
+                                <div class="col-sm-12 mt-3">
+                                    <div class="form-group row"><label
+                                            class="col-12 col-form-label form-control-label">Chuẩn đoán</label>
+                                        <div class="col-12">
+                                        <textarea
+                                                th:text="${appointment.patientHistory.note}" rows="8"
+                                                class="form-control ng-untouched ng-pristine ng-valid disabled">
+                                        </textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div><!--end row-->
             </div><!--end col-->

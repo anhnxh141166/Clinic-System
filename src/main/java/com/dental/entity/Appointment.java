@@ -35,7 +35,7 @@ public class Appointment {
     @Pattern(regexp = "New|Assigned|Completed|Cancel", message = "Status undefined")
     private String status;
 
-    @Column(nullable = true)
+    @Column(nullable = true, columnDefinition = "text")
     private String note;
 
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
@@ -54,6 +54,15 @@ public class Appointment {
     @JoinColumn(name = "doctor_id", nullable = true)
     private Doctor doctor;
 
+    @OneToOne(mappedBy = "appointment")
+    @PrimaryKeyJoinColumn
+    private PatientHistory patientHistory;
+
+//    @OneToOne
+//    @MapsId
+//    @JoinColumn(name = "appointment_id")
+//    private PatientHistory patientHistory;
+
     public String getDateString() {
         return String.valueOf(date);
     }
@@ -66,10 +75,18 @@ public class Appointment {
         return date;
     }
 
+    public void setDate(Date date) {
+        System.out.println("vcjhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+        System.out.println(date);
+        this.date = date;
+    }
+
     public String getDate(String s) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd yyyy");
         return dateFormat.format(date);
     }
+
+
 
 //    public String getDate() {
 //        String pattern = "MMMM dd yyyy";

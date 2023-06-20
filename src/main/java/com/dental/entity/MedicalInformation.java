@@ -48,11 +48,11 @@ public class MedicalInformation {
     @JoinColumn(name = "patient_id", nullable = false)
     private Patient patient;
 
-    @ManyToOne
-    @JoinColumn(name = "service_id", nullable = false)
-    private Service service;
+//    @ManyToOne
+//    @JoinColumn(name = "service_id", nullable = false)
+//    private Service service;
 
-    @ManyToOne
-    @JoinColumn(name = "patient_history_id", nullable = false)
-    private PatientHistory patientHistory;
+//    @ManyToOne
+//    @JoinColumn(name = "patient_history_id", nullable = false)
+//    private PatientHistory patientHistory;
 }

@@ -29,14 +29,14 @@
 
             <div class="col-xl-9 col-lg-8 col-md-7 mt-4 pt-2 mt-sm-0 pt-sm-0">
                 <div class="row">
-                    <div class="col-xl-6 col-lg-6 col-md-4">
+                    <div class="col-xl-5 col-lg-5 col-md-4">
                         <h5 class="mb-0">Appointment</h5>
                     </div><!--end col-->
 
-                    <div class="col-xl-6 col-lg-6 col-md-8 mt-4 mt-md-0">
+                    <div class="col-xl-7 col-lg-7 col-md-8 mt-4 mt-md-0">
                         <div class="justify-content-md-end">
                             <form role="search" method="get" id="searchform" class="searchform" th:action="@{/appointments}">
-                                <div class="row justify-content-between align-items-center">
+                                <div class="row justify-content-end align-items-center">
                                     <div class="col-sm-12 col-md-4">
                                         <div class="mb-0 position-relative">
                                             <input class="form-control" type="date" th:name="date" th:value="${date}" onchange="this.form.submit()"/>
@@ -54,7 +54,7 @@
                                         </select>
                                     </div>
 
-                                    <div class="col-sm-12 col-md-5 mt-4 mt-sm-0">
+                                    <div th:if="${session.user.role == 'Patient'}" class="col-sm-12 col-md-5 mt-4 mt-sm-0">
                                         <div class="d-grid">
                                             <a th:href="@{/booking}" class="btn btn-primary"
                                                data-bs-target="#appointmentform">Make appointment</a>
@@ -140,7 +140,7 @@
                                     <td class="text-end p-3">
                                         <a th:href="@{/appointment/{appointmentId}(appointmentId=${appointment.appointmentId})}" class="btn btn-icon btn-pills btn-soft-primary"><i
                                                 class="uil uil-eye"></i></a>
-                                        <a th:if="${appointment.status != 'Cancel' && appointment.status != 'Completed'}" th:href="@{/appointments/delete/{appointmentId}(appointmentId=${appointment.appointmentId})}" class="btn btn-icon btn-delete btn-pills btn-soft-danger"><i
+                                        <a th:if="${appointment.status != 'Cancel' && appointment.status != 'Completed' && session.user.role == 'Patient'}" th:href="@{/appointments/delete/{appointmentId}(appointmentId=${appointment.appointmentId})}" class="btn btn-icon btn-delete btn-pills btn-soft-danger"><i
                                                 class="uil uil-times-circle"></i></a>
                                     </td>
                                 </tr>

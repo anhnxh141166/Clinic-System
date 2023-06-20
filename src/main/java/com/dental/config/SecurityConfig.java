@@ -68,6 +68,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                     .requestMatchers("/", "blog/**", "service/**", "doctor/**", "/register/**", "assets/**", "/forgot_password/**", "/reset_password/**", "/check_token/**", "/check_email/**").permitAll() // Allowing access to home page and static assets without authentication
                     .requestMatchers("/checkEmailExists").permitAll() // Allowing access to home page and static assets without authentication
+                    .requestMatchers("/appointment/medical/**").hasAuthority("Doctor")
                     .requestMatchers("/admin/**").hasAnyAuthority("Admin", "Staff") // Require Staff authority for admin pages
                     .requestMatchers("/admin/user/**").hasAuthority("Admin") // Require ADMIN authority for admin pages
                 .requestMatchers("/*").authenticated()
