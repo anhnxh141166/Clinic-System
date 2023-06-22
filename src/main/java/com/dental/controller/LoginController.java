@@ -69,8 +69,6 @@ public class LoginController {
     public String handleLogoutSuccess(){
         System.out.println("xu ly logout");
         User user = (User) session.getAttribute("user");
-        System.out.println("Before delete user");
-        System.out.println(user);
         return "redirect:/";
     }
 

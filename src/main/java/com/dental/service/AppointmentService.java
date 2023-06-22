@@ -107,4 +107,26 @@ public class AppointmentService {
     public int countAppointmentsByDateAndTime(Date date, String time) {
         return appointmentRepository.countAppointmentsByDateAndTime(date, time);
     }
+
+    public List<Double> getTotalBill(int appointmentId){
+        return appointmentRepository.getTotalBill(appointmentId);
+    }
+
+    public Page<Appointment> findAllByPatientUserFullName(String fullname, Pageable pageable) {
+        return appointmentRepository.findAllByPatientUserFullName(fullname, pageable);
+    }
+
+    public Page<Appointment> findAllByStatusAndPatientUserFullName(String status,String fullname, Pageable pageable) {
+        return appointmentRepository.findAllByStatusAndPatientUserFullName(status,fullname, pageable);
+    }
+
+    public Page<Appointment> findAllByDateAndPatientUserFullName(Date date, String fullname, Pageable pageable) {
+        return appointmentRepository.findAllByDateAndPatientUserFullName(date, fullname, pageable);
+    }
+
+    public Page<Appointment> findAllByStatusAndDateAndPatientUserFullName(String status, Date date, String fullname, Pageable pageable) {
+        return appointmentRepository.findAllByStatusAndDateAndPatientUserFullName(status, date, fullname, pageable);
+    }
+
+
 }

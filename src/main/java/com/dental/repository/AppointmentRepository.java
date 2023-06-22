@@ -39,6 +39,14 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 
     Page<Appointment> findAllByDoctorDoctorIdAndStatusAndDate(int patientId, String status, Date date, Pageable pageable);
 
+    Page<Appointment> findAllByPatientUserFullName(String fullname, Pageable pageable);
+
+    Page<Appointment> findAllByStatusAndPatientUserFullName(String status, String fullname, Pageable pageable);
+
+    Page<Appointment> findAllByDateAndPatientUserFullName(Date date, String fullname, Pageable pageable);
+
+    Page<Appointment> findAllByStatusAndDateAndPatientUserFullName(String status, Date date, String fullname, Pageable pageable);
+
     @Transactional
     @Modifying
     @Query(value = "UPDATE appointment p SET p.status = ?1, p.doctor_id = null WHERE p.appointment_id = ?2", nativeQuery = true)
@@ -57,4 +65,14 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
     int countAppointmentsByDate(Date date);
 
     int countAppointmentsByDateAndTime(Date date, String time);
+
+    @Transactional
+    @Query(value = "SELECT SUM(service.price) AS total_price " +
+            "FROM appointment " +
+            "JOIN appointment_detail ON appointment.appointment_id = appointment_detail.appointment_id " +
+            "JOIN service ON appointment_detail.service_id = service.service_id " +
+            "GROUP BY appointment.appointment_id " +
+            "HAVING appointment_id = ?", nativeQuery = true)
+    List<Double> getTotalBill(int appointmentId);
+
 }

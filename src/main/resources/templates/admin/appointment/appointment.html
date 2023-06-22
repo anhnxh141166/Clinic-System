@@ -40,7 +40,14 @@
                     <form role="search" th:action="@{/admin/appointments}" method="get" id="searchform" class="searchform">
                         <div class="row mt-3">
 
-
+                            <div class="col-4 search-bar p-0 d-none d-lg-block ms-2">
+                                <div id="search" class="menu-search mb-0 searchform">
+                                    <div class="searchform">
+                                        <input type="text" class="form-control border rounded-pill" th:name="fullName" th:value="${fullName}" id="s" placeholder="Search Keywords...">
+                                        <input type="submit" id="searchsubmit" value="Search">
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="col-2">
                                 <div class="mb-0 position-relative">
@@ -121,7 +128,6 @@
                                             </td>
                                         </tr>
 
-
                                         </tbody>
                                     </table>
                                 </div>
@@ -130,41 +136,53 @@
                     </div><!--end row-->
 
 
+                    <div class="row" th:unless="${#lists.isEmpty(appointments.getContent())}">
+                        <div class="col-12 mt-4">
+                            <div class=" d-flex justify-content-end my-2">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination">
+                                        <li class="paginate_button page-item"><a
+                                                class="page-link"
+                                                th:classappend="${appointments.number == 0 ? 'disabled' : ''}"
+                                                th:href="@{'/admin/appointments'(fullName=${fullName},status=${status},date=${date},page=${1})}">First</a>
+                                        </li>
+                                        <li class="paginate_button page-item"
+                                            th:classappend="${appointments.hasPrevious() ? '' : 'disabled'}"><a
+                                                class="page-link"
+                                                th:href="@{'/admin/appointments'(fullName=${fullName},status=${status},date=${date},page=${appointments.number})}"
+                                                th:if="${appointments.hasPrevious()}">Prev</a>
+                                        </li>
+                                        <li class="paginate_button page-item"><a
+                                                class="page-link"
+                                                th:href="@{'/admin/appointments'(fullName=${fullName},status=${status},date=${date},page=${appointments.number})}"
+                                                th:if="${appointments.hasPrevious()}" th:text="${appointments.number}"></a>
+                                        </li>
+                                        <li class="paginate_button page-item active"><a
+                                                class="page-link"
+                                                th:href="@{'/admin/appointments'(fullName=${fullName},status=${status},date=${date},page=${appointments.number + 1})}"
+                                                th:text="${appointments.number + 1}"></a>
+                                        </li>
+                                        <li class="paginate_button page-item"><a
+                                                class="page-link"
+                                                th:href="@{'/admin/appointments'(fullName=${fullName},status=${status},date=${date},page=${appointments.number + 2})}"
+                                                th:if="${appointments.hasNext()}" th:text="${appointments.number + 2}"></a>
+                                        </li>
 
-                    <div class="row text-right mt-5" th:unless="${#lists.isEmpty(appointments.getContent())}">
-                        <div class="col-12">
-                            <ul class="pagination justify-content-end mb-0 list-unstyled">
-                                <li class="paginate_button page-item"><a
-                                        class="page-link"
-                                        th:classappend="${appointments.hasPrevious() ? '' : 'disabled'}"
-                                        th:href="@{'/admin/appointments'(titleSearch=${titleSearch},page=${appointments.number})}"
-                                >Prev</a>
-                                </li>
-                                <li class="paginate_button page-item"><a
-                                        class="page-link"
-                                        th:href="@{'/admin/appointments'(titleSearch=${titleSearch},page=${appointments.number})}"
-                                        th:if="${appointments.hasPrevious()}" th:text="${appointments.number}"></a>
-                                </li>
-                                <li class="paginate_button page-item active"><a
-                                        class="page-link"
-                                        th:href="@{'/admin/appointments'(titleSearch=${titleSearch},page=${appointments.number + 1})}"
-                                        th:text="${appointments.number + 1}"></a>
-                                </li>
-                                <li class="paginate_button page-item"><a
-                                        class="page-link"
-                                        th:href="@{'/admin/appointments'(titleSearch=${titleSearch},page=${appointments.number + 2})}"
-                                        th:if="${appointments.hasNext()}" th:text="${appointments.number + 2}"></a>
-                                </li>
+                                        <li class="paginate_button page-item"
+                                            th:classappend="${appointments.hasNext()} ? '':'disabled'"><a
 
-                                <li class="paginate_button page-item">
-                                    <a
-                                            class="page-link"
-                                            th:href="@{'/admin/appointments'(titleSearch=${titleSearch},page=${appointments.number + 2})}"
-                                            th:classappend="${appointments.hasNext()} ? '':'disabled'"
-                                    >Next
-                                    </a>
-                                </li>
-                            </ul><!--end pagination-->
+                                                class="page-link"
+                                                th:href="@{'/admin/appointments'(fullName=${fullName},status=${status},date=${date},page=${appointments.number + 2})}"
+                                                th:if="${appointments.hasNext()}">Next</a>
+                                        </li>
+                                        <li class="paginate_button page-item"><a
+                                                class="page-link"
+                                                th:classappend="${appointments.number + 1 == numberOfPage ? 'disabled' : ''}"
+                                                th:href="@{'/admin/appointments'(fullName=${fullName},status=${status},date=${date},page=${numberOfPage})}">Last</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
                         </div><!--end col-->
                     </div><!--end row-->
 
