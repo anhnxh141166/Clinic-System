@@ -285,9 +285,13 @@
                                         <td class="p-3" th:text="${service.title}">
                                         </td>
                                         <td class="p-3" th:text="'$ ' + ${service.price}"></td>
+
                                     </tr>
 
-
+                                    <tr class="bg-dark">
+                                        <th colspan="7" class="text-center font-weight-bold text-white" th:text="'Toltal: '+${total} + ' $'">
+                                        </th>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>

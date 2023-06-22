@@ -289,7 +289,6 @@ public class AppointmentController {
       @AuthenticationPrincipal UserDetailsImpl userDetails,
       @RequestParam(name = "page", required = false, defaultValue = Const.PAGE_DEFAULT_STR) Integer pageNum,
       @RequestParam(name = "pageSize", required = false, defaultValue = Const.PAGE_SIZE_DEFAULT_STR) Integer pageSize,
-      @RequestParam(name = "titleSearch", required = false) String titleSearch,
       @RequestParam(name = "fullName", required = false) String fullName,
       @RequestParam(name = "date", required = false) Date date,
       @RequestParam(name = "status", required = false) String status)
@@ -311,13 +310,22 @@ public class AppointmentController {
         List<Doctor> doctors = doctorService.getAll();
 
 
-        if (date != null && status != null && !status.isEmpty()) {
+
+        if (fullName != null && !fullName.isEmpty() && status != null && !status.isEmpty() && date!= null){
+            appointments = appointmentService.findAllByStatusAndDateAndPatientUserFullName(status, date, fullName, pageable);
+        } else if (date != null && fullName != null && !fullName.isEmpty()) {
+            appointments = appointmentService.findAllByDateAndPatientUserFullName( date, fullName, pageable);
+        }else if(date != null && status != null && !status.isEmpty() ){
             appointments = appointmentService.findAllByStatusAndDate(status, date, pageable);
-        } else if (status != null && !status.isEmpty()) {
+        }else if(fullName != null && !fullName.isEmpty() && status!=null && !status.isEmpty()){
+            appointments = appointmentService.findAllByStatusAndPatientUserFullName(status, fullName, pageable);
+        }else if(status != null && !status.isEmpty()){
             appointments = appointmentService.findAllByStatus(status, pageable);
-        } else if (date != null) {
+        }else if(fullName !=null && !fullName.isEmpty()){
+            appointments = appointmentService.findAllByPatientUserFullName(fullName, pageable);
+        }else if(date != null){
             appointments = appointmentService.findAllByDate(date, pageable);
-        } else {
+        }else{
             appointments = appointmentService.findAllByOrderByDateDesc(pageable);
         }
 
@@ -327,6 +335,7 @@ public class AppointmentController {
         model.addAttribute("status", status);
         model.addAttribute("date", date);
         model.addAttribute("user", userService.get(userDetails.getUserEntity().getUserId()));
+        model.addAttribute("fullName", fullName);
 
         return "/admin/appointment/appointment";
     }
@@ -353,6 +362,8 @@ public class AppointmentController {
         if (doctors.isEmpty()) {
             doctors = doctorService.getAll();
         }
+        List<Double> total = appointmentService.getTotalBill(appointment.getAppointmentId());
+        model.addAttribute("total", total.get(0));
 
 
         model.addAttribute("user", userService.get(userDetails.getUserEntity().getUserId()));
