@@ -63,21 +63,11 @@ public class UserService {
     }
 
     public void registerUser(User user) {
-//        user.setPassword(passwordEncoder.encode(user.getPassword()));
-//        user.setStatus(true);
-//        user.setRole("Patient");
-//        userRepository.save(user);
-//        Patient patient = new Patient();
-//        User user1 = userRepository.findByEmail(user.getEmail());
-//        patient.setUser(user1);
-//        patientRepository.save(patient);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setStatus(true);
         user.setRole("Patient");
         userRepository.save(user);
-//        System.out.println(user);
         Patient patient = new Patient();
-//        patient.setUser(user);
 
         User user1 = userRepository.findByEmail(user.getEmail());
         patient.setUser(user1);

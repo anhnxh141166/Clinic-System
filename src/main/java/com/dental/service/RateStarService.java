@@ -23,6 +23,10 @@ public class RateStarService {
         return rateStarRepository.findById(id).get();
     }
 
+    public RateStar saveRateStar(RateStar r) {
+        return rateStarRepository.save(r);
+    }
+
     public Page<RateStar> getAllByServiceId(int serviceId, Pageable pageable) {
         return rateStarRepository.findAllByServiceServiceId(serviceId, pageable);
     }
@@ -54,5 +58,9 @@ public class RateStarService {
 
     public List<RateStar> findTop5ByStarGreaterThanOrderByStarDesc(int greater) {
         return rateStarRepository.findTop5ByStarGreaterThanOrderByStarDesc(greater);
+    }
+
+    public int countAllByUserUserIdAndServiceServiceId(int userId, int serviceId) {
+        return rateStarRepository.countAllByUserUserIdAndServiceServiceId(userId, serviceId);
     }
 }

@@ -1,11 +1,7 @@
 package com.dental.controller;
 
 import com.dental.entity.*;
-import com.dental.service.AppointmentService;
-import com.dental.service.DoctorService;
-import com.dental.service.PatientService;
-import com.dental.service.SService;
-import com.dental.service.UserService;
+import com.dental.service.*;
 import com.dental.util.Const;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +41,9 @@ public class AppointmentController {
 
     @Autowired
     SService serviceService;
+
+    @Autowired
+    RateStarService rateStarService;
 
     @Autowired
     DoctorService doctorService;
@@ -160,6 +159,7 @@ public class AppointmentController {
 
         model.addAttribute("user", userService.get(userDetails.getUserEntity().getUserId()));
         model.addAttribute("appointment", appointment);
+        model.addAttribute("rateStar", new RateStar());
         model.addAttribute("totalPrice", totalPrice);
         return "/landing/appointment/appointment-detail";
     }
@@ -286,12 +286,12 @@ public class AppointmentController {
 
     @GetMapping("/admin/appointments")
     public String viewListAppointment(Model model,
-      @AuthenticationPrincipal UserDetailsImpl userDetails,
-      @RequestParam(name = "page", required = false, defaultValue = Const.PAGE_DEFAULT_STR) Integer pageNum,
-      @RequestParam(name = "pageSize", required = false, defaultValue = Const.PAGE_SIZE_DEFAULT_STR) Integer pageSize,
-      @RequestParam(name = "fullName", required = false) String fullName,
-      @RequestParam(name = "date", required = false) Date date,
-      @RequestParam(name = "status", required = false) String status)
+                                      @AuthenticationPrincipal UserDetailsImpl userDetails,
+                                      @RequestParam(name = "page", required = false, defaultValue = Const.PAGE_DEFAULT_STR) Integer pageNum,
+                                      @RequestParam(name = "pageSize", required = false, defaultValue = Const.PAGE_SIZE_DEFAULT_STR) Integer pageSize,
+                                      @RequestParam(name = "fullName", required = false) String fullName,
+                                      @RequestParam(name = "date", required = false) Date date,
+                                      @RequestParam(name = "status", required = false) String status)
     {
 
         System.out.println("==============Test==========:" + "page=" + pageNum + "pageSize=" + pageSize + "date=" + date + "status=" + status + "fullName" + fullName);
@@ -401,7 +401,7 @@ public class AppointmentController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate comparisonDate = LocalDate.parse(appointment.getDateString(), formatter);
 
-            System.out.println("comparisonDateTest="+comparisonDate.isBefore(currentDate));
+        System.out.println("comparisonDateTest="+comparisonDate.isBefore(currentDate));
         if (comparisonDate.isBefore(currentDate)) {
             redirectAttributes.addFlashAttribute("errorMessage", "Overtime to assign");
             return "redirect:/admin/appointment/" + appointmentId;
@@ -429,7 +429,6 @@ public class AppointmentController {
         appointmentService.updateAppointmentStatus("Assigned", appointmentId);
 
         return "redirect:/admin/appointment/" + appointmentId;
-
     }
 
     @PostMapping("/admin/appointments/delete/{appointmentId}")
@@ -448,8 +447,35 @@ public class AppointmentController {
         } catch (Error e) {
             throw new IllegalAccessException("Failed to cancel!");
         }
+
         return "redirect:/admin/appointments";
     }
 
+    @PostMapping("/feedback/save")
+    public String feedback(
+            @RequestParam("serviceId") int serviceId,
+            @RequestParam("star") int star,
+            @RequestParam("feedback") String feedback,
+            Model model,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) throws Exception {
+        int userId = userDetails.getUserEntity().getUserId();
+        String role = userDetails.getUserEntity().getRole();
 
+        if (!role.equals("Patient")) {
+            throw new IllegalAccessException("You cannot send feedback");
+        }
+
+        int count = appointmentService.findCountByPatientIdAndServiceId(userId, serviceId);
+        int countS = rateStarService.countAllByUserUserIdAndServiceServiceId(userId, serviceId);
+
+        if (countS >= count) {
+            throw new Exception("You just can feedback 1 times/service");
+        }
+
+        RateStar rateStar = new RateStar(star, feedback, userDetails.getUserEntity(), serviceService.get(serviceId));
+
+        rateStarService.saveRateStar(rateStar);
+        return "redirect:/service/" + serviceId;
+    }
 }

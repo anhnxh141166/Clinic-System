@@ -2,9 +2,64 @@
 <html lang="en">
 
 <head th:replace="~{layout/head :: head}"></head>
+<link rel='stylesheet prefetch' href='https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css'>
+<link th:href="@{~/assets/css/toastr.min.css}" rel="stylesheet">
+
 <style>
+    .toast:not(.showing):not(.show) {
+        opacity: 1;
+    }
     .table > tbody {
         vertical-align: middle;
+    }
+
+    .submit-comment {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    div.stars {
+        display: inline-block;
+    }
+
+    input.star { display: none; }
+
+    label.star {
+        float: right;
+        padding: 10px;
+        font-size: 36px;
+        color: #444;
+        transition: all .2s;
+    }
+
+    input.star:checked ~ label.star:before {
+        content: '\f005';
+        color: #FD4;
+        transition: all .25s;
+    }
+
+    input.star-5:checked ~ label.star:before {
+        color: #FE7;
+        text-shadow: 0 0 20px #952;
+    }
+
+    input.star-1:checked ~ label.star:before { color: #F62; }
+
+    label.star:hover { transform: rotate(-15deg) scale(1.3); }
+
+    label.star:before {
+        content: '\f006';
+        font-family: FontAwesome;
+    }
+
+    textarea:required:invalid,
+    input[type="radio"]:required:invalid {
+        border: 1px solid red;
+    }
+
+    textarea:required:valid,
+    input[type="radio"]:required:valid {
+        border: 1px solid green;
     }
 </style>
 <body>
@@ -37,9 +92,9 @@
                         <h5 class="mb-0">Appointment Detail</h5>
                     </div><!--end col-->
                     <div th:if="${session.user.role == 'Doctor'}" class="col-md-6 text-end">
-<!--                        <a th:href="@{/appoinment/completed/{appointmentId}(appointmentId=${appointment.appointmentId})}"-->
-<!--                           th:data-id="${appointment.appointmentId}" class="btn btn-primary btn-complete"-->
-<!--                        >Confirm complete</a>-->
+                        <!--                        <a th:href="@{/appoinment/completed/{appointmentId}(appointmentId=${appointment.appointmentId})}"-->
+                        <!--                           th:data-id="${appointment.appointmentId}" class="btn btn-primary btn-complete"-->
+                        <!--                        >Confirm complete</a>-->
                         <a th:unless="${appointment.patientHistory}" th:href="@{/appointment/medical/{appointmentId}(appointmentId=${appointment.appointmentId})}" class="btn btn-primary"
                         >Add medical infomation</a>
                         <a th:if="${appointment.patientHistory}" th:href="@{/appointment/medical/edit/{appointmentId}(appointmentId=${appointment.appointmentId})}" class="btn btn-primary"
@@ -100,6 +155,7 @@
                                     <th class="border-bottom p-3" style="min-width: 50px;">#</th>
                                     <th class="border-bottom p-3" style="min-width: 150px;">Services</th>
                                     <th class="border-bottom p-3" style="min-width: 150px;">Price</th>
+                                    <th th:if="${session.user.role == 'Patient' && appointment.status == 'Completed'}" class="border-bottom p-3" style="min-width: 150px;">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -164,6 +220,10 @@
                                         </a>
                                     </td>
                                     <td class="p-3" th:text="'$ ' + ${service.price}"></td>
+                                    <td class="p-3" th:if="${session.user.role == 'Patient' && appointment.status == 'Completed'}">
+                                        <button class="btn btn-primary btn-feedback" th:data-id="${service.serviceId}" data-bs-target="#feedback" data-bs-toggle="modal">
+                                            Feedback</button>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -199,7 +259,7 @@
                                         type="checkbox" class="form-check-input disabled disabled"> Gan
                                 </div>
                                 <div class="col-md-3 col-sm-12"><input
-                                         th:checked="${appointment.patientHistory.diabetes}"
+                                        th:checked="${appointment.patientHistory.diabetes}"
                                         type="checkbox" class="form-check-input disabled"> Tiểu đường
                                 </div>
                                 <div class="col-md-3 col-sm-12"><input
@@ -284,6 +344,47 @@
 </section><!--end section-->
 <!-- End Hero -->
 
+<!--Feedback-->
+<div class="modal fade" id="feedback" tabindex="-1" aria-labelledby="exampleModalLabel1" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-bottom p-3">
+                <h5 class="modal-title" id="exampleModalLabel1">Feedback</h5>
+                <button type="button" class="btn btn-icon btn-close" data-bs-dismiss="modal" id="close-modal"></button>
+            </div>
+            <div class="modal-body p-3 pt-4">
+                <form id="form-feedback" th:action="@{/feedback/save}" method="POST" th:object="${rateStar}">
+                    <div class="align-items-center">
+                        <textarea id="messenger" class="form-control form-control-lg" name="feedback" placeholder="Type anything" rows="5" spellcheck="false"></textarea>
+                        <div class="error-message text-danger my-2" id="messenger-error"></div>
+                    </div>
+                    <div class="submit-comment">
+                        <div class="stars">
+                            <input class="star star-5" id="star-5" type="radio" name="star" value="5"/>
+                            <label class="star star-5" for="star-5"></label>
+                            <input class="star star-4" id="star-4" type="radio" name="star" value="4"/>
+                            <label class="star star-4" for="star-4"></label>
+                            <input class="star star-3" id="star-3" type="radio" name="star" value="3"/>
+                            <label class="star star-3" for="star-3"></label>
+                            <input class="star star-2" id="star-2" type="radio" name="star" value="2"/>
+                            <label class="star star-2" for="star-2"></label>
+                            <input class="star star-1" id="star-1" type="radio" name="star" value="1"/>
+                            <label class="star star-1" for="star-1"></label>
+                        </div>
+                        <!--                    <a th:href="@{/feedback/save}" style="align-self: center;" id="btn-sub" class="btn btn-primary mt-3">Upload review</a>-->
+                        <button type="submit" style="align-self: center;" id="btn-sub" class="btn btn-primary mt-3">Upload review</button>
+                        <!--                <div class="my-2" style="text-align: right;">-->
+                        <!--                    <a th:href="@{/feedback/save}" class="btn btn-primary btn-feedback">Submit</a>-->
+                        <!--                </div>-->
+                    </div>
+                    <div class="error-message text-danger" id="stars-error"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Feedback-->
+
 <!-- Footer Start -->
 <footer th:replace="~{layout/homeFooter :: homeFooter}"></footer>
 <!-- End -->
@@ -295,6 +396,8 @@
 
 <!-- javascript -->
 <script th:replace="~{layout/script :: script}"></script>
+<script th:src="@{~/assets/js/toastr-init.js}"></script>
+<script th:src="@{~/assets/js/toastr.min.js}"></script>
 <script>
     $('.btn-complete').on('click', function (e) {
         e.preventDefault();
@@ -303,6 +406,95 @@
             appointmentId
         }, `/appointment/${appointmentId}`, "Successfully updated!");
     });
+
+    // $('.btn-feedback').on('click', function (e) {
+    //     e.preventDefault();
+    //     const appointmentId = $(this).attr("data-id");
+    //     console.log('ahah')
+    //     // SwalComplete(this.href, {
+    //     //     appointmentId
+    //     // }, `/appointment/${appointmentId}`, "Successfully updated!");
+    // });
+    let serviceId = null;
+    $('.btn-feedback').on('click', function (e) {
+        e.preventDefault();
+        serviceId = $(this).attr("data-id");
+    });
+
+    document.getElementById('form-feedback').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form submission
+
+        // Validate text box
+        var messenger = document.getElementById('messenger');
+        var messengerError = document.getElementById('messenger-error');
+        if (messenger.value.trim() === '') {
+            messenger.classList.add('error-input');
+            messengerError.textContent = 'Please enter a message';
+        } else {
+            messenger.classList.remove('error-input');
+            messengerError.textContent = '';
+        }
+
+        // Validate rate star
+        var stars = document.querySelectorAll('.stars input[name="star"]');
+        var starsError = document.getElementById('stars-error');
+        var isChecked = false;
+        let star = null;
+        for (var i = 0; i < stars.length; i++) {
+            if (stars[i].checked) {
+                star = stars[i].value;
+                isChecked = true;
+                break;
+            }
+        }
+        if (!isChecked) {
+            document.querySelector('.stars').classList.add('error-input');
+            starsError.textContent = 'Please rating';
+        } else {
+            document.querySelector('.stars').classList.remove('error-input');
+            starsError.textContent = '';
+        }
+
+        // Check if there are any errors
+        var hasError = messengerError.textContent || starsError.textContent;
+        if (hasError) {
+            return;
+        }
+
+        // Form is valid, proceed with submission
+        $.ajax({
+            type: 'POST',
+            url: '/feedback/save',
+            data: {
+                feedback: messenger.value,
+                star,
+                serviceId,
+            },
+            success: function (data) {
+                console.log(data);
+                toastr.options.positionClass = 'toast-top-right';
+                toastr.options.timeOut = 3000;
+                toastr.success("Send feedback successfully", "", {
+                    onHidden: function() {
+                        window.location.href = 'http://localhost:8888/service/' + serviceId;
+                    }
+                });
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.options.positionClass = 'toast-top-right';
+                toastr.options.timeOut = 4000;
+                toastr.error("Failed to send feedback");
+            }
+        });
+    });
+
+
+    function toastSuccessful(mes) {
+        toastr.options.positionClass = 'toast-top-right';
+        toastr.options.timeOut = 4000;
+        toastr.success(mes);
+    }
 </script>
 </body>
 

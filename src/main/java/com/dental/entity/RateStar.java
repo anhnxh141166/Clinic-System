@@ -60,6 +60,16 @@ public class RateStar {
         return createdAt;
     }
 
+    public RateStar() {
+    }
+
+    public RateStar(float star, String feedback, User user, Service service) {
+        this.star = star;
+        this.feedback = feedback;
+        this.user = user;
+        this.service = service;
+    }
+
     @Override
     public String toString() {
         return "RateStar{" +

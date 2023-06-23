@@ -139,10 +139,6 @@
                 </li>
 
                 <li class="parent-menu-item">
-                    <a th:href="@{/service}" class="sub-menu-item">Services</a>
-                </li>
-
-                <li class="parent-menu-item">
                     <a th:href="@{/blog}" class="sub-menu-item">Blogs</a>
                 </li>
                 <li><a th:href="@{/admin}" th:if="${user != null && user.role == 'Admin'}" class="sub-menu-item">Admin</a></li>

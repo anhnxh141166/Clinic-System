@@ -114,8 +114,8 @@
                                             <input th:name="dateOfBirth" th:field="*{dateOfBirth}"
                                                    th:value="${dateOfBirth}"
                                                    id="dateOfBirth" type="date" class="form-control">
-                                            <span class="mt-2 text-danger" th:if="${#fields.hasErrors('dateOfBirth')}"
-                                                  th:errors="*{dateOfBirth}"></span>
+                                            <span class="mt-2 text-danger" th:if="${dateOfBirth}"
+                                                  th:text="${dateOfBirth}"></span>
                                         </div>
                                     </div><!--end col-->
 

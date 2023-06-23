@@ -75,4 +75,11 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
             "HAVING appointment_id = ?", nativeQuery = true)
     List<Double> getTotalBill(int appointmentId);
 
+    @Query("SELECT COUNT(s.serviceId) " +
+            "FROM Appointment a " +
+            "JOIN a.service s " +
+            "WHERE a.patient.patientId = ?1 " +
+            "AND s.serviceId = ?2 " +
+            "GROUP BY a.patient.patientId, s.serviceId")
+    int findCountByPatientIdAndServiceId(int patientId, int serviceId);
 }
