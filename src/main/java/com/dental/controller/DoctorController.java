@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 @Controller
@@ -110,6 +112,7 @@ public class DoctorController {
             @RequestParam("image") MultipartFile multipartFile, Model model
     ) {
         User u = userService.getByEmail(user.getEmail());
+        boolean hasErr = false;
 
         if (u != null) {
             model.addAttribute("email", "Email already used");
@@ -120,14 +123,24 @@ public class DoctorController {
         }
 
         if (user.getDateOfBirth() == null) {
+            hasErr = true;
             model.addAttribute("dateOfBirth", "Date of birth must be mandatory");
+        } else {
+            LocalDate birthDate = user.getDateOfBirth().toLocalDate();
+            LocalDate currentDate = LocalDate.now();
+            Period age = Period.between(birthDate, currentDate);
+
+            if (age.getYears() < 20) {
+                hasErr = true;
+                model.addAttribute("dateOfBirth", "Your age must be greater than 20");
+            }
         }
 
         if (user.getGender() == null) {
             model.addAttribute("gender", "Gender must be mandatory");
         }
 
-        if (doctorBindingResult.hasErrors() || userBindingResult.hasErrors() || multipartFile.isEmpty() || u != null) {
+        if (doctorBindingResult.hasErrors() || userBindingResult.hasErrors() || multipartFile.isEmpty() || u != null || hasErr) {
             List<Doctor> doctors = doctorService.getAll();
             model.addAttribute("doctors", doctors);
             return "admin/doctor/add-doctor";
@@ -178,6 +191,7 @@ public class DoctorController {
             Model model, @RequestParam(value = "image", required = false) MultipartFile multipartFile
     ) {
         int doctorId = user.getUserId();
+        boolean hasErr = false;
 
         User u = userService.get(doctorId);
         user.setDoctor(u.getDoctor());
@@ -187,7 +201,21 @@ public class DoctorController {
         user.setRole(u.getRole());
         user.setCreatedAt(u.getCreatedAt());
 
-        if (doctorBindingResult.hasErrors() || userBindingResult.hasErrors()) {
+        if (user.getDateOfBirth() == null) {
+            hasErr = true;
+            model.addAttribute("dateOfBirth", "Date of birth must be mandatory");
+        } else {
+            LocalDate birthDate = user.getDateOfBirth().toLocalDate();
+            LocalDate currentDate = LocalDate.now();
+            Period age = Period.between(birthDate, currentDate);
+
+            if (age.getYears() < 20) {
+                hasErr = true;
+                model.addAttribute("dateOfBirth", "Your age must be greater than 20");
+            }
+        }
+
+        if (doctorBindingResult.hasErrors() || userBindingResult.hasErrors() || hasErr) {
             return "admin/doctor/update-doctor";
         }
 

@@ -128,5 +128,7 @@ public class AppointmentService {
         return appointmentRepository.findAllByStatusAndDateAndPatientUserFullName(status, date, fullname, pageable);
     }
 
-
+    public int findCountByPatientIdAndServiceId(int patientId, int serviceId) {
+        return appointmentRepository.findCountByPatientIdAndServiceId(patientId, serviceId);
+    }
 }

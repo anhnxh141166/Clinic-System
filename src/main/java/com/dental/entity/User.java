@@ -31,7 +31,6 @@ public class User {
     private String gender;
 
     @Column(nullable = true)
-    @AgeConstraint(message = "Your age must be greater than 20")
     private java.sql.Date dateOfBirth;
 
     @Column(nullable = true, columnDefinition = "nvarchar(100)")

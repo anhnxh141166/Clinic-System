@@ -31,6 +31,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -221,6 +223,7 @@ public class UserController {
             Model model, @RequestParam(value = "image", required = false) MultipartFile multipartFile
     ) {
         int doctorId = user.getUserId();
+        boolean hasErr = false;
 
         User u = userService.get(doctorId);
         user.setDoctor(u.getDoctor());
@@ -228,11 +231,34 @@ public class UserController {
         user.setEmail(u.getEmail());
         user.setPassword(u.getPassword());
         user.setRole(u.getRole());
+        user.setStatus(u.isStatus());
         user.setCreatedAt(u.getCreatedAt());
 
         if (user.getGender() == null) {
             model.addAttribute("gender", "Gender must be mandatory");
         }
+
+        if (user.getDateOfBirth() == null) {
+            hasErr = true;
+            model.addAttribute("dateOfBirth", "Date of birth must be mandatory");
+        } else {
+            LocalDate birthDate = user.getDateOfBirth().toLocalDate();
+            LocalDate currentDate = LocalDate.now();
+            Period age = Period.between(birthDate, currentDate);
+
+            if (u.getRole().equals("Patient")) {
+                if (age.getYears() <= 1) {
+                    hasErr = true;
+                    model.addAttribute("dateOfBirth", "Your age must be greater than 2");
+                }
+            } else {
+                if (age.getYears() < 20) {
+                    hasErr = true;
+                    model.addAttribute("dateOfBirth", "Your age must be greater than 20");
+                }
+            }
+        }
+
 
         if (multipartFile != null) {
             String fileName = UploadFile.getFileName(multipartFile);
@@ -249,7 +275,7 @@ public class UserController {
             user.setAvatar(u.getAvatar());
         }
 
-        if (doctorBindingResult.hasErrors() || userBindingResult.hasErrors()) {
+        if (doctorBindingResult.hasErrors() || userBindingResult.hasErrors() || hasErr) {
             return "landing/user/profile";
         }
 
@@ -336,6 +362,7 @@ public class UserController {
             @RequestParam("image") MultipartFile multipartFile, Model model
     ) {
         User u = userService.getByEmail(user.getEmail());
+        boolean hasErr = false;
 
         if (u != null) {
             model.addAttribute("email", "Email already used");
@@ -346,14 +373,24 @@ public class UserController {
         }
 
         if (user.getDateOfBirth() == null) {
+            hasErr = true;
             model.addAttribute("dateOfBirth", "Date of birth must be mandatory");
+        } else {
+            LocalDate birthDate = user.getDateOfBirth().toLocalDate();
+            LocalDate currentDate = LocalDate.now();
+            Period age = Period.between(birthDate, currentDate);
+
+            if (age.getYears() < 20) {
+                hasErr = true;
+                model.addAttribute("dateOfBirth", "Your age must be greater than 20");
+            }
         }
 
         if (user.getGender() == null) {
             model.addAttribute("gender", "Gender must be mandatory");
         }
 
-        if (userBindingResult.hasErrors() || multipartFile.isEmpty() || u != null) {
+        if (userBindingResult.hasErrors() || multipartFile.isEmpty() || u != null || hasErr) {
             List<User> users = userService.getAllUser();
             model.addAttribute("users", users);
             return "admin/user/add-user";
@@ -394,6 +431,7 @@ public class UserController {
             Model model, @RequestParam(value = "image", required = false) MultipartFile multipartFile
     ) {
         int userId = user.getUserId();
+        boolean hasErr = false;
 
         User u = userService.get(userId);
         user.setDoctor(u.getDoctor());
@@ -403,7 +441,26 @@ public class UserController {
         user.setRole(u.getRole());
         user.setCreatedAt(u.getCreatedAt());
 
-        if (userBindingResult.hasErrors()) {
+        if (user.getDateOfBirth() == null) {
+            hasErr = true;
+            model.addAttribute("dateOfBirth", "Date of birth must be mandatory");
+        } else {
+            LocalDate birthDate = user.getDateOfBirth().toLocalDate();
+            LocalDate currentDate = LocalDate.now();
+            Period age = Period.between(birthDate, currentDate);
+
+            if (age.getYears() < 20) {
+                hasErr = true;
+                model.addAttribute("dateOfBirth", "Your age must be greater than 20");
+            }
+        }
+
+        if (user.getGender() == null) {
+            hasErr = true;
+            model.addAttribute("gender", "Gender must be mandatory");
+        }
+
+        if (userBindingResult.hasErrors() || hasErr) {
             return "admin/user/update-user";
         }
 
