@@ -117,17 +117,17 @@
                     <div class="col-xl-8 col-lg-7 mt-4">
                         <div class="card shadow border-0 p-4">
                             <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h6 class="align-items-center mb-0">Patients visit by Gender</h6>
 
-                                <div class="mb-0 position-relative">
-                                    <select class="form-select form-control" id="yearchart">
-                                        <option selected>2020</option>
-                                        <option value="2019">2019</option>
-                                        <option value="2018">2018</option>
-                                    </select>
-                                </div>
+<!--                                <div class="mb-0 position-relative">-->
+<!--                                    <select class="form-select form-control" id="yearchart">-->
+<!--                                        <option selected>2020</option>-->
+<!--                                        <option value="2019">2019</option>-->
+<!--                                        <option value="2018">2018</option>-->
+<!--                                    </select>-->
+<!--                                </div>-->
                             </div>
-                            <div id="dashboard" class="apex-chart"></div>
+<!--                            <div id="dashboard" class="apex-chart"></div>-->
+                            <div id="chart" class="apex-chart"></div>
                         </div>
                     </div><!--end col-->
 
@@ -689,6 +689,44 @@
 <!-- Chart -->
 <script src="../../assets/js/apexcharts.min.js"></script>
 <script src="../../assets/js/columnchart.init.js"></script>
+
+<script>
+    var options = {
+        series: [{
+            name: "Desktops",
+            data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+        }],
+        chart: {
+            height: 350,
+            type: 'line',
+            zoom: {
+                enabled: false
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            curve: 'straight'
+        },
+        title: {
+            text: 'Product Trends by Month',
+            align: 'left'
+        },
+        grid: {
+            row: {
+                colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                opacity: 0.5
+            },
+        },
+        xaxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+        }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart"), options);
+    chart.render();
+</script>
 
 </body>
 

@@ -426,7 +426,7 @@ public class UserController {
     }
 
     @PostMapping("admin/user/update")
-    public String updateDoctor(
+    public String updateUser(
             @Valid User user, BindingResult userBindingResult,
             Model model, @RequestParam(value = "image", required = false) MultipartFile multipartFile
     ) {
