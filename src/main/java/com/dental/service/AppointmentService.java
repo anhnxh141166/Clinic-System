@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -130,5 +131,70 @@ public class AppointmentService {
 
     public int findCountByPatientIdAndServiceId(int patientId, int serviceId) {
         return appointmentRepository.findCountByPatientIdAndServiceId(patientId, serviceId);
+    }
+
+    public int countAllPatientBooking(){
+        return appointmentRepository.countAllPatientBooking();
+    }
+
+//
+    public Double getTotalRevenue(){
+        double total = 0;
+        List<Appointment> appointments = appointmentRepository.findAllByStatus("Completed");
+        for (Appointment a: appointments
+             ) {
+            total += appointmentRepository.getTotalBill(a.getAppointmentId()).get(0);
+        }
+        return total;
+    }
+
+    public int countAppointments(){
+        return appointmentRepository.countAppointments();
+    }
+
+//    List<Appointment> getAppointmentsByMonth(int month){
+//        return appointmentRepository.getAppointmentsByMonth(month);
+//    }
+
+    public Double getRevenueByMonth(int month){
+        LocalDate currentDate = LocalDate.now();
+        int year = currentDate.getYear();
+        double total = 0;
+        List<Appointment> appointments = appointmentRepository.findByDateYearAndDateMonthAndStatus(year, month);
+
+        for (Appointment a: appointments
+             ) {
+            total += appointmentRepository.getTotalBill(a.getAppointmentId()).get(0);
+        }
+
+        return total;
+    }
+
+    public Double getRevenueByDay(int day){
+        LocalDate currentDate = LocalDate.now();
+        int year = currentDate.getYear();
+        int month = currentDate.getMonthValue();
+        double total = 0;
+        List<Appointment> appointments = appointmentRepository.findByDateYearAndDateMonthAndDateDayAndStatus(year, month, day);
+
+        for (Appointment a: appointments
+        ) {
+            total += appointmentRepository.getTotalBill(a.getAppointmentId()).get(0);
+        }
+
+        return total;
+    }
+
+    public int countAppointmentByMonth(int month){
+        LocalDate currentDate = LocalDate.now();
+        int year = currentDate.getYear();
+        return appointmentRepository.countAppointmentByMonth(year, month);
+    }
+
+    public int countAppointmentByDay(int day){
+        LocalDate currentDate = LocalDate.now();
+        int year = currentDate.getYear();
+        int month = currentDate.getMonthValue();
+        return appointmentRepository.countByDateDay(year, month, day);
     }
 }

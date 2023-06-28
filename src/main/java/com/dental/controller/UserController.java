@@ -109,7 +109,7 @@ public class UserController {
     }
 
 
-    @GetMapping("/admin")
+    @GetMapping("/bo")
     public String viewHomeAdminPage(Model model) {
         User user = new User();
         user.setFullName("Nguyen Van B");

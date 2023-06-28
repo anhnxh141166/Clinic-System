@@ -35,4 +35,7 @@ public interface ServiceRepository extends JpaRepository<Service, Integer> {
     Page<Service> findAllByTitleContainingAndStatusTrueOrderByCreatedAtDesc(String title, Pageable pageable);
 
     Page<Service> findAllByStatusTrueOrderByCreatedAtDesc(Pageable pageable);
+
+    @Query("SELECT COUNT(s) FROM Service s WHERE s.status = true")
+    int countNumberServices();
 }

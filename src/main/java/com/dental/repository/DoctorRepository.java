@@ -48,7 +48,7 @@ public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
             "WHERE d.doctor_id NOT IN ( " +
             "    SELECT a.doctor_id " +
             "    FROM appointment a " +
-            "    WHERE a.date = ? AND a.time = ? " +
+            "    WHERE a.date = ? AND a.time = ? AND a.status = 'Assigned'" +
             "    GROUP BY a.doctor_id, a.time " +
             "    HAVING COUNT(*) >= 5 " +
             ") AND (SELECT status FROM user WHERE user_id = d.doctor_id) = 1", nativeQuery = true)

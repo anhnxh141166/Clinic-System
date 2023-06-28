@@ -67,4 +67,8 @@ public class SService  {
     public Page<Service> findAllByTitleContainingAndStatusTrueOrderByCreatedAtDesc(String title, Pageable pageable) {
         return serviceRepository.findAllByTitleContainingAndStatusTrueOrderByCreatedAtDesc(title, pageable);
     }
+
+    public int countNumberServices(){
+        return serviceRepository.countNumberServices();
+    }
 }
