@@ -222,9 +222,6 @@
         noData: {
             text: 'Loading...'
         }
-        // xaxis: {
-        //     categories: []
-        // }
     };
 
     var chart = new ApexCharts(
@@ -243,7 +240,6 @@ chart.render()
 
             $.getJSON("/chart-data?type=chart1&option=" + option, function(response) {
                 console.log('heaeharha1')
-                // var chart = new ApexCharts(el, options);
                 chart.updateOptions({
                     series: [{
                         name: "Revenue",
@@ -288,7 +284,7 @@ chart.render()
             curve: 'straight'
         },
         title: {
-            text: 'Revenue Statistics',
+            text: 'Appointment',
             align: 'left'
         },
         grid: {
@@ -300,9 +296,6 @@ chart.render()
         noData: {
             text: 'Loading...'
         }
-        // xaxis: {
-        //     categories: []
-        // }
     };
 
     var chart2 = new ApexCharts(
@@ -320,7 +313,6 @@ chart.render()
 
             $.getJSON("/chart-data?type=chart2&option=" + option, function(response) {
                 console.log('heaeharha2')
-                // var chart = new ApexCharts(el, options);
                 chart2.updateOptions({
                     series: [{
                         name: "Appointment",
