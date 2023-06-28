@@ -35,4 +35,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     Page<User> findAllByRole(String role, Pageable pageable);
 
     Page<User> findAll(Pageable pageable);
+
+    @Query("SELECT COUNT(u) FROM User u WHERE (u.role = 'Doctor' OR u.role = 'Staff') AND u.status = ?1 ")
+    int countEmployeeActive(boolean status);
+
 }

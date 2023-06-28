@@ -82,4 +82,25 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
             "AND s.serviceId = ?2 " +
             "GROUP BY a.patient.patientId, s.serviceId")
     int findCountByPatientIdAndServiceId(int patientId, int serviceId);
+    @Query("SELECT COUNT(DISTINCT a.patient.patientId) AS patient_count\n" +
+            "FROM Appointment a")
+    int countAllPatientBooking();
+
+    List<Appointment> findAllByStatus(String status);
+
+    @Query("SELECT COUNT(a) FROM Appointment a")
+    int countAppointments();
+
+    @Query("SELECT a FROM Appointment a WHERE YEAR(a.date) = :year AND MONTH(a.date) = :month AND a.status = 'Completed'")
+    List<Appointment> findByDateYearAndDateMonthAndStatus(int year, int month);
+
+    @Query("SELECT a FROM Appointment a WHERE YEAR(a.date) = :year AND MONTH(a.date) = :month AND DAY(a.date) = :day AND a.status = 'Completed'")
+    List<Appointment> findByDateYearAndDateMonthAndDateDayAndStatus(int year, int month, int day);
+
+    @Query("SELECT COUNT(a) FROM Appointment a WHERE YEAR(a.date) = :year AND MONTH(a.date) = :month")
+    int countAppointmentByMonth(int year, int month);
+
+    @Query("SELECT COUNT(a) FROM Appointment a WHERE YEAR(a.date) = :year AND MONTH(a.date) = :month AND DAY(a.date) = :day ")
+    int countByDateDay(int year, int month, int day);
+
 }

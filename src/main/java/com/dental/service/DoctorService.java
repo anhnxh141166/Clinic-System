@@ -77,7 +77,6 @@ public class DoctorService  {
     }
 
     public List<Doctor> getAllDoctorEmptyCalendar(Date date, String time){
-        System.out.println("chay qua getAllDoctorEmptyCalendar");
         return doctorRepository.getAllDoctorEmptyCalendar(date, time);
     }
 
