@@ -125,10 +125,29 @@
 <script src="../assets/js/jquery.validate.js"></script>
 <!-- View Invoice End -->
 
+<!--only validate full name-->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+
+<script src="../assets/js/jquery-3.2.1.min.js"></script>
+<script src="../assets/js/additional-methods.js"></script>
+<script src="../assets/js/jquery.validate.js"></script>
+<script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js"></script>
+
 <script>
+    //full name
+    $.validator.addMethod("lettersAndVietnameseOnly", function(value, element) {
+        return this.optional(element) || /^[a-zA-Z\sàáạãảăắằẵặẳâấầẫậẩđèéẹẽẻêếềễệểìíịĩỉòóọõỏôốồỗộổơớờỡợởùúụũủưứừữựửỳýỵỹỷÈÉẸẼẺÊẾỀỄỆỂÌÍỊĨỈÒÓỌÕỎÔỐỒỖỘỔƠỚỜỠỢỞÙÚỤŨỦƯỨỪỮỰỬỲÝỴỸỶ]+$/i.test(value);
+    }, "Full name must contain only letters, spaces");
+    //bo
     $.validator.addMethod("lettersOnly", function (value, element) {
         return this.optional(element) || /^[a-zA-Z\s]+$/.test(value);
     }, "This field must contain only letters and spaces");
+    //password no space
+    $.validator.addMethod("noSpace", function (value, element) {
+        // return value.indexOf(" ") < 0;
+        return /^\S+$/.test(value);
+    }, "Password should not contain spaces.");
     $(document).ready(function () {
         $('#signupForm').validate({
             rules: {
@@ -136,7 +155,8 @@
                     required: true,
                     minlength: 3,
                     maxlength: 30,
-                    lettersOnly: true
+                    // lettersOnly: true
+                    lettersAndVietnameseOnly: true
                 },
                 email: {
                     required: true,
@@ -145,7 +165,8 @@
                 password: {
                     required: true,
                     minlength: 8,
-                    maxlength: 30
+                    maxlength: 30,
+                    noSpace: true
                 }
             },
             messages: {
@@ -180,7 +201,7 @@
             $('#email').blur(function () {
                 var email = $(this).val();
                 $.ajax({
-                    url: '/user/checkEmailExists',
+                    url: '/checkEmailExists',
                     type: 'GET',
                     data: {email: email.toLowerCase()},
                     success: function (response) {
