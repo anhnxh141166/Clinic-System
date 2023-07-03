@@ -125,8 +125,9 @@
 
                                 <div class="mb-0 position-relative">
                                     <select class="form-select form-control" id="timeOption1">
-                                        <option value="month">Month</option>
-                                        <option value="week">30 days</option>
+                                        <option value="2023">2023</option>
+                                        <option value="2022">2022</option>
+                                        <option value="2021">2021</option>
                                     </select>
                                 </div>
                             </div>
@@ -147,8 +148,9 @@
 
                                 <div class="mb-0 position-relative">
                                     <select class="form-select form-control" id="timeOption2">
-                                        <option value="month">Month</option>
-                                        <option value="week">30 days</option>
+                                        <option value="2023">2023</option>
+                                        <option value="2022">2022</option>
+                                        <option value="2021">2021</option>
                                     </select>
                                 </div>
                             </div>
@@ -234,7 +236,7 @@ chart.render()
 
         var selectedValue = $("#timeOption1").val();
 
-        console.log(selectedValue)
+
         // Make AJAX request to fetch chart data
         function fetchChartData(option) {
 
@@ -258,6 +260,9 @@ chart.render()
             var selectedValue = $(this).val();
             console.log(selectedValue);
             fetchChartData(selectedValue);
+            console.log(selectedValue)
+            console.log(options)
+            console.log(options.series)
         });
 
     });
@@ -313,6 +318,7 @@ chart.render()
 
             $.getJSON("/chart-data?type=chart2&option=" + option, function(response) {
                 console.log('heaeharha2')
+                console.log(selectedValue)
                 chart2.updateOptions({
                     series: [{
                         name: "Appointment",
@@ -329,7 +335,6 @@ chart.render()
 
         $("#timeOption2").change(function() {
             var selectedValue = $(this).val();
-            console.log(selectedValue);
             fetchChartData2(selectedValue);
         });
 
@@ -338,77 +343,7 @@ chart.render()
 
 </script>
 
-<!--<script>-->
-<!--    var options2 = {-->
-<!--        series: [{-->
-<!--            name: "Appointment",-->
-<!--            data: []-->
-<!--        }],-->
-<!--        chart: {-->
-<!--            height: 350,-->
-<!--            type: 'line',-->
-<!--            zoom: {-->
-<!--                enabled: false-->
-<!--            }-->
-<!--        },-->
-<!--        dataLabels: {-->
-<!--            enabled: false-->
-<!--        },-->
-<!--        stroke: {-->
-<!--            curve: 'straight'-->
-<!--        },-->
-<!--        title: {-->
-<!--            text: 'Appointment statistics',-->
-<!--            align: 'left'-->
-<!--        },-->
-<!--        grid: {-->
-<!--            row: {-->
-<!--                colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns-->
-<!--                opacity: 0.5-->
-<!--            },-->
-<!--        },-->
-<!--        xaxis: {-->
-<!--            categories: []-->
-<!--        }-->
-<!--    };-->
 
-
-
-<!--    $(document).ready(function() {-->
-
-<!--        var selectedValue = $("#timeOption2").val();-->
-
-<!--        // Make AJAX request to fetch chart data-->
-<!--        function fetchChartData(option) {-->
-<!--            $.ajax({-->
-<!--                url: "/chart-data?type=chart2&option=" + option,-->
-<!--                method: "GET",-->
-<!--                success: function (response) {-->
-<!--                    // Update chart options with fetched data-->
-<!--                    options2.series[0].data = response.data;-->
-<!--                    options2.xaxis.categories = response.categories;-->
-
-<!--                    // Render the chart-->
-<!--                    var chart = new ApexCharts(document.querySelector("#chart2"), options2);-->
-<!--                    chart.render();-->
-<!--                },-->
-<!--                error: function (xhr, status, error) {-->
-<!--                    console.error(error);-->
-<!--                }-->
-<!--            });-->
-<!--        }-->
-<!--        var initialSelectedValue = $("#timeOption2").val();-->
-<!--        fetchChartData(initialSelectedValue);-->
-
-<!--        $("#timeOption2").change(function() {-->
-<!--            var selectedValue = $(this).val();-->
-<!--            fetchChartData(selectedValue);-->
-<!--        });-->
-
-<!--    });-->
-
-
-<!--</script>-->
 
 </body>
 

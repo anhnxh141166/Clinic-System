@@ -74,7 +74,7 @@ public class ForgotPasswordController {
         helper.setTo(email);
 
         String subject = "This is your token";
-        String content = "<h2>"+token+"</h2>";
+        String content = "<h2> This is your code reset password: "+"<span style='color: red'>"+token+"</span>"+"</h2>";
         helper.setSubject(subject);
         helper.setText(content, true);
         mailSender.send(message);
