@@ -156,9 +156,7 @@ public class AppointmentService {
 //        return appointmentRepository.getAppointmentsByMonth(month);
 //    }
 
-    public Double getRevenueByMonth(int month){
-        LocalDate currentDate = LocalDate.now();
-        int year = currentDate.getYear();
+    public Double getRevenueByMonth(int year, int month){
         double total = 0;
         List<Appointment> appointments = appointmentRepository.findByDateYearAndDateMonthAndStatus(year, month);
 
@@ -185,9 +183,7 @@ public class AppointmentService {
         return total;
     }
 
-    public int countAppointmentByMonth(int month){
-        LocalDate currentDate = LocalDate.now();
-        int year = currentDate.getYear();
+    public int countAppointmentByMonth(int year, int month){
         return appointmentRepository.countAppointmentByMonth(year, month);
     }
 

@@ -76,89 +76,34 @@ public class AdminController {
         ChartDataResponse response = new ChartDataResponse();
         double[] data;
         String[] categories1 = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-        String[] categories2 = {
-                "Day 1",
-                "Day 2",
-                "Day 3",
-                "Day 4",
-                "Day 5",
-                "Day 6",
-                "Day 7",
-                "Day 8",
-                "Day 9",
-                "Day 10",
-                "Day 11",
-                "Day 12",
-                "Day 13",
-                "Day 14",
-                "Day 15",
-                "Day 16",
-                "Day 17",
-                "Day 18",
-                "Day 19",
-                "Day 20",
-                "Day 21",
-                "Day 22",
-                "Day 23",
-                "Day 24",
-                "Day 25",
-                "Day 26",
-                "Day 27",
-                "Day 28",
-                "Day 29",
-                "Day 30",
-                "Day 31",
-        };
+        int year = year = Integer.parseInt(option);;
         if (type.equals("chart1")){
             double revenueCurrent;
-            if (option.equals("month")) {
-                data = new double[13];
-                for (int month = 1; month <= 12; month++) {
-                    revenueCurrent = appointmentService.getRevenueByMonth(month);
+                data = new double[12];
+                for (int month = 0; month < 12; month++) {
+                    revenueCurrent = appointmentService.getRevenueByMonth(year,month);
                     System.out.println("testchart");
                     System.out.println(revenueCurrent);
                     data[month] = revenueCurrent;
                 }
                 response.setData(data);
                 response.setCategories(categories1);
-            } else if (option.equals("week")) {
-                data = new double[31];
-                for (int day = 1; day <= 30; day++) {
-                    revenueCurrent = appointmentService.getRevenueByDay(day);
-                    System.out.println("testchart");
-                    System.out.println(revenueCurrent);
-                    data[day] = revenueCurrent;
-                }
-                response.setData(data);
-                response.setCategories(categories2);
-            } else {
-                throw new IllegalArgumentException("Invalid option: " + option);
-            }
 
             if (data == null) {
                 data = new double[0];
             }
         }else{
             double appointmentNumber = 0;
-            if (option.equals("month")){
-                data = new double[13];
-                for (int month = 1; month <= 12; month++) {
-                    appointmentNumber = appointmentService.countAppointmentByMonth(month);
+                data = new double[12];
+
+                for (int month = 0; month < 12; month++) {
+                    appointmentNumber = appointmentService.countAppointmentByMonth(year,month);
                     data[month] = appointmentNumber;
                 }
                 response.setData(data);
                 response.setCategories(categories1);
-            } else if (option.equals("week")) {
-                data = new double[32];
-                for (int day = 1; day <= 31; day++) {
-                    appointmentNumber = appointmentService.countAppointmentByDay(day);
-                    data[day] = appointmentNumber;
-                }
-                response.setData(data);
-                response.setCategories(categories2);
-            }else {
-                throw new IllegalArgumentException("Invalid option: " + option);
-            }
+
+
         }
 
 
