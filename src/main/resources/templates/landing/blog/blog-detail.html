@@ -51,7 +51,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-7">
-                <img th:src="@{'~/assets/uploads/'+${blog.thumbnail}}" style="display: block; margin: auto; height: 380px; object-fit: contain;" class="img-fluid rounded shadow" alt="">
+                <img th:src="${blog.thumbnail}" style="display: block; margin: auto; height: 380px; object-fit: contain;" class="img-fluid rounded shadow" alt="">
 
                 <p class="text-muted mt-4" th:utext="${blog.content}"></p>
 
@@ -62,7 +62,7 @@
                         <div class="d-flex justify-content-between">
                             <div class="d-flex align-items-center">
                                 <a class="pe-3" href="#">
-                                    <img th:if="${comment.user.avatar}" th:src="@{'~/assets/uploads/'+${comment.user.avatar}}" class="img-fluid avatar avatar-md-sm rounded-circle shadow" alt="img">
+                                    <img th:if="${comment.user.avatar}" th:src="${comment.user.avatar}" class="img-fluid avatar avatar-md-sm rounded-circle shadow" alt="img">
                                     <img th:unless="${comment.user.avatar}" th:src="@{'~/assets/images/avatar.png'}" class="img-fluid avatar avatar-md-sm rounded-circle shadow" alt="img">
                                 </a>
                                 <div class="commentor-detail">
@@ -173,7 +173,7 @@
                                 <div class="clearfix post-recent d-flex align-items-center" th:each="blog, iter : ${blogs}" th:if="${iter.index} &lt; 5">
                                     <div class="post-recent-thumb float-start">
                                         <a th:href="@{/blog/{blogId}(blogId=${blog.blogId})}">
-                                            <img style="height: 66px; width: 100%; object-fit: cover;" alt="img" th:src="@{'~/assets/uploads/'+${blog.thumbnail}}" class="img-fluid rounded"></a>
+                                            <img style="height: 66px; width: 100%; object-fit: cover;" alt="img" th:src="${blog.thumbnail}" class="img-fluid rounded"></a>
                                     </div>
                                     <div class="post-recent-content float-start">
                                         <a th:href="@{/blog/{blogId}(blogId=${blog.blogId})}"

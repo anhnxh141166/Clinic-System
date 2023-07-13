@@ -60,7 +60,7 @@
                     <div class="col-lg-8 col-lg-7 mt-4">
                         <div class="card rounded shadow border-0 overflow-hidden">
                             <img style="height: 500px; object-fit: contain;"
-                                 th:src="@{'~/assets/uploads/'+${blog.thumbnail}}" class="img-fluid" alt="">
+                                 th:src="${blog.thumbnail}" class="img-fluid" alt="">
 
                             <div class="p-4">
                                 <p class="text-muted py-2" th:text="${blog.summary}"></p>
@@ -78,7 +78,7 @@
                                             <div class="d-flex justify-content-between">
                                                 <div class="d-flex align-items-center">
                                                     <a class="pe-3" href="#">
-                                                        <img th:src="@{'~/assets/uploads/'+${comment.user.avatar}}"
+                                                        <img th:src="${comment.user.avatar}"
                                                              class="img-fluid avatar avatar-md-sm rounded-circle shadow"
                                                              alt="img">
                                                     </a>
@@ -154,7 +154,7 @@
                                              th:if="${iterStat.index} &lt; 3">
                                             <div class="post-recent-thumb float-start"><a
                                                     th:href="@{/admin/blog/{blogId}(blogId=${blog.blogId})}"> <img
-                                                    alt="img" th:src="@{'~/assets/uploads/'+${blog.thumbnail}}"
+                                                    alt="img" th:src="${blog.thumbnail}"
                                                     style="object-fit: cover;"
                                                     class="img-fluid rounded"></a></div>
                                             <div class="post-recent-content float-start">

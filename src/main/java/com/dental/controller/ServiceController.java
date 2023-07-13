@@ -136,11 +136,9 @@ public class ServiceController {
             return "admin/service/add-service";
         }
 
-        String fileName = UploadFile.getFileName(multipartFile);
-        service.setThumbnail(fileName);
-
         try {
-            UploadFile.saveFile(fileName, multipartFile);
+            String filename = UploadFile.saveFile(multipartFile);
+            service.setThumbnail(filename);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -181,9 +179,9 @@ public class ServiceController {
             String fileName = UploadFile.getFileName(multipartFile);
 
             if (!fileName.isEmpty()) {
-                service.setThumbnail(fileName);
                 try {
-                    UploadFile.saveFile(fileName, multipartFile);
+                    String filename = UploadFile.saveFile(multipartFile);
+                    service.setThumbnail(filename);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -280,6 +278,6 @@ public class ServiceController {
         model.addAttribute("numberOfPage", feedbacksByServiceId.getTotalPages());
         model.addAttribute("avg", avg);
 
-        return "/landing/service/service-detail";
+        return "landing/service/service-detail";
     }
 }

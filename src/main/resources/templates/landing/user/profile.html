@@ -43,7 +43,7 @@
                             <div class="row align-items-center">
                                 <div class="col-lg-2 col-md-4">
                                     <div class="preview-box avatar avatar-md-md rounded-pill shadow mx-auto d-block">
-                                        <img th:if="${user.avatar}" th:src="@{'~/assets/uploads/'+${user.avatar}}"
+                                        <img th:if="${user.avatar}" th:src="${user.avatar}"
                                              style="border-radius: 50%; height: 100%;"
                                              class="preview-content w-100" src=${reader.result}/>
                                     </div>

@@ -164,7 +164,7 @@
                                     <td class="p-3">
                                         <a href="#" class="text-dark " th:each="service : ${appointment.service}">
                                             <div class="d-flex align-items-center mt-2">
-                                                <img th:src="@{'~/assets/uploads/'+${service.thumbnail}}"
+                                                <img th:src="${service.thumbnail}"
                                                      class="avatar avatar-md-sm rounded-circle shadow" alt="">
                                                 <span class="ms-2" th:text="${service.title}"></span>
                                             </div>
@@ -176,7 +176,7 @@
                                         <a href="#" class="text-dark" th:if="${appointment.doctor}">
                                             <div class="d-flex align-items-center">
                                                 <img th:if="${appointment.doctor?.user.avatar}"
-                                                     th:src="@{'~/assets/uploads/'+${appointment.doctor.user.avatar}}"
+                                                     th:src="${appointment.doctor.user.avatar}"
                                                      class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                                                 <img th:unless="${appointment.doctor?.user.avatar}"
                                                      th:src="@{'~/assets/images/avatar.png'}"
@@ -213,7 +213,7 @@
                                     <td class="p-3">
                                         <a href="#" class="text-dark ">
                                             <div class="d-flex align-items-center mt-2">
-                                                <img th:src="@{'~/assets/uploads/'+${service.thumbnail}}"
+                                                <img th:src="${service.thumbnail}"
                                                      class="avatar avatar-md-sm rounded-circle shadow" alt="">
                                                 <span class="ms-2" th:text="${service.title}"></span>
                                             </div>

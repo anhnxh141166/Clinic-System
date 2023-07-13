@@ -65,7 +65,7 @@ public class AppointmentController {
         model.addAttribute("user", new User());
         model.addAttribute("services", serviceService.getAll());
         model.addAttribute("selectedServices", serviceIds);
-        return "/landing/appointment/booking";
+        return "landing/appointment/booking";
     }
 
     @GetMapping("/appointments")
@@ -117,7 +117,7 @@ public class AppointmentController {
         model.addAttribute("status", status);
         model.addAttribute("date", date);
         model.addAttribute("numberOfPage", appointments.getTotalPages());
-        return "/landing/appointment/appointments";
+        return "landing/appointment/appointments";
     }
 
     @GetMapping("/appointment/{appointmentId}")
@@ -161,7 +161,7 @@ public class AppointmentController {
         model.addAttribute("appointment", appointment);
         model.addAttribute("rateStar", new RateStar());
         model.addAttribute("totalPrice", totalPrice);
-        return "/landing/appointment/appointment-detail";
+        return "landing/appointment/appointment-detail";
     }
 
     @PostMapping("/booking/save")
@@ -199,7 +199,7 @@ public class AppointmentController {
         if (result.hasErrors() || userResult.hasFieldErrors("phoneNumber") || hasErr) {
             model.addAttribute("services", serviceService.getAll());
             model.addAttribute("selectedServices", serviceIds);
-            return "/landing/appointment/booking";
+            return "landing/appointment/booking";
         }
 
         LocalDate currentDate = LocalDate.now();
@@ -216,14 +216,14 @@ public class AppointmentController {
                 model.addAttribute("services", serviceService.getAll());
                 model.addAttribute("selectedServices", serviceIds);
                 model.addAttribute("time", "Booking time for this morning is over");
-                return "/landing/appointment/booking";
+                return "landing/appointment/booking";
             }
 
             if (appointment.getTime().equals("Afternoon") && Integer.parseInt(hour24Format) >= 15) {
                 model.addAttribute("services", serviceService.getAll());
                 model.addAttribute("selectedServices", serviceIds);
                 model.addAttribute("time", "Booking time for this day is over");
-                return "/landing/appointment/booking";
+                return "landing/appointment/booking";
             }
         }
 
@@ -233,7 +233,7 @@ public class AppointmentController {
             model.addAttribute("errMes", "This slot is full. You can book another slot or day!");
             model.addAttribute("services", serviceService.getAll());
             model.addAttribute("selectedServices", serviceIds);
-            return "/landing/appointment/booking";
+            return "landing/appointment/booking";
         }
         List<Service> selectedServices = serviceService.getAllByIds(serviceIds);
         int patientId = userDetails.getUserEntity().getUserId();
@@ -246,7 +246,7 @@ public class AppointmentController {
             appointmentService.save(appointment);
             return "redirect:/appointments";
         } catch (Error e) {
-            return "/landing/appointment/booking";
+            return "landing/appointment/booking";
         }
     }
 
@@ -337,7 +337,7 @@ public class AppointmentController {
         model.addAttribute("user", userService.get(userDetails.getUserEntity().getUserId()));
         model.addAttribute("fullName", fullName);
 
-        return "/admin/appointment/appointment";
+        return "admin/appointment/appointment";
     }
 
 

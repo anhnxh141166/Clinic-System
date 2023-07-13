@@ -81,7 +81,7 @@
                                         </div>
                                     </div>
 
-                                    <a th:href="@{/admin/blog/{blogId}(blogId=${blog.blogId})}"><img th:src="@{'~/assets/uploads/'+${blog.thumbnail}}" class="img-fluid" alt=""></a>
+                                    <a th:href="@{/admin/blog/{blogId}(blogId=${blog.blogId})}"><img th:src="${blog.thumbnail}" class="img-fluid" alt=""></a>
                                     <div class="card-body p-4">
                                         <ul class="list-unstyled mb-2">
                                             <i class="mdi mdi-account"></i>

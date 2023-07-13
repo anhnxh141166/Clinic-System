@@ -110,28 +110,28 @@
 <!-- Hero End -->
 
 <!-- javascript -->
-<script src="../assets/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{~/assets/js/bootstrap.bundle.min.js}"></script>
 <!-- Icons -->
-<script src="../assets/js/feather.min.js"></script>
+<script th:src="@{~/assets/js/feather.min.js}"></script>
 <!-- Main Js -->
-<script src="../assets/js/app.js"></script>
+<script th:src="@{~/assets/js/app.js}"></script>
 
 <!--   validate     -->
 
-<!--<script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js"></script>-->
-<script src="../assets/js/jquery-3.2.1.min.js"></script>
-<!--<script scr="../assets/js/jquery.validate.js"></script>-->
-<script src="../assets/js/additional-methods.js"></script>
-<script src="../assets/js/jquery.validate.js"></script>
+<!--<script th:src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js"></script>-->
+<script th:src="@{~/assets/js/jquery-3.2.1.min.js}"></script>
+<!--<script scr="@{~/assets/js/jquery.validate.js"></script>-->
+<script th:src="@{~/assets/js/additional-methods.js}"></script>
+<script th:src="@{~/assets/js/jquery.validate.js}"></script>
 <!-- View Invoice End -->
 
 <!--only validate full name-->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 
-<script src="../assets/js/jquery-3.2.1.min.js"></script>
-<script src="../assets/js/additional-methods.js"></script>
-<script src="../assets/js/jquery.validate.js"></script>
+<script th:src="@{~/assets/js/jquery-3.2.1.min.js}"></script>
+<script th:src="@{~/assets/js/additional-methods.js}"></script>
+<script th:src="@{~/assets/js/jquery.validate.js}"></script>
 <script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js"></script>
 
 <script>
@@ -148,6 +148,11 @@
         // return value.indexOf(" ") < 0;
         return /^\S+$/.test(value);
     }, "Password should not contain spaces.");
+    //bo sung
+    $.validator.addMethod("oneLessCharacter", function (value, element) {
+        // return value.indexOf(" ") < 0;
+        return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z!@#$%^&*~\d]{8,}$/.test(value);
+    }, "Password must has at least one character and one number.");
     $(document).ready(function () {
         $('#signupForm').validate({
             rules: {
@@ -166,7 +171,8 @@
                     required: true,
                     minlength: 8,
                     maxlength: 30,
-                    noSpace: true
+                    noSpace: true,
+                    oneLessCharacter: true
                 }
             },
             messages: {

@@ -264,9 +264,9 @@ public class UserController {
             String fileName = UploadFile.getFileName(multipartFile);
 
             if (!fileName.isEmpty()) {
-                user.setAvatar(fileName);
                 try {
-                    UploadFile.saveFile(fileName, multipartFile);
+                    String filename = UploadFile.saveFile(multipartFile);
+                    user.setAvatar(filename);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -396,14 +396,12 @@ public class UserController {
             return "admin/user/add-user";
         }
 
-        String fileName = UploadFile.getFileName(multipartFile);
-        user.setAvatar(fileName);
-
         user.setPassword(passwordEncoder.encode("minh123456789"));
         user.setRole("Staff");
 
         try {
-            UploadFile.saveFile(fileName, multipartFile);
+            String filename = UploadFile.saveFile(multipartFile);
+            user.setAvatar(filename);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -468,9 +466,9 @@ public class UserController {
             String fileName = UploadFile.getFileName(multipartFile);
 
             if (!fileName.isEmpty()) {
-                user.setAvatar(fileName);
                 try {
-                    UploadFile.saveFile(fileName, multipartFile);
+                    String filename = UploadFile.saveFile(multipartFile);
+                    user.setAvatar(filename);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

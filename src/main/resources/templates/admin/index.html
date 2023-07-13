@@ -241,6 +241,8 @@ chart.render()
         function fetchChartData(option) {
 
             $.getJSON("/chart-data?type=chart1&option=" + option, function(response) {
+                const newXaxis = response.categories.map(val => val + "-" + option)
+
                 console.log('heaeharha1')
                 chart.updateOptions({
                     series: [{
@@ -248,7 +250,7 @@ chart.render()
                         data: response.data
                     }],
                     xaxis: {
-                        categories: response.categories
+                        categories: newXaxis
                     }
                 })
             })}
@@ -319,13 +321,15 @@ chart.render()
             $.getJSON("/chart-data?type=chart2&option=" + option, function(response) {
                 console.log('heaeharha2')
                 console.log(selectedValue)
+                const newXaxis = response.categories.map(val => val + "-" + option)
+
                 chart2.updateOptions({
                     series: [{
                         name: "Appointment",
                         data: response.data
                     }],
                     xaxis: {
-                        categories: response.categories
+                        categories: newXaxis
                     }
                 })
             })}

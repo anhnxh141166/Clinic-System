@@ -164,7 +164,7 @@
                             <ul class="list-unstyled mb-0 p-4" data-simplebar style="height: 664px;">
                                 <li class="d-md-flex align-items-center text-center text-md-start mt-4"
                                     th:each="doctor, iterStat : ${doctors}" th:if="${iterStat.index} &lt; 5">
-                                    <a th:href="@{/admin/doctor/{doctorId}(doctorId=${doctor.doctorId})}"><img th:src="@{'~/assets/uploads/'+${doctor.user.avatar}}"
+                                    <a th:href="@{/admin/doctor/{doctorId}(doctorId=${doctor.doctorId})}"><img th:src="${doctor.user.avatar}"
                                                                                                                class="avatar avatar-medium rounded-md shadow" alt=""></a>
 
                                     <div class="ms-md-3 mt-4 mt-sm-0">

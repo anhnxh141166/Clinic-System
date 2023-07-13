@@ -89,7 +89,7 @@
                                             <td class="py-3">
                                                 <a href="#" class="text-dark">
                                                     <div class="d-flex align-items-center">
-                                                        <img th:if="${patient.user.avatar}" th:src="@{'~/assets/uploads/'+${patient.user.avatar}}"
+                                                        <img th:if="${patient.user.avatar}" th:src="${patient.user.avatar}"
                                                              class="avatar avatar-md-sm rounded-circle shadow" alt="">
                                                         <img th:unless="${patient.user.avatar}" th:src="@{'~/assets/images/avatar.png'}"
                                                              class="avatar avatar-md-sm rounded-circle shadow" alt="">

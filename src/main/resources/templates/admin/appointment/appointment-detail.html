@@ -57,13 +57,13 @@
                                         <div class="col-lg-2 col-md-4">
                                             <div class="preview-box avatar avatar-md-md rounded-pill shadow mx-auto d-block">
                                                 <img th:if="${appointment.patient.user.avatar != null}"
-                                                     th:src="@{'~/assets/uploads/'+${appointment.patient.user.avatar}}"
+                                                     th:src="${appointment.patient.user.avatar}"
                                                      style="border-radius: 50%; height: 100%;"
-                                                     class="preview-content w-100 text-lg-center" src=${reader.result}/>
+                                                     class="preview-content w-100 text-lg-center"  />
                                                 <img th:if="${appointment.patient.user.avatar == null}"
                                                      th:src="@{'~/assets/images/avatar.png'}"
                                                      style="border-radius: 50%; height: 100%;"
-                                                     class="preview-content w-100 text-lg-center" src=${reader.result}/>
+                                                     class="preview-content w-100 text-lg-center" />
                                             </div>
                                         </div><!--end col-->
                                     </div><!--end row-->
@@ -140,13 +140,13 @@
                                         <div class="col-lg-2 col-md-4">
                                             <div class="preview-box avatar avatar-md-md rounded-pill shadow mx-auto d-block">
                                                 <img th:if="${appointment.doctor.user.avatar != null}"
-                                                     th:src="@{'~/assets/uploads/'+${appointment.doctor.user.avatar}}"
+                                                     th:src="${appointment.doctor.user.avatar}"
                                                      style="border-radius: 50%; height: 100%;"
-                                                     class="preview-content w-100 text-lg-center" src=${reader.result}/>
+                                                     class="preview-content w-100 text-lg-center" />
                                                 <img th:if="${appointment.doctor.user.avatar == null}"
                                                      th:src="@{'~/assets/images/avatar.png'}"
                                                      style="border-radius: 50%; height: 100%;"
-                                                     class="preview-content w-100 text-lg-center" src=${reader.result}/>
+                                                     class="preview-content w-100 text-lg-center" />
                                             </div>
                                         </div><!--end col-->
                                     </div><!--end row-->

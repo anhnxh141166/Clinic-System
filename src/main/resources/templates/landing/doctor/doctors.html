@@ -68,7 +68,7 @@
                                 <a th:href="@{/doctor/{doctorId}(doctorId=${doctor.doctorId})}" class="doctor-detail"
                                    data-bs-toggle="modal" th:data-bs-target="'#viewprofile' + ${doctor.doctorId}" th:data-id="${doctor.doctorId}">
                                     <!--                                <a th:href="@{/doctor/{doctorId}(doctorId=${doctor.doctorId})}" class="doctor-detail">-->
-                                    <img th:src="@{'~/assets/uploads/'+${doctor.user.avatar}}" class="img-fluid" alt="">
+                                    <img th:src="${doctor.user.avatar}" class="img-fluid" alt="">
                                 </a>
                             </div>
                         </div>
@@ -106,7 +106,7 @@
                             </div>
                             <div class="modal-body p-3 pt-4">
                                 <div class="d-flex align-items-center">
-                                    <img th:src="@{'~/assets/uploads/'+${doctor.user.avatar}}" class="avatar avatar-small rounded-pill" alt="">
+                                    <img th:src="${doctor.user.avatar}" class="avatar avatar-small rounded-pill" alt="">
                                     <h5 class="mb-0 ms-3 doctor-name"></h5>
                                 </div>
                                 <ul class="list-unstyled mb-0 d-md-flex justify-content-between mt-4">
