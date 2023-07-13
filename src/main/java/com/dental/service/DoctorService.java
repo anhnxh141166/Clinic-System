@@ -40,11 +40,11 @@ public class DoctorService  {
     }
 
     public Page<Doctor> findAllByUserStatusAndUserFullNameAndUserGender(boolean status ,String fullName, String gender, Pageable pageable) {
-        return doctorRepository.findAllByUserStatusAndUserFullNameAndUserGender(status, fullName, gender, pageable);
+        return doctorRepository.findAllByUserStatusAndUserFullNameContainingAndUserGender(status, fullName, gender, pageable);
     }
 
     public Page<Doctor> findAllByUserStatusAndUserFullName(boolean status ,String fullName, Pageable pageable) {
-        return doctorRepository.findAllByUserStatusAndUserFullName(status, fullName, pageable);
+        return doctorRepository.findAllByUserStatusAndUserFullNameContaining(status, fullName, pageable);
     }
 
     public Page<Doctor> findAllByUserStatusAndUserGender(boolean status ,String gender, Pageable pageable) {
@@ -52,11 +52,11 @@ public class DoctorService  {
     }
 
     public Page<Doctor> findAllByUserFullNameAndUserGender(String fullName ,String gender, Pageable pageable) {
-        return doctorRepository.findAllByUserFullNameAndUserGender(fullName, gender, pageable);
+        return doctorRepository.findAllByUserFullNameContainingAndUserGender(fullName, gender, pageable);
     }
 
     public Page<Doctor> findAllByUserFullName(String fullName, Pageable pageable) {
-        return doctorRepository.findAllByUserFullName(fullName, pageable);
+        return doctorRepository.findAllByUserFullNameContaining(fullName, pageable);
     }
 
     public Page<Doctor> findAllByUserStatus(boolean status, Pageable pageable) {
@@ -73,7 +73,7 @@ public class DoctorService  {
     }
 
     public Page<Doctor> findAllByUserFullNameAndUserStatusTrue(String fullName, Pageable pageable) {
-        return doctorRepository.findAllByUserFullNameAndUserStatusTrue(fullName, pageable);
+        return doctorRepository.findAllByUserFullNameContainingAndUserStatusTrue(fullName, pageable);
     }
 
     public List<Doctor> getAllDoctorEmptyCalendar(Date date, String time){

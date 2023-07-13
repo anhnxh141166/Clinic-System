@@ -20,15 +20,15 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     public User findByToken(String token);
 
-    Page<User> findAllByStatusAndFullNameAndRole(boolean status, String name, String role, Pageable pageable);
+    Page<User> findAllByStatusAndFullNameContainingAndRole(boolean status, String name, String role, Pageable pageable);
 
-    Page<User> findAllByStatusAndFullName(boolean status, String name, Pageable pageable);
+    Page<User> findAllByStatusAndFullNameContaining(boolean status, String name, Pageable pageable);
 
     Page<User> findAllByStatusAndRole(boolean status, String role, Pageable pageable);
 
-    Page<User> findAllByFullNameAndRole(String fullName, String role, Pageable pageable);
+    Page<User> findAllByFullNameContainingAndRole(String fullName, String role, Pageable pageable);
 
-    Page<User> findAllByFullName(String fullName, Pageable pageable);
+    Page<User> findAllByFullNameContaining(String fullName, Pageable pageable);
 
     Page<User> findAllByStatus(boolean status, Pageable pageable);
 

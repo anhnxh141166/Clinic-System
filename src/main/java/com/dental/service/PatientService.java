@@ -44,11 +44,11 @@ public class PatientService {
     }
 
     public Page<Patient> findAllByUserStatusAndUserFullNameAndUserGender(boolean status ,String fullName, String gender, Pageable pageable) {
-        return patientRepository.findAllByUserStatusAndUserFullNameAndUserGender(status, fullName, gender, pageable);
+        return patientRepository.findAllByUserStatusAndUserFullNameContainingAndUserGender(status, fullName, gender, pageable);
     }
 
     public Page<Patient> findAllByUserStatusAndUserFullName(boolean status ,String fullName, Pageable pageable) {
-        return patientRepository.findAllByUserStatusAndUserFullName(status, fullName, pageable);
+        return patientRepository.findAllByUserStatusAndUserFullNameContaining(status, fullName, pageable);
     }
 
     public Page<Patient> findAllByUserStatusAndUserGender(boolean status ,String gender, Pageable pageable) {
@@ -56,11 +56,11 @@ public class PatientService {
     }
 
     public Page<Patient> findAllByUserFullNameAndUserGender(String fullName ,String gender, Pageable pageable) {
-        return patientRepository.findAllByUserFullNameAndUserGender(fullName, gender, pageable);
+        return patientRepository.findAllByUserFullNameContainingAndUserGender(fullName, gender, pageable);
     }
 
     public Page<Patient> findAllByUserFullName(String fullName, Pageable pageable) {
-        return patientRepository.findAllByUserFullName(fullName, pageable);
+        return patientRepository.findAllByUserFullNameContaining(fullName, pageable);
     }
 
     public Page<Patient> findAllByUserStatus(boolean status, Pageable pageable) {
@@ -77,6 +77,6 @@ public class PatientService {
     }
 
     public Page<Patient> findAllByUserFullNameAndUserStatusTrue(String fullName, Pageable pageable) {
-        return patientRepository.findAllByUserFullNameAndUserStatusTrue(fullName, pageable);
+        return patientRepository.findAllByUserFullNameContainingAndUserStatusTrue(fullName, pageable);
     }
 }

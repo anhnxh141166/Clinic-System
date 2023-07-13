@@ -17,15 +17,15 @@ import java.util.List;
 public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
     Page<Doctor> findAll(Pageable pageable);
 
-    Page<Doctor> findAllByUserStatusAndUserFullNameAndUserGender(boolean status, String name, String gender, Pageable pageable);
+    Page<Doctor> findAllByUserStatusAndUserFullNameContainingAndUserGender(boolean status, String name, String gender, Pageable pageable);
 
-    Page<Doctor> findAllByUserStatusAndUserFullName(boolean status, String name, Pageable pageable);
+    Page<Doctor> findAllByUserStatusAndUserFullNameContaining(boolean status, String name, Pageable pageable);
 
     Page<Doctor> findAllByUserStatusAndUserGender(boolean status, String gender, Pageable pageable);
 
-    Page<Doctor> findAllByUserFullNameAndUserGender(String fullName, String gender, Pageable pageable);
+    Page<Doctor> findAllByUserFullNameContainingAndUserGender(String fullName, String gender, Pageable pageable);
 
-    Page<Doctor> findAllByUserFullName(String fullName, Pageable pageable);
+    Page<Doctor> findAllByUserFullNameContaining(String fullName, Pageable pageable);
 
     Page<Doctor> findAllByUserStatus(boolean status, Pageable pageable);
 
@@ -39,7 +39,7 @@ public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
     // User Page
     Page<Doctor> findAllByUserStatusTrue(Pageable pageable);
 
-    Page<Doctor> findAllByUserFullNameAndUserStatusTrue(String fullName, Pageable pageable);
+    Page<Doctor> findAllByUserFullNameContainingAndUserStatusTrue(String fullName, Pageable pageable);
 
     @Transactional
     @Modifying

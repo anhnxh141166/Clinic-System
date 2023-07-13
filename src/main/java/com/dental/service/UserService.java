@@ -101,11 +101,11 @@ public class UserService {
     }
 
     public Page<User> findAllByStatusAndFullNameAndRole(boolean status , String fullName, String role, Pageable pageable) {
-        return userRepository.findAllByStatusAndFullNameAndRole(status, fullName, role, pageable);
+        return userRepository.findAllByStatusAndFullNameContainingAndRole(status, fullName, role, pageable);
     }
 
     public Page<User> findAllByStatusAndFullName(boolean status ,String fullName, Pageable pageable) {
-        return userRepository.findAllByStatusAndFullName(status, fullName, pageable);
+        return userRepository.findAllByStatusAndFullNameContaining(status, fullName, pageable);
     }
 
     public Page<User> findAllByStatusAndRole(boolean status ,String role, Pageable pageable) {
@@ -113,11 +113,11 @@ public class UserService {
     }
 
     public Page<User> findAllByFullNameAndRole(String fullName ,String role, Pageable pageable) {
-        return userRepository.findAllByFullNameAndRole(fullName, role, pageable);
+        return userRepository.findAllByFullNameContainingAndRole(fullName, role, pageable);
     }
 
     public Page<User> findAllByFullName(String fullName, Pageable pageable) {
-        return userRepository.findAllByFullName(fullName, pageable);
+        return userRepository.findAllByFullNameContaining(fullName, pageable);
     }
 
     public Page<User> findAllByStatus(boolean status, Pageable pageable) {

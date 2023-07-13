@@ -13,15 +13,15 @@ import org.springframework.transaction.annotation.Transactional;
 public interface PatientRepository extends JpaRepository<Patient, Integer> {
     Page<Patient> findAll(Pageable pageable);
 
-    Page<Patient> findAllByUserStatusAndUserFullNameAndUserGender(boolean status, String name, String gender, Pageable pageable);
+    Page<Patient> findAllByUserStatusAndUserFullNameContainingAndUserGender(boolean status, String name, String gender, Pageable pageable);
 
-    Page<Patient> findAllByUserStatusAndUserFullName(boolean status, String name, Pageable pageable);
+    Page<Patient> findAllByUserStatusAndUserFullNameContaining(boolean status, String name, Pageable pageable);
 
     Page<Patient> findAllByUserStatusAndUserGender(boolean status, String gender, Pageable pageable);
 
-    Page<Patient> findAllByUserFullNameAndUserGender(String fullName, String gender, Pageable pageable);
+    Page<Patient> findAllByUserFullNameContainingAndUserGender(String fullName, String gender, Pageable pageable);
 
-    Page<Patient> findAllByUserFullName(String fullName, Pageable pageable);
+    Page<Patient> findAllByUserFullNameContaining(String fullName, Pageable pageable);
 
     Page<Patient> findAllByUserStatus(boolean status, Pageable pageable);
 
@@ -35,5 +35,5 @@ public interface PatientRepository extends JpaRepository<Patient, Integer> {
     // User Page
     Page<Patient> findAllByUserStatusTrue(Pageable pageable);
 
-    Page<Patient> findAllByUserFullNameAndUserStatusTrue(String fullName, Pageable pageable);
+    Page<Patient> findAllByUserFullNameContainingAndUserStatusTrue(String fullName, Pageable pageable);
 }
