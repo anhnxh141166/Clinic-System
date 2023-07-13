@@ -146,14 +146,12 @@ public class DoctorController {
             return "admin/doctor/add-doctor";
         }
 
-        String fileName = UploadFile.getFileName(multipartFile);
-        user.setAvatar(fileName);
-
         user.setPassword(passwordEncoder.encode("minh123456789"));
         user.setRole("Doctor");
 
         try {
-            UploadFile.saveFile(fileName, multipartFile);
+            String filename = UploadFile.saveFile(multipartFile);
+            user.setAvatar(filename);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -223,9 +221,9 @@ public class DoctorController {
             String fileName = UploadFile.getFileName(multipartFile);
 
             if (!fileName.isEmpty()) {
-                user.setAvatar(fileName);
                 try {
-                    UploadFile.saveFile(fileName, multipartFile);
+                    String filename = UploadFile.saveFile(multipartFile);
+                    user.setAvatar(filename);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

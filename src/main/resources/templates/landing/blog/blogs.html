@@ -71,7 +71,7 @@
             <div class="col-lg-4 col-md-6 col-12 mb-4 pb-2" th:each="blog : ${usesPage}">
                 <div class="card blog blog-primary border-0 shadow rounded overflow-hidden">
                     <a th:href="@{/blog/{blogId}(blogId=${blog.blogId})}"><img
-                            th:src="@{'~/assets/uploads/'+${blog.thumbnail}}" class="img-fluid" alt=""></a>
+                            th:src="${blog.thumbnail}" class="img-fluid" alt=""></a>
                     <div class="card-body p-4">
                         <ul class="list-unstyled mb-2">
                             <i class="mdi mdi-account text-dark h6 me-1"></i>

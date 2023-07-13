@@ -178,9 +178,9 @@ public class PatientController {
             String fileName = UploadFile.getFileName(multipartFile);
 
             if (!fileName.isEmpty()) {
-                user.setAvatar(fileName);
                 try {
-                    UploadFile.saveFile(fileName, multipartFile);
+                    String filename = UploadFile.saveFile(multipartFile);
+                    user.setAvatar(filename);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

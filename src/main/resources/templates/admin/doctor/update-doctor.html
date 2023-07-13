@@ -42,7 +42,7 @@
                                 <div class="row align-items-center justify-content-between">
                                     <div class="col-lg-2 col-md-4">
                                         <div class="preview-box avatar avatar-md-md rounded-pill shadow mx-auto d-block">
-                                            <img th:if="${user.avatar}" th:src="@{'~/assets/uploads/'+${user.avatar}}" style="border-radius: 50%; height: 100%;"
+                                            <img th:if="${user.avatar}" th:src="${user.avatar}" style="border-radius: 50%; height: 100%;"
                                                  class="preview-content w-100" src=${reader.result} />
                                         </div>
                                     </div><!--end col-->
@@ -174,7 +174,7 @@
                             <ul class="list-unstyled mb-0 p-4" data-simplebar style="height: 664px;">
                                 <li class="d-md-flex align-items-center text-center text-md-start mt-4"
                                     th:each="doctor, iterStat : ${doctors}" th:if="${iterStat.index} &lt; 5">
-                                    <a th:href="@{/admin/doctor/{doctorId}(doctorId=${doctor.doctorId})}"><img th:src="@{'~/assets/uploads/'+${doctor.user.avatar}}"
+                                    <a th:href="@{/admin/doctor/{doctorId}(doctorId=${doctor.doctorId})}"><img th:src="${doctor.user.avatar}"
                                                                                                                class="avatar avatar-medium rounded-md shadow" alt=""></a>
 
                                     <div class="ms-md-3 mt-4 mt-sm-0">

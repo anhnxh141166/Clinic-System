@@ -136,65 +136,143 @@
         <!-- Hero End -->
         
         <!-- javascript -->
-        <script src="../assets/js/bootstrap.bundle.min.js"></script>
+        <script th:src="@{~/assets/js/bootstrap.bundle.min.js}"></script>
         <!-- Icons -->
-        <script src="../assets/js/feather.min.js"></script>
+        <script th:src="@{~/assets/js/feather.min.js}"></script>
         <!-- Main Js -->
-        <script src="../assets/js/app.js"></script>
+        <script th:src="@{~/assets/js/app.js}"></script>
         <!-- Valitadate import   -->
         <script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js"></script>
         <!--  code validate      -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <!--        validate-->
+        <script th:src="@{~/assets/js/jquery-3.2.1.min.js}"></script>
+        <!--<script scr="@{~/ssets/js/jquery.validate.js"></script>-->
+        <script th:src="@{~/assets/js/additional-methods.js}"></script>
+        <script th:src="@{~/assets/js/jquery.validate.js}"></script>
+        <!-- View Invoice End -->
+
+        <!--only validate full name-->
+        <!--        <script th:src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+        <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+
+        <script th:src="@{~/assets/js/jquery-3.2.1.min.js}"></script>
+        <script th:src="@{~/assets/js/additional-methods.js}"></script>
+        <script th:src="@{~/assets/js/jquery.validate.js}"></script>
+        <!--        <script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js"></script>-->
         <script>
             $(document).ready(function() {
                 $('#alertMessage').delay(2000).fadeOut('slow');
             });
         </script>
+<!--        <script>-->
+
+<!--            const validation = new JustValidate('#login-form', {-->
+<!--                validateBeforeSubmitting: true,-->
+<!--            });-->
+<!--            // const validator = new JustValidate('#change-password');-->
+<!--            validation-->
+<!--                .addField('#email', [-->
+<!--                    {-->
+<!--                        rule: 'required',-->
+<!--                    },-->
+<!--                    {-->
+<!--                        rule: 'email',-->
+<!--                    },-->
+<!--                ])-->
+
+<!--                .addField('#password', [-->
+<!--                    {-->
+<!--                        rule: 'minLength',-->
+<!--                        value: 8,-->
+<!--                    },-->
+<!--                    {-->
+<!--                        rule: 'maxLength',-->
+<!--                        value: 30,-->
+<!--                    },-->
+<!--                    {-->
+<!--                        rule: 'required',-->
+<!--                    },-->
+<!--                    {-->
+<!--                        rule: 'password',-->
+<!--                    }-->
+<!--                ]);-->
+
+
+
+<!--            const formLogin = document.getElementById('login-form');-->
+<!--            formLogin.addEventListener('submit', function(event) {-->
+<!--                event.preventDefault(); // Prevent the default form submission-->
+
+<!--                // Perform any validation or additional logic here-->
+
+<!--                // Submit the form using JavaScript-->
+<!--                formLogin.submit();-->
+<!--            });-->
+
+<!--        </script>-->
+
+
         <script>
 
-            const validation = new JustValidate('#login-form', {
-                validateBeforeSubmitting: true,
-            });
-            // const validator = new JustValidate('#change-password');
-            validation
-                .addField('#email', [
-                    {
-                        rule: 'required',
-                    },
-                    {
-                        rule: 'email',
-                    },
-                ])
+            $.validator.addMethod("lettersOnly", function (value, element) {
+                return this.optional(element) || /^[a-zA-Z\s]+$/.test(value);
+            }, "This field must contain only letters and spaces");
+            //password no space
+            $.validator.addMethod("noSpace", function (value, element) {
+                // return value.indexOf(" ") < 0;
+                return /^\S+$/.test(value);
+            }, "Password should not contain spaces.");
 
-                .addField('#password', [
-                    {
-                        rule: 'minLength',
-                        value: 8,
+            //bo sung
+            $.validator.addMethod("oneLessCharacter", function (value, element) {
+                // return value.indexOf(" ") < 0;
+                return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z!@#$%^&*~\d]{8,}$/.test(value);
+            }, "Password must has at least one character and one number.");
+
+            $(document).ready(function () {
+                $('#login-form').validate({
+                    rules: {
+                        email: {
+                            required: true,
+                            email: true
+                        },
+                        password: {
+                            required: true,
+                            minlength: 8,
+                            maxlength: 30,
+                            noSpace: true,
+                            oneLessCharacter: true
+                        }
                     },
-                    {
-                        rule: 'maxLength',
-                        value: 30,
+                    messages: {
+                        fullName: {
+                            required: "Please enter your full name",
+                            minlength: "Your full name must be at least 3 characters long",
+                            maxlength: "Your full name must be less than or equal to 30 characters long"
+                        },
+                        email: {
+                            required: "Please enter your email address",
+                            email: "Please enter a valid email address"
+                        },
+                        password: {
+                            required: "Please enter a password",
+                            minlength: "Your password must be at least 8 characters long",
+                            maxlength: "Your password must be less than or equal to 30 characters long"
+                        }
                     },
-                    {
-                        rule: 'required',
+                    errorElement: 'span',
+                    errorClass: 'text-danger',
+                    highlight: function (element, errorClass, validClass) {
+                        $(element).addClass('is-invalid');
                     },
-                    {
-                        rule: 'password',
+                    unhighlight: function (element, errorClass, validClass) {
+                        $(element).removeClass('is-invalid');
+                        $(element).addClass('is-valid');
                     }
-                ]);
-
-
-
-            const formLogin = document.getElementById('login-form');
-            formLogin.addEventListener('submit', function(event) {
-                event.preventDefault(); // Prevent the default form submission
-
-                // Perform any validation or additional logic here
-
-                // Submit the form using JavaScript
-                formLogin.submit();
+                });
             });
-
         </script>
     </body>
 

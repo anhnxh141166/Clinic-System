@@ -43,7 +43,7 @@
                                 <div class="row align-items-center justify-content-between">
                                     <div class="col-lg-2 col-md-4">
                                         <div class="preview-box avatar avatar-md-md rounded-pill shadow mx-auto d-block">
-                                            <img th:if="${service.thumbnail}" th:src="@{'~/assets/uploads/'+${service.thumbnail}}" style="border-radius: 50%; height: 100%;"
+                                            <img th:if="${service.thumbnail}" th:src="${service.thumbnail}" style="border-radius: 50%; height: 100%;"
                                                  class="preview-content w-100" src=${reader.result} />
                                         </div>
                                     </div><!--end col-->
@@ -140,7 +140,7 @@
                             <ul class="list-unstyled mb-0 p-4" data-simplebar style="height: 664px;">
                                 <li class="d-md-flex align-items-center text-center text-md-start mt-4"
                                     th:each="service, iterStat : ${services}" th:if="${iterStat.index} &lt; 5">
-                                    <img th:src="@{'~/assets/uploads/'+${service.thumbnail}}"
+                                    <img th:src="${service.thumbnail}"
                                          class="avatar avatar-medium rounded-md shadow" alt="">
 
                                     <div class="ms-md-3 mt-4 mt-sm-0">

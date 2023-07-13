@@ -95,7 +95,7 @@
                                             <td class="p-3">
                                                 <a href="#" class="text-dark">
                                                     <div class="d-flex align-items-center">
-                                                        <img th:if="${appointment.patient.user.avatar != null}" th:src="@{'~/assets/uploads/'+${appointment.patient.user.avatar}}"
+                                                        <img th:if="${appointment.patient.user.avatar != null}" th:src="${appointment.patient.user.avatar}"
                                                              class="avatar avatar-md-sm rounded-circle shadow" alt="">
                                                         <img th:if="${appointment.patient.user.avatar == null}" th:src="@{'~/assets/images/avatar.png'}"
                                                              class="avatar avatar-md-sm rounded-circle shadow" alt="">

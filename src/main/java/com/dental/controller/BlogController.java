@@ -124,11 +124,11 @@ public class BlogController {
             return "admin/blog/add-blog";
         }
 
-        String fileName = UploadFile.getFileName(multipartFile);
-        blog.setThumbnail(fileName);
 
         try {
-            UploadFile.saveFile(fileName, multipartFile);
+            String filename = UploadFile.saveFile(multipartFile);
+//            String fileName = UploadFile.getFileName(multipartFile);
+            blog.setThumbnail(filename);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -166,9 +166,9 @@ public class BlogController {
             String fileName = UploadFile.getFileName(multipartFile);
 
             if (!fileName.isEmpty()) {
-                blog.setThumbnail(fileName);
                 try {
-                    UploadFile.saveFile(fileName, multipartFile);
+                    String filename = UploadFile.saveFile(multipartFile);
+                    blog.setThumbnail(filename);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -254,6 +254,6 @@ public class BlogController {
         model.addAttribute("comments", commentsByBlogId);
         model.addAttribute("numberOfPage", commentsByBlogId.getTotalPages());
 
-        return "/landing/blog/blog-detail";
+        return "landing/blog/blog-detail";
     }
 }

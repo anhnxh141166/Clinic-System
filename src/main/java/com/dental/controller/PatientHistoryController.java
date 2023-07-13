@@ -105,7 +105,7 @@ public class PatientHistoryController {
         if (result.hasErrors() || appointmentResult.hasErrors()) {
             model.addAttribute("user", userService.get(userDetails.getUserEntity().getUserId()));
             model.addAttribute("appointment", app);
-            return "/landing/appointment/add-medical";
+            return "landing/appointment/add-medical";
         }
 
         try {
@@ -113,7 +113,7 @@ public class PatientHistoryController {
             patientHistoryService.save(patientHistory);
             return "redirect:/appointment/" + appointmentId;
         } catch (Error e) {
-            return "/landing/appointment/add-medical";
+            return "landing/appointment/add-medical";
         }
     }
 
@@ -183,7 +183,7 @@ public class PatientHistoryController {
         if (result.hasErrors() || appointmentResult.hasErrors()) {
             model.addAttribute("user", userService.get(userDetails.getUserEntity().getUserId()));
             model.addAttribute("appointment", app);
-            return "/landing/appointment/update-medical";
+            return "landing/appointment/update-medical";
         }
 
         String temperature = patientHistory.getTemperature();
@@ -211,7 +211,7 @@ public class PatientHistoryController {
             patientHistoryService.updatePatientHistory(temperature, bloodPressure, liver, diabetes, rheumatism, nerve, allergy, digest, respiratory, cardiovascular, kidney, other1, temporomandibularJoint, toothExtraction, orthodonticTreatment, dentalBraces, other2, date, note, appointmentId);
             return "redirect:/appointment/" + appointmentId;
         } catch (Error e) {
-            return "/landing/appointment/update-medical";
+            return "landing/appointment/update-medical";
         }
     }
 }

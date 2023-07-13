@@ -48,7 +48,7 @@
                                                 Image"
                                                 Button.</p>
                                             <div class="preview-box d-block justify-content-center rounded shadow overflow-hidden bg-light p-1">
-                                                <img th:if="${blog.thumbnail}" th:src="@{'~/assets/uploads/'+${blog.thumbnail}}" class="preview-content w-100" src=${reader.result} />
+                                                <img th:if="${blog.thumbnail}" th:src="${blog.thumbnail}" class="preview-content w-100" src=${reader.result} />
                                             </div>
 
                                             <p id="thumbnail" class="d-none" th:name="thumbnail" th:text="${blog.thumbnail}"></p>

@@ -83,7 +83,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-7 img-body">
-                <img th:src="@{'~/assets/uploads/'+${service.thumbnail}}" style="display: block; margin: auto; height: 380px; object-fit: contain;" class="img-fluid rounded shadow" alt="">
+                <img th:src="${service.thumbnail}" style="display: block; margin: auto; height: 380px; object-fit: contain;" class="img-fluid rounded shadow" alt="">
 
                 <p class="text-muted mt-4" th:utext="${service.content}"></p>
 
@@ -99,7 +99,7 @@
                         <div class="d-flex justify-content-between">
                             <div class="d-flex align-items-center">
                                 <a class="pe-3" href="#">
-                                    <img th:if="${feedback.user.avatar}" th:src="@{'~/assets/uploads/'+${feedback.user.avatar}}" class="img-fluid avatar avatar-md-sm rounded-circle shadow" alt="img">
+                                    <img th:if="${feedback.user.avatar}" th:src="${feedback.user.avatar}" class="img-fluid avatar avatar-md-sm rounded-circle shadow" alt="img">
                                     <img th:unless="${feedback.user.avatar}" th:src="@{'~/assets/images/avatar.png'}" class="img-fluid avatar avatar-md-sm rounded-circle shadow" alt="img">
                                 </a>
                                 <div class="feedbackor-detail">
@@ -216,7 +216,7 @@
                                 <div class="clearfix post-recent d-flex align-items-center" th:each="service, iter : ${services}" th:if="${iter.index} &lt; 5">
                                     <div class="post-recent-thumb float-start">
                                         <a th:href="@{/service/{serviceId}(serviceId=${service.serviceId})}">
-                                            <img style="height: 66px; width: 100%; object-fit: cover;" alt="img" th:src="@{'~/assets/uploads/'+${service.thumbnail}}" class="img-fluid rounded"></a>
+                                            <img style="height: 66px; width: 100%; object-fit: cover;" alt="img" th:src="${service.thumbnail}" class="img-fluid rounded"></a>
                                     </div>
                                     <div class="post-recent-content float-start">
                                         <a th:href="@{/admin/service/{serviceId}(serviceId=${service.serviceId})}"

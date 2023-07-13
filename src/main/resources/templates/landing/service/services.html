@@ -72,7 +72,7 @@
         <div class="card team border-0 rounded shadow overflow-hidden d-block">
           <div class="team-person position-relative overflow-hidden">
             <a th:href="@{/service/{serviceId}(serviceId=${service.serviceId})}"><img style="height: 250px; object-fit: cover; width: 100%;"
-                    th:src="@{'~/assets/uploads/'+${service.thumbnail}}" class="img-fluid" alt=""></a>
+                    th:src="${service.thumbnail}" class="img-fluid" alt=""></a>
           </div>
           <div class="card-body">
             <a th:href="@{/service/{serviceId}(serviceId=${service.serviceId})}"
