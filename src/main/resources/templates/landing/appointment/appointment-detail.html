@@ -476,7 +476,7 @@
                 toastr.options.timeOut = 3000;
                 toastr.success("Send feedback successfully", "", {
                     onHidden: function() {
-                        window.location.href = 'http://localhost:8888/service/' + serviceId;
+                        window.location.href = '/service/' + serviceId;
                     }
                 });
             },

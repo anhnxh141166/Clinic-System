@@ -84,10 +84,12 @@ public class ForgotPasswordController {
     public String viewFormForgotPassword(@RequestParam(name = "token") String token, Model model){
         LocalDateTime expirationTime = (LocalDateTime) session.getAttribute("storedExpirationTime");
         String storedToken = (String) session.getAttribute("storedToken");
-        if (storedToken.isEmpty() || expirationTime == null){
+
+        if (storedToken == null || storedToken.isEmpty() || expirationTime == null){
             model.addAttribute("message", "fail");
             return "landing/auth/forgot-password-form";
         }
+
         if (token.equals(storedToken)) {
             // Check if the expiration time has not passed
             LocalDateTime currentTime = LocalDateTime.now();

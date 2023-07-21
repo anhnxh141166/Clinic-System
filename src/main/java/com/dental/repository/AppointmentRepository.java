@@ -39,13 +39,13 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 
     Page<Appointment> findAllByDoctorDoctorIdAndStatusAndDate(int patientId, String status, Date date, Pageable pageable);
 
-    Page<Appointment> findAllByPatientUserFullName(String fullname, Pageable pageable);
+    Page<Appointment> findAllByPatientUserFullNameContaining(String fullname, Pageable pageable);
 
-    Page<Appointment> findAllByStatusAndPatientUserFullName(String status, String fullname, Pageable pageable);
+    Page<Appointment> findAllByStatusAndPatientUserFullNameContaining(String status, String fullname, Pageable pageable);
 
-    Page<Appointment> findAllByDateAndPatientUserFullName(Date date, String fullname, Pageable pageable);
+    Page<Appointment> findAllByDateAndPatientUserFullNameContaining(Date date, String fullname, Pageable pageable);
 
-    Page<Appointment> findAllByStatusAndDateAndPatientUserFullName(String status, Date date, String fullname, Pageable pageable);
+    Page<Appointment> findAllByStatusAndDateAndPatientUserFullNameContaining(String status, Date date, String fullname, Pageable pageable);
 
     @Transactional
     @Modifying

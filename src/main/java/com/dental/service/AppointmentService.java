@@ -114,19 +114,19 @@ public class AppointmentService {
     }
 
     public Page<Appointment> findAllByPatientUserFullName(String fullname, Pageable pageable) {
-        return appointmentRepository.findAllByPatientUserFullName(fullname, pageable);
+        return appointmentRepository.findAllByPatientUserFullNameContaining(fullname, pageable);
     }
 
     public Page<Appointment> findAllByStatusAndPatientUserFullName(String status,String fullname, Pageable pageable) {
-        return appointmentRepository.findAllByStatusAndPatientUserFullName(status,fullname, pageable);
+        return appointmentRepository.findAllByStatusAndPatientUserFullNameContaining(status,fullname, pageable);
     }
 
     public Page<Appointment> findAllByDateAndPatientUserFullName(Date date, String fullname, Pageable pageable) {
-        return appointmentRepository.findAllByDateAndPatientUserFullName(date, fullname, pageable);
+        return appointmentRepository.findAllByDateAndPatientUserFullNameContaining(date, fullname, pageable);
     }
 
     public Page<Appointment> findAllByStatusAndDateAndPatientUserFullName(String status, Date date, String fullname, Pageable pageable) {
-        return appointmentRepository.findAllByStatusAndDateAndPatientUserFullName(status, date, fullname, pageable);
+        return appointmentRepository.findAllByStatusAndDateAndPatientUserFullNameContaining(status, date, fullname, pageable);
     }
 
     public int findCountByPatientIdAndServiceId(int patientId, int serviceId) {

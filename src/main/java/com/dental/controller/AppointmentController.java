@@ -335,6 +335,7 @@ public class AppointmentController {
         model.addAttribute("status", status);
         model.addAttribute("date", date);
         model.addAttribute("user", userService.get(userDetails.getUserEntity().getUserId()));
+        model.addAttribute("numberOfPage", appointments.getTotalPages());
         model.addAttribute("fullName", fullName);
 
         return "admin/appointment/appointment";
